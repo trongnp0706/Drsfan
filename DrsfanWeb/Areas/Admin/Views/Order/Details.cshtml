@@ -231,7 +231,7 @@
                             </ul>
 
                             @if (Model.OrderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment && 
-                            Model.OrderHeader.PaymentStatus == SD.StatusShipped)
+                            Model.OrderHeader.OrderStatus == SD.StatusShipped)
                             {
                                 <button type="submit" class="btn btn-success form-control my-1">Pay Now</button>
 
