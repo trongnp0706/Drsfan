@@ -1,9 +1,11 @@
-using DrsfanBook.DataAcess.Repository.IRepository;
+﻿using DrsfanBook.DataAcess.Repository.IRepository;
 using DrsfanBook.Models;
+using DrsfanBook.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
+
 
 namespace DrsfanBookWeb.Areas.Customer.Controllers
 {
@@ -21,6 +23,15 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            if(claim != null)
+            {
+                HttpContext.Session.SetInt32(SD.SSShoppingCart, 
+                    _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claim.Value).Count());
+            }
+
             IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category");
             return View(productList);
         }
@@ -42,23 +53,30 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
             shoppingCart.ApplicationUserId = userId;
-            
+
+            // Kiểm tra xem giỏ hàng của người dùng đã có sản phẩm này chưa
             ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.ApplicationUserId == userId &&
             u.ProductId == shoppingCart.ProductId);
 
-            if (cartFromDb == null)
+            if (cartFromDb != null)
             {
-                _unitOfWork.ShoppingCart.Add(shoppingCart);
+                // Nếu có sản phẩm trong giỏ hàng, cập nhật số lượng
+                cartFromDb.Count += shoppingCart.Count;
+                _unitOfWork.ShoppingCart.Update(cartFromDb);
+                _unitOfWork.Save();
             }
             else
             {
-                cartFromDb.Count += shoppingCart.Count;
-                _unitOfWork.ShoppingCart.Update(cartFromDb);
+                // Nếu không có, thêm mới sản phẩm vào giỏ
+                _unitOfWork.ShoppingCart.Add(shoppingCart);
+                _unitOfWork.Save();
             }
-            TempData["success"] = "Add to Cart successfully";
 
+            // Cập nhật số lượng giỏ hàng trong session
+            var totalItemsInCart = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId).Sum(u => u.Count);
+            HttpContext.Session.SetInt32(SD.SSShoppingCart, totalItemsInCart);
 
-            _unitOfWork.Save();
+            TempData["success"] = "Update Cart successfully";
 
             return RedirectToAction(nameof(Index));
         }

@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace DrsfanBookWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize(Roles = SD.Role_Admin)]
+    [Authorize(Roles = SD.Role_Admin)]
     public class CompanyController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -27,7 +27,7 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
         public IActionResult Upsert(int? id)
         {
 
-            
+
             if (id == null || id == 0)
             {
                 //Create
@@ -93,7 +93,7 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
                 return Json(new { success = false, message = "Error while deleting" });
             }
 
-           _unitOfWork.Company.Remove(CompanyToBeDeleted);
+            _unitOfWork.Company.Remove(CompanyToBeDeleted);
             _unitOfWork.Save();
 
             return Json(new { success = true, message = "Delete Successful" });
