@@ -23,15 +23,23 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
+            // Lấy thông tin đăng nhập của người dùng hiện tại
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-            if(claim != null)
+            // Kiểm tra nếu người dùng đã đăng nhập
+            if (claim != null)
             {
-                HttpContext.Session.SetInt32(SD.SSShoppingCart, 
-                    _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claim.Value).Count());
+                // Lấy tổng số sản phẩm trong giỏ hàng của người dùng
+                var totalItemsInCart = _unitOfWork.ShoppingCart
+                    .GetAll(u => u.ApplicationUserId == claim.Value)
+                    .Sum(c => c.Count); // Đếm tổng số lượng các sản phẩm
+
+                // Cập nhật tổng số sản phẩm vào session
+                HttpContext.Session.SetInt32(SD.SSShoppingCart, totalItemsInCart);
             }
 
+            // Lấy danh sách sản phẩm để hiển thị
             IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category");
             return View(productList);
         }

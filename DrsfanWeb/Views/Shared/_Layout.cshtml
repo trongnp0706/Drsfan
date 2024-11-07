@@ -46,30 +46,19 @@
                                         <a class="nav-link text-dark" asp-area="Admin" asp-controller="Product" asp-action="Index">Product</a>
                                     </li>
                                     <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Company" asp-action="Index">Company</a>
+                                        <a class="nav-link text-dark" asp-area="Admin" asp-controller="Company" asp-action="Index">Company</a>
                                     </li>
 
                                 </ul>
                             </li>
                         }
-                        @if (HttpContextAccessor.HttpContext.Session.GetInt32(SD.SSShoppingCart) != null)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="Index">
-                                    <i class="bi bi-cart"></i>
-                                    (@HttpContextAccessor.HttpContext.Session.GetInt32(SD.SSShoppingCart))
-                                </a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="Index">
-                                    <i class="bi bi-cart"></i>
-                                    (0)
-                                </a>
-                            </li>
-                        }
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="Index">
+                                @await Component.InvokeAsync("ShoppingCart")
+                            </a>
+                        </li>
+
 
                     </ul>
                     <partial name="_LoginPartial" />
@@ -86,7 +75,7 @@
 
     <footer class="border-top footer bg-primary text-center">
         <div class="container">
-            &copy; 2024 -  Made by trongnp 
+            &copy; 2024 -  Made by trongnp
         </div>
     </footer>
     <script src="https://cdn.tiny.cloud/1/ch59w888tz9qdw9rlxuyl9piz6twc5zz767f3gptxa26nsd9/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>

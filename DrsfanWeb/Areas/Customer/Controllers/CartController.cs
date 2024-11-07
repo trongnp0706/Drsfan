@@ -196,31 +196,54 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
         }
         public IActionResult Minus(int cartId)
         {
-            var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId);
+            var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId, tracked: true);
             if (cartFromDb.Count <= 1)
             {
                 //remove that from cart
                 HttpContext.Session.SetInt32(SD.SSShoppingCart, 
                     _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).ToList().Count - 1);
                 _unitOfWork.ShoppingCart.Remove(cartFromDb);
+                _unitOfWork.Save();
             }
             else
             {
                 cartFromDb.Count -= 1;
                 _unitOfWork.ShoppingCart.Update(cartFromDb);
+                _unitOfWork.Save();
             }
             _unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }
         public IActionResult Remove(int cartId)
         {
-            var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId);
-            HttpContext.Session.SetInt32(SD.SSShoppingCart,
-                _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).ToList().Count - 1);
-            _unitOfWork.ShoppingCart.Remove(cartFromDb);
-            _unitOfWork.Save();
+            var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId, tracked: true);
+
+            if (cartFromDb != null)
+            {
+                // Xóa sản phẩm khỏi giỏ hàng
+                _unitOfWork.ShoppingCart.Remove(cartFromDb);
+                _unitOfWork.Save();
+
+                // Tính toán lại tổng số sản phẩm trong giỏ hàng của người dùng hiện tại
+                var userId = cartFromDb.ApplicationUserId;
+                int totalItemCount = _unitOfWork.ShoppingCart
+                    .GetAll(u => u.ApplicationUserId == userId)
+                    .Sum(item => item.Count); // Tính tổng số lượng của từng sản phẩm
+
+                // Cập nhật session với tổng số lượng chính xác
+                HttpContext.Session.SetInt32(SD.SSShoppingCart, totalItemCount);
+            }
+            else
+            {
+                TempData["error"] = "Item not found.";
+            }
+
+            TempData["success"] = "Item removed successfully.";
+
+            // Quay lại trang Index để hiển thị các sản phẩm còn lại trong giỏ
             return RedirectToAction(nameof(Index));
         }
+
 
 
         private double CalculateOrderTotal(ShoppingCart shoppingCart)
