@@ -7,7 +7,14 @@
 <div class="card shadow border-0 mt-4">
     <!-- Card Header -->
     <div class="card-header bg-info bg-gradient py-4 text-center">
-        <h2 class="text-white">Register</h2>
+        @if(User.IsInRole(SD.Role_Admin))
+        {
+            <h2 class="text-white">Register - ADMIN PORTAL</h2>
+        }
+        else
+        {
+            <h2 class="text-white">Register</h2>
+        }
     </div>
 
     <!-- Card Body -->
@@ -82,19 +89,22 @@
                         <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
                     </div>
 
-                    <!-- Role Selection -->
-                    <div class="form-floating mb-3 col-md-6">
-                        <select asp-for="Input.Role" asp-items="@Model.Input.RolesList" class="form-select">
-                            <option disabled selected>-Select Role-</option>
-                        </select>
-                    </div>
+                    @if(User.IsInRole(SD.Role_Admin))
+                    {
+                        <!-- Role Selection -->
+                        <div class="form-floating mb-3 col-md-6">
+                            <select asp-for="Input.Role" asp-items="@Model.Input.RolesList" class="form-select">
+                                <option disabled selected>-Select Role-</option>
+                            </select>
+                        </div>
 
-                    <!-- Company Selection -->
-                    <div class="form-floating mb-3 col-md-6">
-                        <select asp-for="Input.CompanyId" style="display:none" asp-items="@Model.Input.CompanyList" class="form-select">
-                            <option disabled selected>-Select Company-</option>
-                        </select>
-                    </div>
+                        <!-- Company Selection -->
+                        <div class="form-floating mb-3 col-md-6">
+                            <select asp-for="Input.CompanyId" style="display:none" asp-items="@Model.Input.CompanyList" class="form-select">
+                                <option disabled selected>-Select Company-</option>
+                            </select>
+                        </div>
+                    }
 
                     <!-- Register Button -->
                     <div class="col-12">

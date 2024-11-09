@@ -194,6 +194,7 @@ namespace DrsfanBookWeb.Areas.Identity.Pages.Account
                     {
                         await _userManager.AddToRoleAsync(user, SD.Role_Customer);
                     }
+                    
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -209,6 +210,10 @@ namespace DrsfanBookWeb.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
+                        if (User.IsInRole(SD.Role_Admin))
+                        {
+                            TempData["success"] = "User created successfully";
+                        }
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     }
                     else
