@@ -4,6 +4,7 @@ using DrsfanBook.Models;
 using DrsfanBook.Models.ViewModels;
 using DrsfanBook.Utility;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Stripe.Checkout;
 using System.Security.Claims;
@@ -15,13 +16,13 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
     public class CartController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEmailSender _emailSender;
         [BindProperty]
         public ShoppingCartVM ShoppingCartVM { get; set; }
-        public CartController(IUnitOfWork unitOfWork)
+        public CartController(IUnitOfWork unitOfWork, IEmailSender emailSender)
         {
-
             _unitOfWork = unitOfWork;
-
+            _emailSender = emailSender;
         }
         public IActionResult Index()
         {
@@ -174,8 +175,10 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
                     _unitOfWork.OrderHeader.UpdateStatus(id, SD.StatusApproved, SD.PaymentStatusApproved);
                     _unitOfWork.Save();
                 }
+                HttpContext.Session.Clear();
 
             }
+            _emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, $"Order {orderHeader.Id} Created", "Order has been submitted successfully"); 
 
             List<ShoppingCart> shoppingCartList = _unitOfWork.ShoppingCart.
                 GetAll(u => u.ApplicationUserId == orderHeader.ApplicationUserId).ToList();
