@@ -19,8 +19,8 @@ namespace DrsfanBook.Utility
             {
                 Resource = Send.Resource,
             }
-            .Property(Send.FromEmail, "phuoctrong1001@gmail.com")
-            .Property(Send.FromName, "Trong Nguyen")
+            .Property(Send.FromEmail, "phuoctrong100@gmail.com")
+            .Property(Send.FromName, "Drsfan")
             .Property(Send.Subject, subject)
             .Property(Send.HtmlPart, htmlMessage)
             .Property(Send.Recipients, new JArray
