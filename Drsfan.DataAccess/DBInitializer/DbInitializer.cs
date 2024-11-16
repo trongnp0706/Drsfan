@@ -1,6 +1,7 @@
 ﻿using Drsfan.DataAcess.Data;
 using Drsfan.Models;
 using Drsfan.Utility;
+using Drsfan.Utility.Static;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -38,12 +39,12 @@ namespace Drsfan.DataAcess.DBInitializer
                 Console.WriteLine(ex.Message);
             }
 
-            if (!_roleManager.RoleExistsAsync(SD.Role_Customer).GetAwaiter().GetResult())
+            if (!_roleManager.RoleExistsAsync(UserRoles.User).GetAwaiter().GetResult())
             {
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Customer)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Employee)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Company)).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole(UserRoles.User)).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole(UserRoles.Staff)).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin)).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole(UserRoles.Company)).GetAwaiter().GetResult();
 
                 _userManager.CreateAsync(new ApplicationUser
                 {
@@ -58,7 +59,7 @@ namespace Drsfan.DataAcess.DBInitializer
                 }, "Admin123*").GetAwaiter().GetResult();
 
                 ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "admin@email.com");
-                _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
+                _userManager.AddToRoleAsync(user, UserRoles.Admin).GetAwaiter().GetResult();
 
             }
 

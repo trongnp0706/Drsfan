@@ -3,6 +3,7 @@ using Drsfan.DataAcess.Repository.IRepository;
 using Drsfan.Models;
 using Drsfan.Models.ViewModels;
 using Drsfan.Utility;
+using Drsfan.Utility.Static;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -99,13 +100,13 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
 
             if (applicationUser.CompanyId.GetValueOrDefault() == 0)
             {
-                ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusPending;
-                ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusPending;
+                ShoppingCartVM.OrderHeader.PaymentStatus = Payment.StatusPending;
+                ShoppingCartVM.OrderHeader.OrderStatus = Status.Pending;
             }
             else
             {
-                ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusDelayedPayment;
-                ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusApproved;
+                ShoppingCartVM.OrderHeader.PaymentStatus = Payment.StatusDelayedPayment;
+                ShoppingCartVM.OrderHeader.OrderStatus = Status.Approved;
             }
 
             _unitOfWork.OrderHeader.Add(ShoppingCartVM.OrderHeader);
@@ -164,7 +165,7 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
         public IActionResult OrderConfirmation(int id)
         {
             OrderHeader orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == id, includeProperties: "ApplicationUser");
-            if (orderHeader.PaymentStatus != SD.PaymentStatusDelayedPayment)
+            if (orderHeader.PaymentStatus != Payment.StatusDelayedPayment)
             {
                 var service = new SessionService();
                 Session session = service.Get(orderHeader.SessionId);
@@ -172,7 +173,7 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
                 if (session.PaymentStatus.ToLower() == "paid")
                 {
                     _unitOfWork.OrderHeader.UpdateStripePaymentID(id, session.Id, session.PaymentIntentId);
-                    _unitOfWork.OrderHeader.UpdateStatus(id, SD.StatusApproved, SD.PaymentStatusApproved);
+                    _unitOfWork.OrderHeader.UpdateStatus(id, Status.Approved, Payment.StatusApproved);
                     _unitOfWork.Save();
                 }
                 HttpContext.Session.Clear();
@@ -203,7 +204,7 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
             if (cartFromDb.Count <= 1)
             {
                 //remove that from cart
-                HttpContext.Session.SetInt32(SD.SSShoppingCart, 
+                HttpContext.Session.SetInt32(Constants.CartSession, 
                     _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).ToList().Count - 1);
                 _unitOfWork.ShoppingCart.Remove(cartFromDb);
                 _unitOfWork.Save();
@@ -234,7 +235,7 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
                     .Sum(item => item.Count); // Tính tổng số lượng của từng sản phẩm
 
                 // Cập nhật session với tổng số lượng chính xác
-                HttpContext.Session.SetInt32(SD.SSShoppingCart, totalItemCount);
+                HttpContext.Session.SetInt32(Constants.CartSession, totalItemCount);
             }
             else
             {

@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Drsfan.Models;
-using Drsfan.Utility;
+using Drsfan.Utility.Static;
 
 namespace DrsfanBookWeb.Areas.Identity.Pages.Account
 {
@@ -176,7 +176,7 @@ namespace DrsfanBookWeb.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, SD.Role_Customer);
+                    await _userManager.AddToRoleAsync(user, UserRoles.User);
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {

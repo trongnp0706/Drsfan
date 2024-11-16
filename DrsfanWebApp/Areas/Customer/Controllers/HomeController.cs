@@ -1,6 +1,7 @@
 ﻿using Drsfan.DataAcess.Repository.IRepository;
 using Drsfan.Models;
 using Drsfan.Utility;
+using Drsfan.Utility.Static;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -36,7 +37,7 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
                     .Sum(c => c.Count); // Đếm tổng số lượng các sản phẩm
 
                 // Cập nhật tổng số sản phẩm vào session
-                HttpContext.Session.SetInt32(SD.SSShoppingCart, totalItemsInCart);
+                HttpContext.Session.SetInt32(Constants.CartSession, totalItemsInCart);
             }
 
             // Lấy danh sách sản phẩm để hiển thị
@@ -82,7 +83,7 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
 
             // Cập nhật số lượng giỏ hàng trong session
             var totalItemsInCart = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId).Sum(u => u.Count);
-            HttpContext.Session.SetInt32(SD.SSShoppingCart, totalItemsInCart);
+            HttpContext.Session.SetInt32(Constants.CartSession, totalItemsInCart);
 
             TempData["success"] = "Update Cart successfully";
 

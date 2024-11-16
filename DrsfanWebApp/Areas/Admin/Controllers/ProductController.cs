@@ -2,6 +2,7 @@
 using Drsfan.Models;
 using Drsfan.Models.ViewModels;
 using Drsfan.Utility;
+using Drsfan.Utility.Static;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,7 +11,7 @@ using System.Collections.Generic;
 namespace DrsfanBookWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = SD.Role_Admin)]
+    [Authorize(Roles = UserRoles.Admin)]
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

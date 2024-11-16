@@ -4,12 +4,13 @@ using Drsfan.DataAcess.Repository.IRepository;
 using Drsfan.Models;
 using Drsfan.Utility;
 using Microsoft.AspNetCore.Authorization;
+using Drsfan.Utility.Static;
 
 
 namespace DrsfanBookWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = SD.Role_Admin)]
+    [Authorize(Roles = UserRoles.Admin)]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

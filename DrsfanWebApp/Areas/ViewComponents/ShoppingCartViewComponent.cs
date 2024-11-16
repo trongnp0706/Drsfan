@@ -1,5 +1,6 @@
 ﻿using Drsfan.DataAcess.Repository.IRepository;
 using Drsfan.Utility;
+using Drsfan.Utility.Static;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -21,13 +22,13 @@ namespace DrsfanBookWeb.Areas.ViewComponents
 
             if (claim != null) 
             {
-                if (HttpContext.Session.GetInt32(SD.SSShoppingCart) == null)
+                if (HttpContext.Session.GetInt32(Constants.CartSession) == null)
                 {
-                    HttpContext.Session.SetInt32(SD.SSShoppingCart,
+                    HttpContext.Session.SetInt32(Constants.CartSession,
                     _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claim.Value).Count());
                 }
 
-                return View(HttpContext.Session.GetInt32(SD.SSShoppingCart));
+                return View(HttpContext.Session.GetInt32(Constants.CartSession));
             }
             else
             {

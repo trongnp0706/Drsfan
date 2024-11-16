@@ -2,6 +2,7 @@
 using Drsfan.Models;
 using Drsfan.Models.ViewModels;
 using Drsfan.Utility;
+using Drsfan.Utility.Static;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -42,7 +43,7 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
             return View(OrderVM);
         }
         [HttpPost]
-        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.Staff)]
         public IActionResult UpdateOrderDetail()
         {
             var orderHeaderFromDb = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVM.OrderHeader.Id);
@@ -71,26 +72,26 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.Staff)]
         public IActionResult StartProcessing()
         {
-            _unitOfWork.OrderHeader.UpdateStatus(OrderVM.OrderHeader.Id, SD.StatusInProcess);
+            _unitOfWork.OrderHeader.UpdateStatus(OrderVM.OrderHeader.Id, Status.InProcess);
             _unitOfWork.Save();
             TempData["Success"] = "Order Details Updated Successfully.";
             return RedirectToAction(nameof(Details), new { orderId = OrderVM.OrderHeader.Id });
         }
 
 		[HttpPost]
-		[Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
-		public IActionResult ShipOrder()
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.Staff)]
+        public IActionResult ShipOrder()
 		{
 
 			var orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVM.OrderHeader.Id);
 			orderHeader.TrackingNumber = OrderVM.OrderHeader.TrackingNumber;
 			orderHeader.Carrier = OrderVM.OrderHeader.Carrier;
-			orderHeader.OrderStatus = SD.StatusShipped;
+			orderHeader.OrderStatus = Status.Shipped;
 			orderHeader.ShippingDate = DateTime.Now;
-			if (orderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment)
+			if (orderHeader.PaymentStatus == Payment.StatusDelayedPayment)
 			{
 				orderHeader.PaymentDueDate = DateOnly.FromDateTime(DateTime.Now.AddDays(30));
 			}
@@ -102,13 +103,13 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
-        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.Staff)]
         public IActionResult CancelOrder()
         {
 
             var orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVM.OrderHeader.Id);
 
-            if (orderHeader.PaymentStatus == SD.PaymentStatusApproved)
+            if (orderHeader.PaymentStatus == Payment.StatusApproved)
             {
                 var options = new RefundCreateOptions
                 {
@@ -119,11 +120,11 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
                 var service = new RefundService();
                 Refund refund = service.Create(options);
 
-                _unitOfWork.OrderHeader.UpdateStatus(orderHeader.Id, SD.StatusCancelled, SD.StatusRefunded);
+                _unitOfWork.OrderHeader.UpdateStatus(orderHeader.Id, Status.Cancelled, Status.Refunded);
             }
             else
             {
-                _unitOfWork.OrderHeader.UpdateStatus(orderHeader.Id, SD.StatusCancelled, SD.StatusCancelled);
+                _unitOfWork.OrderHeader.UpdateStatus(orderHeader.Id, Status.Cancelled, Status.Cancelled);
             }
             _unitOfWork.Save();
             TempData["Success"] = "Order Cancelled Successfully.";
@@ -183,7 +184,7 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
         {
 
             OrderHeader orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == orderHeaderId);
-            if (orderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment)
+            if (orderHeader.PaymentStatus == Payment.StatusDelayedPayment)
             {
                 //this is an order by company
 
@@ -193,7 +194,7 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
                 if (session.PaymentStatus.ToLower() == "paid")
                 {
                     _unitOfWork.OrderHeader.UpdateStripePaymentID(orderHeaderId, session.Id, session.PaymentIntentId);
-                    _unitOfWork.OrderHeader.UpdateStatus(orderHeaderId, orderHeader.OrderStatus, SD.PaymentStatusApproved);
+                    _unitOfWork.OrderHeader.UpdateStatus(orderHeaderId, orderHeader.OrderStatus, Payment.StatusApproved);
                     _unitOfWork.Save();
                 }
 
@@ -213,8 +214,7 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
         {
             IEnumerable<OrderHeader> objOrderHeaders;
 
-
-            if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
+            if (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.Staff))
             {
                 objOrderHeaders = _unitOfWork.OrderHeader.GetAll(includeProperties: "ApplicationUser").ToList();
             }
@@ -232,16 +232,16 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
             switch (status)
             {
                 case "pending":
-                    objOrderHeaders = objOrderHeaders.Where(u => u.PaymentStatus == SD.PaymentStatusDelayedPayment);
+                    objOrderHeaders = objOrderHeaders.Where(u => u.PaymentStatus == Payment.StatusDelayedPayment);
                     break;
                 case "inprocess":
-                    objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatus == SD.StatusInProcess);
+                    objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatus == Status.InProcess);
                     break;
                 case "completed":
-                    objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatus == SD.StatusShipped);
+                    objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatus == Status.Shipped);
                     break;
                 case "approved":
-                    objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatus == SD.StatusApproved);
+                    objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatus == Status.Approved);
                     break;
                 default:
                     break;
