@@ -10,17 +10,13 @@ using Drsfan.Models;
 
 namespace Drsfan.DataAcess.Repository
 {
-    public class CategoryRepository : Repository<Category>, ICategoryRepository
+    public class ApplicationUserRepo : Repository<ApplicationUser>, IApplicationUserRepo
     {
-        private ApplicationDbContext _db;
-        public CategoryRepository(ApplicationDbContext db) : base(db)
+        private DrsfanDbContext _db;
+        public ApplicationUserRepo(DrsfanDbContext db) : base(db)
         {
             _db = db;
         }
 
-        public void Update(Category obj)
-        {
-            _db.Categories.Update(obj);
-        }
     }
 }

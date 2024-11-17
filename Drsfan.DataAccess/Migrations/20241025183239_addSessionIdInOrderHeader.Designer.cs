@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Drsfan.DataAcess.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(DrsfanDbContext))]
     [Migration("20241025183239_addSessionIdInOrderHeader")]
     partial class addSessionIdInOrderHeader
     {

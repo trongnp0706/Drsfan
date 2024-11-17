@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Drsfan.DataAcess.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(DrsfanDbContext))]
     [Migration("20240916163439_addImageUrlToProduct")]
     partial class addImageUrlToProduct
     {

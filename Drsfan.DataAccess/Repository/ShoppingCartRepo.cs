@@ -10,17 +10,17 @@ using Drsfan.Models;
 
 namespace Drsfan.DataAcess.Repository
 {
-    public class CompanyRepository : Repository<Company>, ICompanyRepository
+    public class ShoppingCartRepo : Repository<ShoppingCart>, IShoppingCartRepo
     {
-        private ApplicationDbContext _db;
-        public CompanyRepository(ApplicationDbContext db) : base(db)
+        private DrsfanDbContext _db;
+        public ShoppingCartRepo(DrsfanDbContext db) : base(db)
         {
             _db = db;
         }
 
-        public void Update(Company obj)
+        public void Update(ShoppingCart obj)
         {
-            _db.Companies.Update(obj);
+            _db.ShoppingCarts.Update(obj);
         }
     }
 }

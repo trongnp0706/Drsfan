@@ -7,9 +7,9 @@ using Drsfan.Models;
 
 namespace Drsfan.DataAcess.Repository.IRepository
 {
-    public interface IShoppingCartRepository : IRepository<ShoppingCart>
+    public interface IOrderDetailRepo : IRepository<OrderDetail>
     {
         
-        void Update(ShoppingCart obj);
+        void Update(OrderDetail obj);
     }
 }

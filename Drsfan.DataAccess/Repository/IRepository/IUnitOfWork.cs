@@ -8,13 +8,13 @@ namespace Drsfan.DataAcess.Repository.IRepository
 {
     public interface IUnitOfWork
     {
-        ICategoryRepository Category { get; }
-        IProductRepository Product { get; }
-        ICompanyRepository Company { get; }
-        IShoppingCartRepository ShoppingCart { get; }
-        IApplicationUserRepository ApplicationUser { get; }
-        IOrderDetailRepository OrderDetail { get; }
-        IOrderHeaderRepository OrderHeader { get; }
+        ICategoryRepo Category { get; }
+        IProductRepo Product { get; }
+        ICompanyRepo Company { get; }
+        IShoppingCartRepo ShoppingCart { get; }
+        IApplicationUserRepo ApplicationUser { get; }
+        IOrderDetailRepo OrderDetail { get; }
+        IOrderHeaderRepo OrderHeader { get; }
         void Save();
     }
 }

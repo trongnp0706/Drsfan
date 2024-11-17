@@ -14,11 +14,11 @@ namespace Drsfan.DataAcess.DBInitializer
 {
     public class DbInitializer : IDbInitializer
     {
-        private readonly ApplicationDbContext _db;
+        private readonly DrsfanDbContext _db;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public DbInitializer(ApplicationDbContext db, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public DbInitializer(DrsfanDbContext db, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _db = db;
             _userManager = userManager;

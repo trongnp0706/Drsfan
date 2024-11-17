@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Drsfan.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Drsfan.Models;
 
 namespace Drsfan.DataAcess.Repository.IRepository
 {
-    public interface IOrderDetailRepository : IRepository<OrderDetail>
+    
+   public interface IProductRepo :  IRepository<Product>
     {
-        
-        void Update(OrderDetail obj);
+        void Update(Product obj);
     }
 }

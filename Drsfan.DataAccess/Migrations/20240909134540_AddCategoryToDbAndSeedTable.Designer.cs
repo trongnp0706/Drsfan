@@ -10,7 +10,7 @@ using Drsfan.DataAcess.Data;
 
 namespace Drsfan.DataAcess.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(DrsfanDbContext))]
     [Migration("20240909134540_AddCategoryToDbAndSeedTable")]
     partial class AddCategoryToDbAndSeedTable
     {

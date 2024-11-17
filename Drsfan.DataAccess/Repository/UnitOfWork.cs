@@ -10,24 +10,24 @@ namespace Drsfan.DataAcess.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private ApplicationDbContext _db;
-        public ICategoryRepository Category { get; private set; }
-        public ICompanyRepository Company { get; private set; }
-        public IProductRepository Product { get; private set; }
-        public IShoppingCartRepository ShoppingCart { get; private set; }
-        public IApplicationUserRepository ApplicationUser { get; private set; }
-        public IOrderDetailRepository OrderDetail { get; private set; }
-        public IOrderHeaderRepository OrderHeader { get; private set; }
-        public UnitOfWork(ApplicationDbContext db)
+        private DrsfanDbContext _db;
+        public ICategoryRepo Category { get; private set; }
+        public ICompanyRepo Company { get; private set; }
+        public IProductRepo Product { get; private set; }
+        public IShoppingCartRepo ShoppingCart { get; private set; }
+        public IApplicationUserRepo ApplicationUser { get; private set; }
+        public IOrderDetailRepo OrderDetail { get; private set; }
+        public IOrderHeaderRepo OrderHeader { get; private set; }
+        public UnitOfWork(DrsfanDbContext db)
         {
             _db = db;
-            Category = new CategoryRepository(_db);
-            Product = new ProductRepository(_db);
+            Category = new CategoryRepo(_db);
+            Product = new ProductRepo(_db);
             Company = new CompanyRepository(_db);
-            ShoppingCart = new ShoppingCartRepository(_db);
-            ApplicationUser = new ApplicationUserRepository(_db);
-            OrderDetail = new OrderDetailRepository(_db);
-            OrderHeader = new OrderHeaderRepository(_db);
+            ShoppingCart = new ShoppingCartRepo(_db);
+            ApplicationUser = new ApplicationUserRepo(_db);
+            OrderDetail = new OrderDetailRepo(_db);
+            OrderHeader = new OrderHeaderRepo(_db);
         }
 
 

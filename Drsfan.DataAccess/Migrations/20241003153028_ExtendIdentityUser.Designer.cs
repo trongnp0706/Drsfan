@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Drsfan.DataAcess.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(DrsfanDbContext))]
     [Migration("20241003153028_ExtendIdentityUser")]
     partial class ExtendIdentityUser
     {

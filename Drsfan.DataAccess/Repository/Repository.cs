@@ -13,9 +13,9 @@ namespace Drsfan.DataAcess.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly ApplicationDbContext _db;
+        private readonly DrsfanDbContext _db;
         internal DbSet<T> dbSet;
-        public Repository(ApplicationDbContext db)
+        public Repository(DrsfanDbContext db)
         {
             _db = db;
             dbSet = _db.Set<T>();

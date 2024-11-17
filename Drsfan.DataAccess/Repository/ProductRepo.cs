@@ -10,10 +10,10 @@ using Drsfan.Models;
 
 namespace Drsfan.DataAcess.Repository
 {
-    public class ProductRepository : Repository<Product>, IProductRepository
+    public class ProductRepo : Repository<Product>, IProductRepo
     {
-        private ApplicationDbContext _db;
-        public ProductRepository(ApplicationDbContext db) : base(db)
+        private DrsfanDbContext _db;
+        public ProductRepo(DrsfanDbContext db) : base(db)
         {
             _db = db;
         }

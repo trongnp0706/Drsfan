@@ -1,15 +1,14 @@
-﻿using System;
+﻿using Drsfan.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Drsfan.Models;
 
 namespace Drsfan.DataAcess.Repository.IRepository
 {
-    public interface ICategoryRepository : IRepository<Category>
+    public interface IApplicationUserRepo : IRepository<ApplicationUser>
     {
-        
-        void Update(Category obj);
+
     }
 }

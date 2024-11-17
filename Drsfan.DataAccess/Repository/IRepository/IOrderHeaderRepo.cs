@@ -7,7 +7,7 @@ using Drsfan.Models;
 
 namespace Drsfan.DataAcess.Repository.IRepository
 {
-    public interface IOrderHeaderRepository : IRepository<OrderHeader>
+    public interface IOrderHeaderRepo : IRepository<OrderHeader>
     {
         
         void Update(OrderHeader obj);

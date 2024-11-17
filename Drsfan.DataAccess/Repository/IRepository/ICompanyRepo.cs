@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Drsfan.DataAcess.Repository.IRepository
 {
-    
-   public interface IProductRepository :  IRepository<Product>
+    public interface  ICompanyRepo : IRepository<Company>
     {
-        void Update(Product obj);
+        void Update(Company obj);
     }
 }

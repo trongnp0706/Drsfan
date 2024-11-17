@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Drsfan.DataAcess.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class DrsfanDbContext : IdentityDbContext<IdentityUser>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        public DrsfanDbContext(DbContextOptions<DrsfanDbContext> options) : base(options)
         {
 
         }

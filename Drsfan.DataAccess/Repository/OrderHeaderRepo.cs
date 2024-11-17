@@ -10,10 +10,10 @@ using Drsfan.Models;
 
 namespace Drsfan.DataAcess.Repository
 {
-    public class OrderHeaderRepository : Repository<OrderHeader>, IOrderHeaderRepository
+    public class OrderHeaderRepo : Repository<OrderHeader>, IOrderHeaderRepo
     {
-        private ApplicationDbContext _db;
-        public OrderHeaderRepository(ApplicationDbContext db) : base(db)
+        private DrsfanDbContext _db;
+        public OrderHeaderRepo(DrsfanDbContext db) : base(db)
         {
             _db = db;
         }
