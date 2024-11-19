@@ -163,7 +163,7 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
                         Currency = "usd",
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
-                            Name = item.Product.Title
+                            Name = item.Product.Name
                         }
                     },
                     Quantity = item.Count

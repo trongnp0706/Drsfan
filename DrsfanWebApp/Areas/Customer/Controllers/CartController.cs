@@ -144,7 +144,7 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
                         PriceData = new SessionLineItemPriceDataOptions
                         {
                             Currency = "usd",
-                            ProductData = new SessionLineItemPriceDataProductDataOptions { Name = item.Product.Title },
+                            ProductData = new SessionLineItemPriceDataProductDataOptions { Name = item.Product.Name },
                             UnitAmount = (long)item.Price * 100,
                         },
                         Quantity = item.Count,
@@ -254,18 +254,12 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
         {
             if (shoppingCart.Count <= 50)
             {
-                return shoppingCart.Product.Price;
+                return shoppingCart.Product.ListPrice;
             }
             else
             {
-                if (shoppingCart.Count <= 100)
-                {
-                    return shoppingCart.Product.Price50;
-                }
-                else
-                {
-                    return shoppingCart.Product.Price100;
-                }
+                return shoppingCart.Product.DiscountPrice;
+
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿var dataTable
+﻿var dataTable;
 
 $(document).ready(function () {
     loadDataTable();
@@ -8,18 +8,24 @@ function loadDataTable() {
     dataTable = $('#tblData').DataTable({
         "ajax": { url: '/admin/product/getall' },
         "columns": [
-            { data: 'title', "width": "25%" },
-            { data: 'isbn', "width": "15%" },
+            { data: 'name', "width": "15%" },
+            { data: 'brand', "width": "10%" },
+            { data: 'modelNumber', "width": "10%" },
             { data: 'listPrice', "width": "10%" },
-            { data: 'author', "width": "15%" },
+            { data: 'discountPrice', "width": "10%" },
+            { data: 'warrantyPeriod', "width": "10%" },
             { data: 'category.name', "width": "10%" },
             {
                 data: 'id',
                 "render": function (data) {
-                    return `<div class="w-75 btn-group" role="group">
-                     <a href="/admin/product/upsert?id=${data}" class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>               
-                     <a onClick=Delete('/admin/product/delete/${data}') class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
-                    </div>`
+                    return `
+                        <a href="/Admin/Product/Upsert?id=${data}" class="btn btn-success text-white" style="cursor:pointer">
+                            Edit
+                        </a>
+                        <a onclick=Delete('/Admin/Product/Delete/${data}') class="btn btn-danger text-white" style="cursor:pointer">
+                            Delete
+                        </a>
+                    `;
                 },
                 "width": "25%"
             }

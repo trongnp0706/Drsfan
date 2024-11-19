@@ -1,115 +1,120 @@
 ﻿@model Drsfan.Models.ViewModels.ProductVM
-<div class="card shadow border-0 mt-4">
-    <div class="card-header bg-black bg-gradient py-3 text-center">
-        <h2 class="text-white">@(Model.Product.Id!=0?"Update":"Create") Product</h2>
+
+<div class="card shadow-lg border-0 mt-4">
+    <div class="card-header bg-dark text-white py-3 text-center">
+        <h3>@((Model.Product.Id != 0 ? "Update" : "Create") + " Product")</h3>
     </div>
     <div class="card-body p-4">
-        <form method="post" class="row" enctype="multipart/form-data">
+        <form method="post" class="row g-3" enctype="multipart/form-data">
             <input asp-for="Product.Id" hidden />
             <input asp-for="Product.ImageUrl" hidden />
-            <div class="row">
-                <div class="col-10">
-                    <div class="mb-4">
-                        <div class="mb-3">
-                            <label asp-for="Product.Title" class="form-label fw-bold"></label>
-                            <input asp-for="Product.Title" class="form-control shadow-sm" />
-                            <span asp-validation-for="Product.Title" class="text-danger"></span>
-                        </div>
 
-                        <div class="mb-4">
-                            <label asp-for="Product.Description" class="shadow-sm text-muted"></label>
-                            <textarea asp-for="Product.Description" class="form-label fw-bold"></textarea>
-                        </div>
-                        <div class="mb-4">
-                            <label asp-for="Product.ISBN" class="form-label fw-bold"></label>
-                            <input asp-for="Product.ISBN" class="form-control shadow-sm" />
-                            <span asp-validation-for="Product.ISBN" class="text-danger"></span>
-                        </div>
-                        <div class="mb-4">
-                            <label asp-for="Product.Author" class="form-label fw-bold"></label>
-                            <input asp-for="Product.Author" class="form-control shadow-sm" />
-                            <span asp-validation-for="Product.Author" class="text-danger"></span>
-                        </div>
-                        <div class="mb-4">
-                            <label asp-for="Product.ListPrice" class="form-label fw-bold"></label>
-                            <input asp-for="Product.ListPrice" class="form-control shadow-sm" />
+            <!-- Left Column: Product Information -->
+            <div class="col-lg-8 col-md-12">
+                <div class="mb-3">
+                    <label asp-for="Product.Name" class="form-label fw-bold">Product Name</label>
+                    <input asp-for="Product.Name" class="form-control shadow-sm" placeholder="Enter product name" />
+                    <span asp-validation-for="Product.Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Product.Description" class="form-label fw-bold">Description</label>
+                    <textarea asp-for="Product.Description" class="form-control shadow-sm" placeholder="Enter product description"></textarea>
+                    <span asp-validation-for="Product.Description" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Product.Brand" class="form-label fw-bold">Brand</label>
+                    <input asp-for="Product.Brand" class="form-control shadow-sm" placeholder="Enter product brand" />
+                    <span asp-validation-for="Product.Brand" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Product.ModelNumber" class="form-label fw-bold">Model Number</label>
+                    <input asp-for="Product.ModelNumber" class="form-control shadow-sm" placeholder="Enter model number" />
+                    <span asp-validation-for="Product.ModelNumber" class="text-danger"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="Product.ListPrice" class="form-label fw-bold">List Price</label>
+                            <input asp-for="Product.ListPrice" class="form-control shadow-sm" placeholder="Enter list price" />
                             <span asp-validation-for="Product.ListPrice" class="text-danger"></span>
                         </div>
-                        <div class="mb-4">
-                            <label asp-for="Product.Price" class="form-label fw-bold"></label>
-                            <input asp-for="Product.Price" class="form-control shadow-sm" />
-                            <span asp-validation-for="Product.Price" class="text-danger"></span>
-                        </div>
-                        <div class="mb-4">
-                            <label asp-for="Product.Price50" class="form-label fw-bold"></label>
-                            <input asp-for="Product.Price50" class="form-control shadow-sm" />
-                            <span asp-validation-for="Product.Price50" class="text-danger"></span>
-                        </div>
-                        <div class="mb-4">
-                            <label asp-for="Product.Price100" class="form-label fw-bold"></label>
-                            <input asp-for="Product.Price100" class="form-control shadow-sm" />
-                            <span asp-validation-for="Product.Price100" class="text-danger"></span>
-                        </div>
-                        <div class="mb-4">
-                            <select asp-for="@Model.Product.CategoryId" asp-items="@Model.CategoryList" class="form-select shadow-sm">
-                                <option disabled selected>--Select Category--</option>
-                            </select>
-                            <label asp-for="Product.CategoryId" class="form-label fw-bold"></label>
-                            <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
-                        </div>
-                        <div class="mb-4">
-                            <label asp-for="Product.ImageUrl" class="form-label fw-bold"></label>
-                            <input type="file" name="file" class="form-control shadow-sm" />
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-start">
-                        @if (Model.Product.Id != 0)
-                        {
-                            <button type="submit" class="btn btn-primary me-2">Update</button>
-                        }
-                        else
-                        {
-                            <button type="submit" class="btn btn-primary me-2">Create</button>
-                        }
-
-                        <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">Back to List</a>
                     </div>
 
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="Product.DiscountPrice" class="form-label fw-bold">Discount Price</label>
+                            <input asp-for="Product.DiscountPrice" class="form-control shadow-sm" placeholder="Enter discount price" />
+                            <span asp-validation-for="Product.DiscountPrice" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-2">
-                    <img src="@Model.Product.ImageUrl" width="100%"
-                        style="border-radius:5px; border:1px solid " />
+
+                <div class="mb-3">
+                    <label asp-for="Product.WarrantyPeriod" class="form-label fw-bold">Warranty Period</label>
+                    <input asp-for="Product.WarrantyPeriod" class="form-control shadow-sm" placeholder="Enter warranty period" />
+                    <span asp-validation-for="Product.WarrantyPeriod" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Product.Features" class="form-label fw-bold">Features</label>
+                    <textarea asp-for="Product.Features" class="form-control shadow-sm" placeholder="Enter product features"></textarea>
+                    <span asp-validation-for="Product.Features" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Product.PowerConsumption" class="form-label fw-bold">Power Consumption</label>
+                    <input asp-for="Product.PowerConsumption" class="form-control shadow-sm" placeholder="Enter power consumption" />
+                    <span asp-validation-for="Product.PowerConsumption" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Product.CategoryId" class="form-label fw-bold">Category</label>
+                    <select asp-for="Product.CategoryId" asp-items="Model.CategoryList" class="form-select shadow-sm">
+                        <option disabled selected>-- Select Category --</option>
+                    </select>
+                    <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-flex justify-content-start mt-3">
+                    @if (Model.Product.Id != 0)
+                    {
+                        <button type="submit" class="btn btn-success me-2">Update Product</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-primary me-2">Create Product</button>
+                    }
+                    <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">Back to List</a>
                 </div>
             </div>
 
+            <!-- Right Column: Product Image -->
+            <div class="col-lg-4 col-md-12">
+                <div class="mb-3 text-center">
+                    <img src="@Model.Product.ImageUrl" alt="Product Image" class="img-fluid rounded shadow" style="max-height: 200px; object-fit: cover;" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Upload Image</label>
+                    <input type="file" name="file" class="form-control shadow-sm" />
+                    <span asp-validation-for="Product.ImageUrl" class="text-danger"></span>
+                </div>
+            </div>
         </form>
-        <partial name="_ValidationScriptsPartial" />
     </div>
 </div>
 
-
-@section Scripts{
+@section Scripts {
     <script>
         tinymce.init({
             selector: 'textarea',
-            plugins: [
-                // Core editing features
-                'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'lists', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-                // Your account includes a free trial of TinyMCE premium features
-                // Try the most popular premium features until Oct 9, 2024:
-                'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown',
-            ],
-            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent ',
-            tinycomments_mode: 'embedded',
-            tinycomments_author: 'Author name',
-            mergetags_list: [
-                { value: 'First.Name', title: 'First Name' },
-                { value: 'Email', title: 'Email' },
-            ],
-            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+            plugins: 'lists link image table code',
+            toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
+            menubar: false
         });
     </script>
-    @{
-    <partial name="_ValidationScriptsPartial" />
-    }
 }

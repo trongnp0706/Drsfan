@@ -14,43 +14,41 @@ namespace Drsfan.Models
     {
         [Key]
         public int Id { get; set; }
+
         [Required]
-        public string Title { get; set; }
+        public string Name { get; set; }  
+
         public string Description { get; set; }
-        [Required]
-        public string ISBN { get; set; }
-        [Required]
-        public string Author { get; set; }
-        [Required]
-        [Display(Name = "List Price")]
-        [Range(1,1000)]
-        public double ListPrice { get; set; }
 
+        public string Brand { get; set; }  
+
+        public string ModelNumber { get; set; }  
 
         [Required]
-        [Display(Name = "Price for 1-50")]
-        [Range(1, 1000)]
-        public double Price { get; set; }
+        public double ListPrice { get; set; }  
+
+        
+        [Required]
+        [Display(Name = "Discount Price")]
+        public double DiscountPrice { get; set; }  
+
 
         [Required]
-        [Display(Name = "Price for 50+")]
-        [Range(1, 1000)]
-        public double Price50 { get; set; }
-
-        [Required]
-        [Display(Name = "Price for 100+")]
-        [Range(1, 1000)]
-        public double Price100 { get; set; }
-
-
-
+        [Display(Name = "Warranty Period")]
+        public string WarrantyPeriod { get; set; }  // Thời gian bảo hành
 
         public int CategoryId { get; set; }
+
         [ForeignKey("CategoryId")]
         [ValidateNever]
         public Category Category { get; set; }
-        [ValidateNever]
-        public string ImageUrl { get; set; }
 
+        [ValidateNever]
+        public string? ImageUrl { get; set; }
+
+        
+        public string Features { get; set; }  // Các tính năng đặc biệt của thiết bị
+
+        public string PowerConsumption { get; set; }  // Công suất tiêu thụ điện
     }
 }

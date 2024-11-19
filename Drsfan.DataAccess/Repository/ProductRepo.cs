@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using Drsfan.DataAcess.Data;
 using Drsfan.DataAcess.Repository.IRepository;
 using Drsfan.Models;
@@ -13,6 +9,7 @@ namespace Drsfan.DataAcess.Repository
     public class ProductRepo : Repository<Product>, IProductRepo
     {
         private DrsfanDbContext _db;
+
         public ProductRepo(DrsfanDbContext db) : base(db)
         {
             _db = db;
@@ -23,18 +20,22 @@ namespace Drsfan.DataAcess.Repository
             var objFromDb = _db.Products.FirstOrDefault(s => s.Id == obj.Id);
             if (objFromDb != null)
             {
-                if (obj.ImageUrl != null)
+                // Cập nhật trường ImageUrl nếu có thay đổi
+                if (!string.IsNullOrEmpty(obj.ImageUrl))
                 {
                     objFromDb.ImageUrl = obj.ImageUrl;
                 }
-                objFromDb.Title = obj.Title;
+
+                // Cập nhật các trường khác
+                objFromDb.Name = obj.Name;
                 objFromDb.Description = obj.Description;
-                objFromDb.ISBN = obj.ISBN;
-                objFromDb.Author = obj.Author;
+                objFromDb.Brand = obj.Brand;
+                objFromDb.ModelNumber = obj.ModelNumber;
                 objFromDb.ListPrice = obj.ListPrice;
-                objFromDb.Price = obj.Price;
-                objFromDb.Price50 = obj.Price50;
-                objFromDb.Price100 = obj.Price100;
+                objFromDb.DiscountPrice = obj.DiscountPrice;
+                objFromDb.WarrantyPeriod = obj.WarrantyPeriod;
+                objFromDb.Features = obj.Features;
+                objFromDb.PowerConsumption = obj.PowerConsumption;
                 objFromDb.CategoryId = obj.CategoryId;
             }
         }

@@ -21,153 +21,82 @@ namespace Drsfan.DataAcess.Data
         public DbSet<OrderDetail> OrderDetails { get; set; }
 
 
+        // OnModelCreating method to seed data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-
+            // Seed Data for Categories
             modelBuilder.Entity<Category>().HasData(
-                new Category { Id = 1, Name = "Action", DisplayOrder = 1 },
-                new Category { Id = 2, Name = "SciFi", DisplayOrder = 2 },
-                new Category { Id = 3, Name = "History", DisplayOrder = 3 }
-
+                new Category { Id = 1, Name = "Washing Machines", DisplayOrder = 1 },
+                new Category { Id = 2, Name = "Refrigerators", DisplayOrder = 2 },
+                new Category { Id = 3, Name = "Microwaves", DisplayOrder = 3 },
+                new Category { Id = 4, Name = "Fans", DisplayOrder = 4 }
             );
 
-            modelBuilder.Entity<Company>().HasData(
-            new Company
-            {
-                Id = 1,
-                Name = "Tech Solutions",
-                Address = "123 Tech Avenue",
-                City = "Techville",
-                State = "CA",
-                PostalCode = "90001",
-                PhoneNumber = "555-123-4567"
-            },
-            new Company
-            {
-                Id = 2,
-                Name = "Global Innovations",
-                Address = "456 Global Street",
-                City = "Innovate City",
-                State = "TX",
-                PostalCode = "73301",
-                PhoneNumber = "555-987-6543"
-            },
-            new Company
-            {
-                Id = 3,
-                Name = "EcoWorld Corp",
-                Address = "789 Green Lane",
-                City = "EcoCity",
-                State = "NY",
-                PostalCode = "10001",
-                PhoneNumber = "555-321-6789"
-            }
-            );
-
-
+            // Seed Data for Products 
             modelBuilder.Entity<Product>().HasData(
                 new Product
                 {
                     Id = 1,
-                    Title = "The Great Gatsby",
-                    Description = "A novel written by F. Scott Fitzgerald.",
-                    ISBN = "978-0743273565",
-                    Author = "F. Scott Fitzgerald",
-                    ListPrice = 10.99,
-                    Price = 9.99,
-                    Price50 = 8.99,
-                    Price100 = 7.99,
-                    CategoryId = 1,
-                    ImageUrl = ""
+                    Name = "LG 8kg Washing Machine",
+                    Description = "Front load washing machine, inverter technology, energy-efficient.",
+                    Brand = "LG",
+                    ModelNumber = "LG1234",
+                    CategoryId = 1, // Category "Washing Machines"
+                    ListPrice = 349.99, 
+                    DiscountPrice = 299.99,
+                    WarrantyPeriod = "24 months",
+                    Features = "Automatic wash mode, quick wash, energy-saving",
+                    PowerConsumption = "500W",
+                    ImageUrl = "/images/products/lggiat.jpg"
                 },
                 new Product
                 {
                     Id = 2,
-                    Title = "To Kill a Mockingbird",
-                    Description = "A novel by Harper Lee published in 1960.",
-                    ISBN = "978-0061120084",
-                    Author = "Harper Lee",
-                    ListPrice = 14.99,
-                    Price = 13.99,
-                    Price50 = 12.99,
-                    Price100 = 11.99,
-                    CategoryId = 2,
-                    ImageUrl = ""
+                    Name = "Samsung 250L Refrigerator",
+                    Description = "Double-door refrigerator, 250L capacity, energy-saving technology.",
+                    Brand = "Samsung",
+                    ModelNumber = "Samsung250L",
+                    CategoryId = 2, // Category "Refrigerators"
+                    ListPrice = 499.99, 
+                    DiscountPrice = 459.99,
+                    WarrantyPeriod = "12 months",
+                    Features = "Quick cooling, energy-efficient",
+                    PowerConsumption = "150W",
+                    ImageUrl = "/images/products/samsungtu.jpg"
                 },
                 new Product
                 {
                     Id = 3,
-                    Title = "1984",
-                    Description = "A dystopian novel by George Orwell.",
-                    ISBN = "978-0451524935",
-                    Author = "George Orwell",
-                    ListPrice = 9.99,
-                    Price = 8.99,
-                    Price50 = 7.99,
-                    Price100 = 6.99,
-                    CategoryId = 3,
-                    ImageUrl = ""
+                    Name = "Sharp 23L Microwave",
+                    Description = "Sharp 23L microwave with grilling function, time-saving cooking.",
+                    Brand = "Sharp",
+                    ModelNumber = "Sharp23L",
+                    CategoryId = 3, // Category "Microwaves"
+                    ListPrice = 119.99, 
+                    DiscountPrice = 99.99,
+                    WarrantyPeriod = "12 months",
+                    Features = "Grilling and microwave functions, easy to use",
+                    PowerConsumption = "800W",
+                    ImageUrl = "/images/products/sharplosong.jpg"
                 },
                 new Product
                 {
                     Id = 4,
-                    Title = "The Catcher in the Rye",
-                    Description = "A novel by J.D. Salinger.",
-                    ISBN = "978-0316769488",
-                    Author = "J.D. Salinger",
-                    ListPrice = 8.99,
-                    Price = 7.99,
-                    Price50 = 6.99,
-                    Price100 = 5.99,
-                    CategoryId = 1,
-                    ImageUrl = ""
-                },
-                new Product
-                {
-                    Id = 5,
-                    Title = "Pride and Prejudice",
-                    Description = "A romantic novel by Jane Austen.",
-                    ISBN = "978-1503290563",
-                    Author = "Jane Austen",
-                    ListPrice = 11.99,
-                    Price = 10.99,
-                    Price50 = 9.99,
-                    Price100 = 8.99,
-                    CategoryId = 1,
-                    ImageUrl = ""
-                },
-                new Product
-                {
-                    Id = 6,
-                    Title = "The Hobbit",
-                    Description = "A fantasy novel by J.R.R. Tolkien.",
-                    ISBN = "978-0547928227",
-                    Author = "J.R.R. Tolkien",
-                    ListPrice = 12.99,
-                    Price = 11.99,
-                    Price50 = 10.99,
-                    Price100 = 9.99,
-                    CategoryId = 2,
-                    ImageUrl = ""
-                },
-                new Product
-                {
-                    Id = 7,
-                    Title = "Moby Dick",
-                    Description = "A novel by Herman Melville.",
-                    ISBN = "978-1503280786",
-                    Author = "Herman Melville",
-                    ListPrice = 13.99,
-                    Price = 12.99,
-                    Price50 = 11.99,
-                    Price100 = 10.99,
-                    CategoryId = 3,
-                    ImageUrl = ""
+                    Name = "Panasonic 16-inch Fan",
+                    Description = "Panasonic stand fan with 3 wind modes, durable motor.",
+                    Brand = "Panasonic",
+                    ModelNumber = "Panasonic16",
+                    CategoryId = 4, // Category "Fans"
+                    ListPrice = 39.99, 
+                    DiscountPrice = 29.99,
+                    WarrantyPeriod = "12 months",
+                    Features = "Strong wind modes, energy-saving",
+                    PowerConsumption = "50W",
+                    ImageUrl = "/images/products/panasonicquat.jpg"
                 }
             );
-
         }
     }
 }
