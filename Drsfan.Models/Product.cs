@@ -35,7 +35,7 @@ namespace Drsfan.Models
 
         [Required]
         [Display(Name = "Warranty Period")]
-        public string WarrantyPeriod { get; set; }  // Thời gian bảo hành
+        public string WarrantyPeriod { get; set; } 
 
         public int CategoryId { get; set; }
 
@@ -47,8 +47,8 @@ namespace Drsfan.Models
         public string? ImageUrl { get; set; }
 
         
-        public string Features { get; set; }  // Các tính năng đặc biệt của thiết bị
+        public string Features { get; set; }  
 
-        public string PowerConsumption { get; set; }  // Công suất tiêu thụ điện
+        public string PowerConsumption { get; set; }  
     }
 }

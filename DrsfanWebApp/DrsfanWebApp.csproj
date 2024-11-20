@@ -30,7 +30,7 @@
 
 	<ItemGroup>
 		<Folder Include="Areas\Identity\Data\" />
-		<Folder Include="wwwroot\images\product\" />
+		<Folder Include="wwwroot\images\products\" />
 	</ItemGroup>
 
 </Project>

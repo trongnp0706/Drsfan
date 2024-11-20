@@ -1,32 +1,45 @@
 ﻿@model Category
 
 <div class="card shadow border-0 mt-4">
+    <!-- Header -->
     <div class="card-header bg-danger bg-gradient py-3 text-center">
-        <h2 class="text-white">Delete Category</h2>
+        <h2 class="text-white mb-0">Delete Category</h2>
     </div>
+
+    <!-- Body -->
     <div class="card-body p-4">
         <form method="post">
-            <input asp-for="Id" hidden />
+            <!-- Hidden Input -->
+            <input asp-for="Id" type="hidden" />
+
+            <!-- Read-Only Fields -->
             <div class="mb-4">
+                <!-- Category Name -->
                 <div class="mb-3">
                     <label asp-for="Name" class="form-label fw-bold">Category Name</label>
-                    <input asp-for="Name" disabled class="form-control shadow-sm" />
+                    <input asp-for="Name" class="form-control shadow-sm bg-light" disabled />
                 </div>
 
+                <!-- Display Order -->
                 <div class="mb-4">
                     <label asp-for="DisplayOrder" class="form-label fw-bold">Display Order</label>
-                    <input asp-for="DisplayOrder" disabled class="form-control shadow-sm" />
+                    <input asp-for="DisplayOrder" class="form-control shadow-sm bg-light" disabled />
                 </div>
             </div>
 
+            <!-- Action Buttons -->
             <div class="d-flex justify-content-start">
-                <button type="submit" class="btn btn-danger me-2">Delete</button>
-                <a asp-controller="Category" asp-action="Index" class="btn btn-secondary">Back to List</a>
+                <button type="submit" class="btn btn-danger me-2">
+                    <i class="bi bi-trash"></i> Delete
+                </button>
+                <a asp-controller="Category" asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left-circle"></i> Back to List
+                </a>
             </div>
-
-            <partial name="_ValidationScriptsPartial" />
         </form>
     </div>
 </div>
 
-
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

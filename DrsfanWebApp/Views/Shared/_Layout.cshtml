@@ -17,7 +17,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-secondary border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <img src="~/images/logo.png" style="width: 50px" alt="DrsfanBookWeb" />
@@ -34,8 +34,8 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="Admin" asp-controller="Order" asp-action="Index">Manage Order</a>
                         </li>
-                        @* @if (User.IsInRole("Admin"))
-                        { *@
+                        @if (User.IsInRole("Admin"))
+                        {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Managment
@@ -57,7 +57,7 @@
 
                                 </ul>
                             </li>
-                        
+                        }
 
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="Customer" asp-controller="Cart" asp-action="Index">
@@ -79,7 +79,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer bg-primary text-center text-white">
+    <footer class="border-top footer bg-secondary text-center text-white">
         <div class="container">
             &copy; 2024 -  Made by trongnp
         </div>
