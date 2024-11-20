@@ -1,12 +1,36 @@
 ﻿@model int
-<div class="container row pt-4">
+<div class="container row justify-content-center align-items-center pt-5">
+    <div class="col-12 text-center mb-4">
+        <h1 class="text-success fw-bold">🎉 Order Successfully!</h1>
+        <p class="text-muted fs-5">Your Order Number is: <span class="text-primary fw-bold">@Model</span></p>
+        <img src="~/images/payment-successful.png" class="img-fluid rounded shadow-sm" style="max-width: 300px;" alt="Order Confirmation Image" />
+    </div>
     <div class="col-12 text-center">
-        <h1 class="text-primary text-center">Order Successfully!</h1>
-        Your Order Number is : @Model <br /><br />
-        <img src="~/images/payment-successful.png" style="width: 30%;" alt="Order Confirmation Image" />
+        <p class="text-maroon fw-semibold fs-4 mt-3">
+            Your order has been placed successfully! 🚀
+        </p>
     </div>
-    <div class="col-12 text-center" style="color:maroon">
-        <br />
-        Your order has been placed successfully! <br />
-    </div>
-</div> 
+    <div class="col-12 text-center mt-4">
+        <a href="/" class="btn btn-primary btn-lg px-4 py-2 shadow-sm">Go to Home</a>
+@*         <a href="/orders" class="btn btn-outline-secondary btn-lg px-4 py-2 shadow-sm ms-2">View My Orders</a>
+ *@    </div>
+</div>
+
+<style>
+    .text-success {
+        color: #28a745;
+    }
+
+    .text-maroon {
+        color: maroon;
+    }
+
+    .btn {
+        border-radius: 25px;
+        transition: all 0.3s ease;
+    }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+</style>

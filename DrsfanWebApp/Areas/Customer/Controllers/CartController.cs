@@ -38,6 +38,7 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
 
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
+                // Tính giá sau giảm giá hoặc giá gốc
                 cart.Price = CalculateOrderTotal(cart);
                 ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
             }
@@ -59,13 +60,7 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
             // Get current user information
             ShoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
 
-            // Assign user information to OrderHeader
-            ShoppingCartVM.OrderHeader.Name = ShoppingCartVM.OrderHeader.Name;
-            ShoppingCartVM.OrderHeader.PhoneNumber = ShoppingCartVM.OrderHeader.PhoneNumber;
-            ShoppingCartVM.OrderHeader.StreetAddress = ShoppingCartVM.OrderHeader.StreetAddress;
-            ShoppingCartVM.OrderHeader.City = ShoppingCartVM.OrderHeader.City;
-            ShoppingCartVM.OrderHeader.State = ShoppingCartVM.OrderHeader.State;
-            ShoppingCartVM.OrderHeader.PostalCode = ShoppingCartVM.OrderHeader.PostalCode;
+          
 
             // Calculate total order amount based on products in cart
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
@@ -252,15 +247,17 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
 
         private double CalculateOrderTotal(ShoppingCart shoppingCart)
         {
-            if (shoppingCart.Count <= 50)
+            if (shoppingCart.Product.DiscountPrice < shoppingCart.Product.ListPrice)
             {
-                return shoppingCart.Product.ListPrice;
+                // Nếu có giá giảm, sử dụng DiscountPrice
+                return shoppingCart.Product.DiscountPrice;
             }
             else
             {
-                return shoppingCart.Product.DiscountPrice;
-
+                // Nếu không có giảm giá, sử dụng ListPrice
+                return shoppingCart.Product.ListPrice;
             }
         }
+
     }
 }
