@@ -37,7 +37,7 @@
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Managment
                                 </a>
                                 <ul class="dropdown-menu">
@@ -53,6 +53,9 @@
                                     <li><hr class="dropdown-divider"></li>
                                     <li class="nav-item">
                                         <a class="dropdown-item" asp-area="Identity"  asp-page="/Account/Register">Create new user</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Index">manage user</a>
                                     </li>
 
                                 </ul>
@@ -85,6 +88,11 @@
         </div>
     </footer>
     <script src="https://cdn.tiny.cloud/1/ch59w888tz9qdw9rlxuyl9piz6twc5zz767f3gptxa26nsd9/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script src="~/lib/jquery/dist/jquery.min.js">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

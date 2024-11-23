@@ -104,12 +104,22 @@
             </div>
             <div class="card-body">
                 <div class="row">
+                    <!-- Order Date -->
+                    <div class="col-md-6 mb-3">
+                        <label>Order Date</label>
+                        <input value="@Model.OrderHeader.OrderDate.ToShortDateString()" type="text" class="form-control" readonly />
+                    </div>
+                    <!-- Shipping Date -->
+                    <div class="col-md-6 mb-3">
+                        <label>Shipping Date</label>
+                        <input value="@Model.OrderHeader.ShippingDate.ToShortDateString()" type="text" class="form-control" readonly />
+                    </div>
                     <!-- Carrier -->
                     <div class="col-md-6 mb-3">
                         <label>Carrier</label>
                         @if (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.Staff))
                         {
-                            <input asp-for="OrderHeader.Carrier" type="text" class="form-control" />
+                            <input asp-for="OrderHeader.Carrier" id="carrier" required type="text" class="form-control" />
                         }
                         else
                         {
@@ -121,11 +131,24 @@
                         <label>Tracking Number</label>
                         @if (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.Staff))
                         {
-                            <input asp-for="OrderHeader.TrackingNumber" type="text" class="form-control" />
+                            <input asp-for="OrderHeader.TrackingNumber" id="trackingNumber" required type="text" class="form-control" />
                         }
                         else
                         {
                             <input asp-for="OrderHeader.TrackingNumber" type="text" class="form-control" readonly />
+                        }
+                    </div>
+                    <!-- Payment Date or Due Date -->
+                    <div class="col-md-6 mb-3">
+                        @if (Model.OrderHeader.SessionId == null)
+                        {
+                            <label>Payment Due Date</label>
+                            <input value="@Model.OrderHeader.PaymentDueDate.ToShortDateString()" type="text" class="form-control" readonly />
+                        }
+                        else
+                        {
+                            <label>Payment Date</label>
+                            <input value="@Model.OrderHeader.PaymentDate.ToShortDateString()" type="text" class="form-control" readonly />
                         }
                     </div>
                     <!-- Payment Status -->
@@ -133,15 +156,21 @@
                         <label>Payment Status</label>
                         <input asp-for="OrderHeader.PaymentStatus" type="text" class="form-control" readonly />
                     </div>
-                    <!-- Order Date -->
-                    <div class="col-md-6 mb-3">
-                        <label>Order Date</label>
-                        <input value="@Model.OrderHeader.OrderDate.ToShortDateString()" type="text" class="form-control" readonly />
-                    </div>
+                    <!-- Session ID (only for Admin/Staff) -->
+                    @if (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.Staff))
+                    {
+                        <div class="col-md-6 mb-3">
+                            <label>Session ID</label>
+                            <input asp-for="OrderHeader.SessionId" type="text" class="form-control" readonly />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Payment Intent ID</label>
+                            <input asp-for="OrderHeader.PaymentIntentId" type="text" class="form-control" readonly />
+                        </div>
+                    }
                 </div>
             </div>
         </div>
-
         <!-- Order Summary Section -->
         <div class="card shadow mb-4">
             <div class="card-header bg-dark text-white">
@@ -154,11 +183,14 @@
                         <li class="list-group-item d-flex justify-content-between align-items-start">
                             <div>
                                 <h6 class="my-0 text-primary">@detail.Product.Name</h6>
-                                <small class="text-muted">Price: @detail.Product.ListPrice.ToString("$#,##")</small>
+                                <span>
+                                    Price:
+                                    <small class="text-decoration-line-through">@detail.Product.ListPrice.ToString("$#,##")</small>
+                                </span>
                                 <br />
                                 <small class="text-muted">Quantity: @detail.Count</small>
                             </div>
-                            <span>@(detail.Price * detail.Count)$</span>
+                            <span>Discount Price: @(detail.Price * detail.Count)$</span>
                         </li>
                     }
                     <li class="list-group-item bg-primary text-white d-flex justify-content-between">
@@ -172,8 +204,16 @@
 
         <!-- Actions -->
         <div class="text-center">
+            @if (Model.OrderHeader.PaymentStatus == Payment.StatusDelayedPayment && 
+                Model.OrderHeader.OrderStatus == Status.Shipped)
+                {
+                    <button type="submit" class="btn btn-success form-control my-1">Pay Now</button>
+                }
+
             @if (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.Staff))
             {
+              <button type="submit" asp-action="UpdateOrderDetail" class="btn btn-warning form-control my-1">Update Order Details</button>
+
                 @if (Model.OrderHeader.OrderStatus == Status.Approved)
                 {
                     <button type="submit" asp-action="StartProcessing" class="btn btn-primary mx-1">Start Processing</button>

@@ -1,4 +1,4 @@
-namespace DrsfanWebApp.Models
+namespace Drsfan.Models
 {
     public class ErrorViewModel
     {

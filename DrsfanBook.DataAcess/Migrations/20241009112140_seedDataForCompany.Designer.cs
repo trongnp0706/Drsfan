@@ -4,16 +4,19 @@ using Drsfan.DataAcess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
 namespace Drsfan.DataAcess.Migrations
 {
-    [DbContext(typeof(DrsfanDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(ApplicationDbContext))]
+    [Migration("20241009112140_seedDataForCompany")]
+    partial class seedDataForCompany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,25 +50,19 @@ namespace Drsfan.DataAcess.Migrations
                         {
                             Id = 1,
                             DisplayOrder = 1,
-                            Name = "Washing Machines"
+                            Name = "Action"
                         },
                         new
                         {
                             Id = 2,
                             DisplayOrder = 2,
-                            Name = "Refrigerators"
+                            Name = "SciFi"
                         },
                         new
                         {
                             Id = 3,
                             DisplayOrder = 3,
-                            Name = "Microwaves"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            DisplayOrder = 4,
-                            Name = "Fans"
+                            Name = "History"
                         });
                 });
 
@@ -104,141 +101,33 @@ namespace Drsfan.DataAcess.Migrations
                         new
                         {
                             Id = 1,
-                            Address = "123 Tech Street",
-                            City = "San Francisco",
-                            Name = "Tech Solutions Ltd.",
-                            PhoneNumber = "123-456-7890",
-                            PostalCode = "94103",
+                            Address = "123 Tech Avenue",
+                            City = "Techville",
+                            Name = "Tech Solutions",
+                            PhoneNumber = "555-123-4567",
+                            PostalCode = "90001",
                             State = "CA"
                         },
                         new
                         {
                             Id = 2,
-                            Address = "456 Market Ave",
-                            City = "New York",
-                            Name = "Global Enterprises",
-                            PhoneNumber = "987-654-3210",
-                            PostalCode = "10001",
-                            State = "NY"
+                            Address = "456 Global Street",
+                            City = "Innovate City",
+                            Name = "Global Innovations",
+                            PhoneNumber = "555-987-6543",
+                            PostalCode = "73301",
+                            State = "TX"
                         },
                         new
                         {
                             Id = 3,
-                            Address = "789 Future Blvd",
-                            City = "Austin",
-                            Name = "NextGen Innovations",
-                            PhoneNumber = "555-123-4567",
-                            PostalCode = "73301",
-                            State = "TX"
+                            Address = "789 Green Lane",
+                            City = "EcoCity",
+                            Name = "EcoWorld Corp",
+                            PhoneNumber = "555-321-6789",
+                            PostalCode = "10001",
+                            State = "NY"
                         });
-                });
-
-            modelBuilder.Entity("Drsfan.Models.OrderDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("OrderHeaderId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderHeaderId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrderDetails");
-                });
-
-            modelBuilder.Entity("Drsfan.Models.OrderHeader", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Carrier")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("OrderStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("OrderTotal")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("PaymentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateOnly>("PaymentDueDate")
-                        .HasColumnType("date");
-
-                    b.Property<string>("PaymentIntentId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PaymentStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PostalCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SessionId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ShippingDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StreetAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TrackingNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.ToTable("OrderHeaders");
                 });
 
             modelBuilder.Entity("Drsfan.Models.Product", b =>
@@ -249,7 +138,7 @@ namespace Drsfan.DataAcess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Brand")
+                    b.Property<string>("Author")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -257,13 +146,9 @@ namespace Drsfan.DataAcess.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("DiscountPrice")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Features")
+                    b.Property<string>("ISBN")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -273,19 +158,16 @@ namespace Drsfan.DataAcess.Migrations
                     b.Property<double>("ListPrice")
                         .HasColumnType("float");
 
-                    b.Property<string>("ModelNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("Price100")
+                        .HasColumnType("float");
 
-                    b.Property<string>("PowerConsumption")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("Price50")
+                        .HasColumnType("float");
 
-                    b.Property<string>("WarrantyPeriod")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -299,90 +181,101 @@ namespace Drsfan.DataAcess.Migrations
                         new
                         {
                             Id = 1,
-                            Brand = "LG",
+                            Author = "F. Scott Fitzgerald",
                             CategoryId = 1,
-                            Description = "Front load washing machine, inverter technology, energy-efficient.",
-                            DiscountPrice = 299.99000000000001,
-                            Features = "Automatic wash mode, quick wash, energy-saving",
-                            ImageUrl = "/images/products/lggiat.jpg",
-                            ListPrice = 349.99000000000001,
-                            ModelNumber = "LG1234",
-                            Name = "LG 8kg Washing Machine",
-                            PowerConsumption = "500W",
-                            WarrantyPeriod = "24 months"
+                            Description = "A novel written by F. Scott Fitzgerald.",
+                            ISBN = "978-0743273565",
+                            ImageUrl = "",
+                            ListPrice = 10.99,
+                            Price = 9.9900000000000002,
+                            Price100 = 7.9900000000000002,
+                            Price50 = 8.9900000000000002,
+                            Title = "The Great Gatsby"
                         },
                         new
                         {
                             Id = 2,
-                            Brand = "Samsung",
+                            Author = "Harper Lee",
                             CategoryId = 2,
-                            Description = "Double-door refrigerator, 250L capacity, energy-saving technology.",
-                            DiscountPrice = 459.99000000000001,
-                            Features = "Quick cooling, energy-efficient",
-                            ImageUrl = "/images/products/samsungtu.jpg",
-                            ListPrice = 499.99000000000001,
-                            ModelNumber = "Samsung250L",
-                            Name = "Samsung 250L Refrigerator",
-                            PowerConsumption = "150W",
-                            WarrantyPeriod = "12 months"
+                            Description = "A novel by Harper Lee published in 1960.",
+                            ISBN = "978-0061120084",
+                            ImageUrl = "",
+                            ListPrice = 14.99,
+                            Price = 13.99,
+                            Price100 = 11.99,
+                            Price50 = 12.99,
+                            Title = "To Kill a Mockingbird"
                         },
                         new
                         {
                             Id = 3,
-                            Brand = "Sharp",
+                            Author = "George Orwell",
                             CategoryId = 3,
-                            Description = "Sharp 23L microwave with grilling function, time-saving cooking.",
-                            DiscountPrice = 99.989999999999995,
-                            Features = "Grilling and microwave functions, easy to use",
-                            ImageUrl = "/images/products/sharplosong.jpg",
-                            ListPrice = 119.98999999999999,
-                            ModelNumber = "Sharp23L",
-                            Name = "Sharp 23L Microwave",
-                            PowerConsumption = "800W",
-                            WarrantyPeriod = "12 months"
+                            Description = "A dystopian novel by George Orwell.",
+                            ISBN = "978-0451524935",
+                            ImageUrl = "",
+                            ListPrice = 9.9900000000000002,
+                            Price = 8.9900000000000002,
+                            Price100 = 6.9900000000000002,
+                            Price50 = 7.9900000000000002,
+                            Title = "1984"
                         },
                         new
                         {
                             Id = 4,
-                            Brand = "Panasonic",
-                            CategoryId = 4,
-                            Description = "Panasonic stand fan with 3 wind modes, durable motor.",
-                            DiscountPrice = 29.989999999999998,
-                            Features = "Strong wind modes, energy-saving",
-                            ImageUrl = "/images/products/panasonicquat.jpg",
-                            ListPrice = 39.990000000000002,
-                            ModelNumber = "Panasonic16",
-                            Name = "Panasonic 16-inch Fan",
-                            PowerConsumption = "50W",
-                            WarrantyPeriod = "12 months"
+                            Author = "J.D. Salinger",
+                            CategoryId = 1,
+                            Description = "A novel by J.D. Salinger.",
+                            ISBN = "978-0316769488",
+                            ImageUrl = "",
+                            ListPrice = 8.9900000000000002,
+                            Price = 7.9900000000000002,
+                            Price100 = 5.9900000000000002,
+                            Price50 = 6.9900000000000002,
+                            Title = "The Catcher in the Rye"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Author = "Jane Austen",
+                            CategoryId = 1,
+                            Description = "A romantic novel by Jane Austen.",
+                            ISBN = "978-1503290563",
+                            ImageUrl = "",
+                            ListPrice = 11.99,
+                            Price = 10.99,
+                            Price100 = 8.9900000000000002,
+                            Price50 = 9.9900000000000002,
+                            Title = "Pride and Prejudice"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Author = "J.R.R. Tolkien",
+                            CategoryId = 2,
+                            Description = "A fantasy novel by J.R.R. Tolkien.",
+                            ISBN = "978-0547928227",
+                            ImageUrl = "",
+                            ListPrice = 12.99,
+                            Price = 11.99,
+                            Price100 = 9.9900000000000002,
+                            Price50 = 10.99,
+                            Title = "The Hobbit"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Author = "Herman Melville",
+                            CategoryId = 3,
+                            Description = "A novel by Herman Melville.",
+                            ISBN = "978-1503280786",
+                            ImageUrl = "",
+                            ListPrice = 13.99,
+                            Price = 12.99,
+                            Price100 = 10.99,
+                            Price50 = 11.99,
+                            Title = "Moby Dick"
                         });
-                });
-
-            modelBuilder.Entity("Drsfan.Models.ShoppingCart", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ShoppingCarts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -599,9 +492,6 @@ namespace Drsfan.DataAcess.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CompanyId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -615,39 +505,7 @@ namespace Drsfan.DataAcess.Migrations
                     b.Property<string>("StreetAddress")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("CompanyId");
-
                     b.HasDiscriminator().HasValue("ApplicationUser");
-                });
-
-            modelBuilder.Entity("Drsfan.Models.OrderDetail", b =>
-                {
-                    b.HasOne("Drsfan.Models.OrderHeader", "OrderHeader")
-                        .WithMany()
-                        .HasForeignKey("OrderHeaderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Drsfan.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OrderHeader");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Drsfan.Models.OrderHeader", b =>
-                {
-                    b.HasOne("Drsfan.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("Drsfan.Models.Product", b =>
@@ -659,25 +517,6 @@ namespace Drsfan.DataAcess.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("Drsfan.Models.ShoppingCart", b =>
-                {
-                    b.HasOne("Drsfan.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Drsfan.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -729,15 +568,6 @@ namespace Drsfan.DataAcess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Drsfan.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("Drsfan.Models.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId");
-
-                    b.Navigation("Company");
                 });
 #pragma warning restore 612, 618
         }
