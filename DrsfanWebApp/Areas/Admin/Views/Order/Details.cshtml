@@ -171,6 +171,14 @@
                 </div>
             </div>
         </div>
+
+        <div>
+             @if (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.Staff))
+        {
+            <button type="submit" asp-action="UpdateOrderDetail" class="btn btn-warning form-control my-1">Update Order Details</button>
+        }
+        </div>
+
         <!-- Order Summary Section -->
         <div class="card shadow mb-4">
             <div class="card-header bg-dark text-white">
@@ -212,7 +220,6 @@
 
             @if (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.Staff))
             {
-              <button type="submit" asp-action="UpdateOrderDetail" class="btn btn-warning form-control my-1">Update Order Details</button>
 
                 @if (Model.OrderHeader.OrderStatus == Status.Approved)
                 {
@@ -220,7 +227,7 @@
                 }
                 @if (Model.OrderHeader.OrderStatus == Status.InProcess)
                 {
-                    <button type="submit" asp-action="ShipOrder" class="btn btn-success mx-1">Ship</button>
+                    <button type="submit" asp-action="ShipOrder" onclick="return validateInput()" class="btn btn-success mx-1">Ship</button>
                 }
                 @if (Model.OrderHeader.OrderStatus != Status.Refunded &&
                Model.OrderHeader.OrderStatus != Status.Cancelled &&
