@@ -83,3 +83,25 @@ body {
     cursor: pointer;
 }
 </style >
+
+<style>
+    .form-control,
+    .form-select {
+        font-size: 1rem;
+        border-radius: 8px;
+    }
+
+    .btn {
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-header {
+        border-bottom: 3px solid #f8f9fa;
+    }
+</style>

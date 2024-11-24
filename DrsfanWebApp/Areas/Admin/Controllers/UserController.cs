@@ -3,6 +3,7 @@ using Drsfan.Models;
 using Drsfan.Models.ViewModels;
 using Drsfan.Utility.Static;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,32 +15,37 @@ namespace DrsfanWebApp.Areas.Admin.Controllers
     public class UserController : Controller
     {
         private readonly DrsfanDbContext _db;
-        public UserController(DrsfanDbContext db)
+        private readonly UserManager<IdentityUser> _userManager;
+        public UserController(DrsfanDbContext db, UserManager<IdentityUser> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult RoleManagment(string id)
+        public IActionResult RoleManagment(string userId)
         {
+            string RoleId = _db.UserRoles.FirstOrDefault(u => u.UserId == userId).RoleId;
             RoleManagmentVM roleManagmentVM = new RoleManagmentVM()
             {
-                ApplicationUser = _db.ApplicationUsers.Include(u => u.Company).FirstOrDefault(u => u.Id == id),
+
+                ApplicationUser = _db.ApplicationUsers.Include(u => u.Company).FirstOrDefault(u => u.Id == userId),
                 RoleList = _db.Roles.Select(i => new SelectListItem
                 {
                     Text = i.Name,
                     Value = i.Id.ToString()
                 }),
-                ComanyList = _db.Companies.Select(i => new SelectListItem
+                CompanyList = _db.Companies.Select(i => new SelectListItem
                 {
                     Text = i.Name,
                     Value = i.Id.ToString()
                 })
             };
 
+            roleManagmentVM.ApplicationUser.Role = _db.Roles.FirstOrDefault(u => u.Id == RoleId).Name;
             return View(roleManagmentVM);
         }
 
