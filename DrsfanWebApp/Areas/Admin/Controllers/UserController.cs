@@ -1,8 +1,10 @@
 ﻿using Drsfan.DataAcess.Data;
 using Drsfan.Models;
+using Drsfan.Models.ViewModels;
 using Drsfan.Utility.Static;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace DrsfanWebApp.Areas.Admin.Controllers
@@ -19,6 +21,26 @@ namespace DrsfanWebApp.Areas.Admin.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult RoleManagment(string id)
+        {
+            RoleManagmentVM roleManagmentVM = new RoleManagmentVM()
+            {
+                ApplicationUser = _db.ApplicationUsers.Include(u => u.Company).FirstOrDefault(u => u.Id == id),
+                RoleList = _db.Roles.Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                }),
+                ComanyList = _db.Companies.Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                })
+            };
+
+            return View(roleManagmentVM);
         }
 
         #region API CALLS

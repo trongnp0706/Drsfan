@@ -36,7 +36,8 @@ function loadDataTable() {
                     `;
 
                     const permissionButton = `
-                        <a class="btn btn-secondary text-white" 
+                        <a href="/admin/user/RoleManagment?userId=${data.id}"
+                           class="btn btn-secondary text-white"
                            style="cursor:pointer; width:150px;" 
                            title="Manage user permissions">
                             <i class="bi bi-pencil-square"></i> Permission
