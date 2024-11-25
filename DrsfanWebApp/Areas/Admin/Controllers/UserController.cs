@@ -26,27 +26,60 @@ namespace DrsfanWebApp.Areas.Admin.Controllers
             return View();
         }
 
-        public IActionResult RoleManagment(string userId)
+        public async Task<IActionResult> RoleManagement(string userId)
         {
-            string RoleId = _db.UserRoles.FirstOrDefault(u => u.UserId == userId).RoleId;
-            RoleManagmentVM roleManagmentVM = new RoleManagmentVM()
-            {
+            // Đợi kết quả trả về từ FirstOrDefaultAsync()
+            string RoleID = (await _db.UserRoles.FirstOrDefaultAsync(u => u.UserId == userId))?.RoleId;
 
-                ApplicationUser = _db.ApplicationUsers.Include(u => u.Company).FirstOrDefault(u => u.Id == userId),
-                RoleList = _db.Roles.Select(i => new SelectListItem
+            // Đợi kết quả trả về từ FirstOrDefaultAsync()
+            IdentityRole? role = await _db.Roles.FirstOrDefaultAsync(u => u.Id == RoleID);
+
+            RoleManagementVM RoleVM = new RoleManagementVM()
+            {
+                ApplicationUser = await _db.ApplicationUsers.Include(u => u.Company).FirstOrDefaultAsync(u => u.Id == userId),
+                RoleList = await _db.Roles.Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Name
+                }).ToListAsync(),
+                CompanyList = await _db.Companies.Select(i => new SelectListItem
                 {
                     Text = i.Name,
                     Value = i.Id.ToString()
-                }),
-                CompanyList = _db.Companies.Select(i => new SelectListItem
-                {
-                    Text = i.Name,
-                    Value = i.Id.ToString()
-                })
+                }).ToListAsync(),
             };
 
-            roleManagmentVM.ApplicationUser.Role = _db.Roles.FirstOrDefault(u => u.Id == RoleId).Name;
-            return View(roleManagmentVM);
+            // Gán Role nếu role không phải null
+            RoleVM.ApplicationUser.Role = role?.Name;
+            return View(RoleVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RoleManagement(RoleManagementVM roleManagementVM)
+        {
+            string RoleID = (await _db.UserRoles.FirstOrDefaultAsync(u => u.UserId == roleManagementVM.ApplicationUser.Id))?.RoleId;
+            string oldRole = (await _db.Roles.FirstOrDefaultAsync(u => u.Id == RoleID))?.Name;
+
+            if (!(roleManagementVM.ApplicationUser.Role == oldRole))
+            {
+                // a role was change
+                ApplicationUser applicationUser = await _db.ApplicationUsers.FirstOrDefaultAsync(u => u.Id == roleManagementVM.ApplicationUser.Id);
+
+                if (roleManagementVM.ApplicationUser.Role == UserRoles.Company)
+                {
+                    applicationUser.CompanyId = roleManagementVM.ApplicationUser.CompanyId;
+                }
+                if (oldRole == UserRoles.Company)
+                {
+                    applicationUser.CompanyId = null;
+                }
+                await _db.SaveChangesAsync();
+
+                await _userManager.RemoveFromRoleAsync(applicationUser, oldRole);
+                await _userManager.AddToRoleAsync(applicationUser, roleManagementVM.ApplicationUser.Role);
+            }
+
+            return RedirectToAction("Index");
         }
 
         #region API CALLS

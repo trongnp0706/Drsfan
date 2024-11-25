@@ -1,10 +1,10 @@
-﻿@model RoleManagmentVM
+﻿@model RoleManagementVM
+
 <div class="card shadow-lg border-0 rounded mt-4">
-    <div class="card-header bg-primary bg-gradient text-white text-center py-4">
+    <div class="card-header bg-secondary bg-gradient text-white text-center py-4">
         <h3 class="fw-bold">Manage User Role</h3>
     </div>
     <div class="card-body px-4 py-5">
-
         <form method="post" class="row g-4">
             <input asp-for="ApplicationUser.Id" hidden />
 
@@ -16,19 +16,19 @@
 
             <!-- Role -->
             <div class="form-floating col-12">
-                <select asp-for="ApplicationUser.Role" asp-items="@Model.RoleList" class="form-select shadow-sm">
+                <select asp-for="ApplicationUser.Role" asp-items="@Model.RoleList" class="form-select shadow-sm" id="ApplicationUser_Role">
                 </select>
                 <label for="ApplicationUser.Role" class="ms-2">Role</label>
             </div>
 
-            <!-- Company (flexible display) -->
-            <div class="form-floating col-12" id="companyDropdown" style="display: @(Model.ApplicationUser.Role == UserRoles.Company ? "block" : "none")">
-                <select asp-for="ApplicationUser.CompanyId" asp-items="@Model.CompanyList" class="form-select shadow-sm">
+            <!-- Company (conditionally displayed) -->
+            <div class="form-floating col-12" id="companyDropdown" style="display: @(Model.ApplicationUser?.Role == UserRoles.Company ? "block" : "none")">
+                <select asp-for="ApplicationUser.CompanyId" asp-items="@Model.CompanyList" class="form-select shadow-sm" id="ApplicationUser_CompanyId">
                 </select>
                 <label for="ApplicationUser.CompanyId" class="ms-2">Company</label>
             </div>
 
-            <!-- Action Button -->
+            <!-- Action Buttons -->
             <div class="col-12 d-flex justify-content-between mt-4">
                 <button type="submit" class="btn btn-success btn-lg px-5 shadow-sm">Update Role</button>
                 <a asp-action="Index" class="btn btn-outline-secondary btn-lg px-5 shadow-sm">Back to List</a>
@@ -36,20 +36,29 @@
         </form>
     </div>
 </div>
+
 @section Scripts {
     @{
         <partial name="_ValidationScriptsPartial" />
     }
     <script>
         $(document).ready(function () {
-            $('#ApplicationUser_Role').change(function () {
-                var selectedRole = $('#ApplicationUser_Role option:selected').text();
-                if (selectedRole === 'Company') {
-                    $('#ApplicationUser_CompanyId').fadeIn();
-                } else {
-                    $('#ApplicationUser_CompanyId').fadeOut();
-                }
-            });
+            // Ensure the dropdown exists before binding events
+            const roleDropdown = $('#ApplicationUser_Role');
+            const companyDropdown = $('#companyDropdown');
+            const companyIdField = $('#ApplicationUser_CompanyId');
+
+            if (roleDropdown.length > 0 && companyIdField.length > 0) {
+                roleDropdown.change(function () {
+                    const selectedRole = roleDropdown.find('option:selected').text();
+                    if (selectedRole === 'Company') {
+                        companyDropdown.fadeIn();
+                    } else {
+                        companyDropdown.fadeOut();
+                    }
+                });
+            }
         });
     </script>
 }
+
