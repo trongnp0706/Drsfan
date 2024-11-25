@@ -48,7 +48,7 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
             else
             {
                 //Update
-                productVM.Product = _unitOfWork.Product.Get(u => u.Id == id);
+                productVM.Product = _unitOfWork.Product.Get(u => u.Id == id, includeProperties: "ProductImages");
                 return View(productVM);
             }
 
@@ -131,9 +131,36 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
             }
         }
 
+        // Action method to delete an image
+        public IActionResult DeleteImage(int imageId)
+        {
+            // Retrieve the image to be deleted using the imageId
+            var imageToBeDeleted = _unitOfWork.ProductImage.Get(u => u.Id == imageId);
+            // Get the productId associated with the image
+            int productId = imageToBeDeleted.ProductId;
 
-
-
+            // Check if the image exists
+            if (imageToBeDeleted != null)
+            {
+                // Check if the image URL is not empty
+                if (!string.IsNullOrEmpty(imageToBeDeleted.ImageUrl))
+                {
+                    // Construct the full path of the image to be deleted
+                    var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, imageToBeDeleted.ImageUrl.TrimStart('\\'));
+                    // Check if the file exists at the specified path
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        // Delete the file from the file system
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                }
+                // Remove the image record from the database
+                _unitOfWork.ProductImage.Remove(imageToBeDeleted);
+                _unitOfWork.Save();
+                TempData["success"] = "Deleted Image Successfully";
+            }
+            return RedirectToAction(nameof(Upsert), new { id = productId });
+        }
 
 
 
@@ -156,19 +183,30 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
                 return Json(new { success = false, message = "Error while deleting" });
             }
 
-            //var oldImagePath =
-            //               Path.Combine(_webHostEnvironment.WebRootPath,
-            //               productToBeDeleted.ImageUrl.TrimStart('\\'));
+            // Construct the path to the product's image directory
+            string productPath = @"images\products\product-" + id;
+            string endPath = Path.Combine(_webHostEnvironment.WebRootPath, productPath);
 
-            //if (System.IO.File.Exists(oldImagePath))
-            //{
-            //    System.IO.File.Delete(oldImagePath);
-            //}
+            // Check if the directory exists
+            if (Directory.Exists(endPath))
+            {
+                // Get all file paths in the directory
+                string[] filePaths = Directory.GetFiles(endPath);
+
+                // Delete each file in the directory
+                foreach (string filePath in filePaths)
+                {
+                    System.IO.File.Delete(filePath);
+                }
+
+                // Delete the directory itself
+                Directory.Delete(endPath);
+            }
 
             _unitOfWork.Product.Remove(productToBeDeleted);
             _unitOfWork.Save();
 
-            return Json(new { success = true, message = "Delete Successful" });
+            return Json(new { success = true, message = "Delete Product Successful" });
         }
 
         #endregion    }

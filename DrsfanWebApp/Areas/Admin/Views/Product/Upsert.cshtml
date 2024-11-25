@@ -95,7 +95,23 @@
             <!-- Right Column: Product Image -->
             <div class="col-lg-4 col-md-12">
                 <div class="mb-3 text-center">
-                    <img src="@Model.Product.ProductImages" alt="Product Image" class="img-fluid rounded shadow" style="max-height: 200px; object-fit: cover;" />
+                    @if (Model.Product.ProductImages != null && Model.Product.ProductImages.Any())
+                    {
+                        @foreach (var image in Model.Product.ProductImages)
+                        {
+                            <div class="d-flex align-items-center mb-2">
+                                <img src="@image.ImageUrl" alt="Product Image" class="img-fluid rounded shadow m-2" style="max-height: 200px; object-fit: cover;" />
+                                <a type="button" class="btn btn-danger ms-2" asp-action="DeleteImage" asp-route-imageId="@image.Id">
+                                    <i class="bi bi-trash-fill"></i> Delete
+                                </a>
+                            </div>
+                        }
+
+                    }
+                    else
+                    {
+                        <p>No images available</p>
+                    }
                 </div>
                 <div class="mb-3">
                     <label class="form-label fw-bold">Upload Image</label>
