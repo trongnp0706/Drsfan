@@ -2,13 +2,14 @@
 
 <form method="post">
     <input type="hidden" asp-for="ProductId" />
-    <div class="card shadow border-0 mt-4 mb-4">
+    <div class="card shadow border-0 mt-4 mb-4 custom-card">
         <!-- Header -->
         <div class="card-header bg-secondary bg-gradient text-light py-4">
             <div class="row">
                 <div class="col-12 text-center">
                     <h3 class="text-white text-uppercase">@Model.Product.Name </h3>
-                    <p class="text-white-50 fw-semibold mb-0"> (@Model.Product.ModelNumber)</p>
+                    <h5 class="text-white text-uppercase">Model Number:(@Model.Product.ModelNumber) </h5>
+                    <strong class="text-white-50 fw-semibold mb-0">Brand: (@Model.Product.Brand)</strong>
                 </div>
             </div>
         </div>
@@ -28,8 +29,44 @@
                 <!-- Product Details -->
                 <div class="row">
                     <div class="col-12 col-lg-3 offset-lg-1 text-center mb-3">
-@*                         <img src="@Model.Product.ImageUrl" class="rounded w-100" alt="@Model.Product.Name" />
- *@                    </div>
+
+                        @if (Model.Product.ProductImages != null && Model.Product.ProductImages.Count > 0)
+                        {
+                            <!-- Carousel for displaying product images -->
+                            <div id="carouselExampleIndicators" class="carousel slide">
+                                <!-- Indicators for carousel slides -->
+                                <div class="carousel-indicators">
+                                    @foreach (var imageIndex in Model.Product.ProductImages.Select((image, index) => new { ProductImage = image, Index = index }))
+                                    {
+                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@imageIndex.Index" 
+                                        class="@(imageIndex.Index == 0 ? "active" : "")" aria-current="true" aria-label="Slide @imageIndex.Index"></button>
+                                    }
+                                </div>
+                                <!-- Carousel items -->
+                                <div class="carousel-inner">
+                                    @foreach (var imageIndex in Model.Product.ProductImages.Select((image, index) => new { ProductImage = image, Index = index }))
+                                    {
+                                        <div class="@(imageIndex.Index == 0 ? "carousel-item active" : "carousel-item")">
+                                            <img src="@imageIndex.ProductImage.ImageUrl" class="d-block w-100" alt="@Model.Product.Name">
+                                        </div>
+                                    }
+                                </div>
+                                <!-- Previous control -->
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <!-- Next control -->
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        }
+
+
+
+                    </div>
                     <div class="col-12 col-lg-6 offset-lg-1">
                         <!-- Category -->
                         <div class="mb-3">
@@ -64,20 +101,24 @@
                         <!-- Description -->
                         <p class="text-secondary lh-sm">@Html.Raw(Model.Product.Description)</p>
 
-                        <!-- Quantity -->
-                        <div class="mb-3">
-                            <div class="input-group">
-                                <span class="input-group-text bg-primary text-white border-0 fw-semibold">
-                                    Quantity
-                                </span>
-                                <input asp-for="Count" type="number" value="1" class="form-control text-end" />
+                        <!-- Quantity and Add to Cart Button -->
+                        <div class="mb-3 d-flex">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="input-group me-2">
+                                        <span class="input-group-text bg-primary text-white border-0 fw-semibold">
+                                            Quantity
+                                        </span>
+                                        <input asp-for="Count" type="number" value="1" class="form-control text-end" min="1" />
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <button type="submit" class="btn btn-primary bg-gradient py-2 text-uppercase fw-semibold w-100">
+                                        Add to Cart
+                                    </button>
+                                </div>
                             </div>
                         </div>
-
-                        <!-- Add to Cart Button -->
-                        <button type="submit" class="btn btn-primary bg-gradient w-100 py-2 text-uppercase fw-semibold">
-                            Add to Cart
-                        </button>
                     </div>
                 </div>
             </div>

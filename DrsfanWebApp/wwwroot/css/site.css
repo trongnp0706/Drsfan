@@ -1,4 +1,4 @@
-html {
+﻿html {
     font-size: 14px;
 }
 
@@ -104,4 +104,8 @@ body {
     .card-header {
         border-bottom: 3px solid #f8f9fa;
     }
+.custom-card {
+    background-color: #F5F5F5;
+    
+}
 </style>
