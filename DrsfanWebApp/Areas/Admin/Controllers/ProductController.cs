@@ -1,4 +1,4 @@
-﻿using Drsfan.DataAcess.Repository.IRepository;
+﻿using Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository;
 using Drsfan.Models;
 using Drsfan.Models.ViewModels;
 using Drsfan.Utility;
@@ -56,72 +56,76 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Upsert(ProductVM productVM, List<IFormFile> files)
         {
-
+            
             if (ModelState.IsValid)
             {
-
+                // If the product ID is 0, add a new product
                 if (productVM.Product.Id == 0)
                 {
                     _unitOfWork.Product.Add(productVM.Product);
                 }
                 else
                 {
+                    // Otherwise, update the existing product
                     _unitOfWork.Product.Update(productVM.Product);
                 }
 
-
+                // Get the root path of the web host environment
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
                 if (files != null)
                 {
-                    foreach (var file in files) {
+                    foreach (var file in files)
+                    {
+                        // Generate a unique file name using a GUID and the file extension
                         string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                        string productPath = @"images\products\product-" + productVM.Product.Id; 
+                        // Construct the product path using the product ID
+                        string productPath = @"images\products\product-" + productVM.Product.Id;
+                        // Combine the root path and product path to get the end path
                         string endPath = Path.Combine(wwwRootPath, productPath);
 
+                        // Check if the directory exists, if not, create it
                         if (!Directory.Exists(endPath))
                         {
                             Directory.CreateDirectory(endPath);
                         }
 
+                        // Create a file stream to save the file to the end path
                         using (var fileStream = new FileStream(Path.Combine(endPath, fileName), FileMode.Create))
                         {
                             file.CopyTo(fileStream);
                         }
 
+                        // Create a new ProductImage object and set its properties
                         ProductImage productImage = new ProductImage()
                         {
                             ImageUrl = @"\" + productPath + @"\" + fileName,
                             ProductId = productVM.Product.Id
                         };
 
+                        // Initialize the ProductImages list if it is null
                         if (productVM.Product.ProductImages == null)
                         {
                             productVM.Product.ProductImages = new List<ProductImage>();
                         }
+                        // Add the new product image to the ProductImages list
                         productVM.Product.ProductImages.Add(productImage);
-
                     }
 
+                    // Update the product with the new images and save changes
                     _unitOfWork.Product.Update(productVM.Product);
                     _unitOfWork.Save();
-
                 }
 
-                if (productVM.Product.Id == 0)
-                {
-                    _unitOfWork.Product.Add(productVM.Product);
-                }
-                else
-                {
-                    _unitOfWork.Product.Update(productVM.Product);
-                }
-
+                // Save the product changes
                 _unitOfWork.Save();
+                // Set a success message in TempData
                 TempData["success"] = "Product created/update successfully";
+                // Redirect to the Index action
                 return RedirectToAction("Index");
             }
             else
             {
+                // If the model state is not valid, reload the category list and return the view
                 productVM.CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
                 {
                     Text = u.Name,

@@ -1,5 +1,5 @@
 ﻿using Drsfan.DataAcess.Data;
-using Drsfan.DataAcess.Repository.IRepository;
+using Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository;
 using Drsfan.Models;
 using Drsfan.Models.ViewModels;
 using Drsfan.Utility;

@@ -1,4 +1,4 @@
-﻿using Drsfan.DataAcess.Repository.IRepository;
+﻿using Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository;
 using Drsfan.Models;
 using Drsfan.Utility;
 using Drsfan.Utility.Static;
@@ -24,31 +24,15 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
-            // Lấy thông tin đăng nhập của người dùng hiện tại
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-
-            // Kiểm tra nếu người dùng đã đăng nhập
-            if (claim != null)
-            {
-                // Lấy tổng số sản phẩm trong giỏ hàng của người dùng
-                var totalItemsInCart = _unitOfWork.ShoppingCart
-                    .GetAll(u => u.ApplicationUserId == claim.Value)
-                    .Sum(c => c.Count); // Đếm tổng số lượng các sản phẩm
-
-                // Cập nhật tổng số sản phẩm vào session
-                HttpContext.Session.SetInt32(Constants.CartSession, totalItemsInCart);
-            }
-
             // Lấy danh sách sản phẩm để hiển thị
-            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category");
+            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
             return View(productList);
         }
         public IActionResult Details(int productId)
         {
             ShoppingCart cart = new()
             {
-                Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category"),
+                Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category,ProductImages"),
                 Count = 1,
                 ProductId = productId
             };

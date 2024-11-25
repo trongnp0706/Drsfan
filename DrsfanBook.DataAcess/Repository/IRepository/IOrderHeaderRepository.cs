@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Drsfan.Models;
 
-namespace Drsfan.DataAcess.Repository.IRepository
+namespace Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository
 {
-    public interface IOrderHeaderRepository : IRepository<OrderHeader>
+    public interface IOrderHeaderRepository : IEntityBaseRepository<OrderHeader>
     {
         
         void Update(OrderHeader obj);

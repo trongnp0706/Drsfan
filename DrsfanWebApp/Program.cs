@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Drsfan.DataAcess.Data;
-using Drsfan.DataAcess.Repository.IRepository;
-using Drsfan.DataAcess.Repository;
+using Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository;
+using Drsfan.DataAcess.EntityBaseRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Drsfan.Utility;

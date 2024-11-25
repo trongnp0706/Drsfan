@@ -5,12 +5,12 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Drsfan.DataAcess.Data;
-using Drsfan.DataAcess.Repository.IRepository;
+using Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository;
 using Drsfan.Models;
 
-namespace Drsfan.DataAcess.Repository
+namespace Drsfan.DataAcess.EntityBaseRepository
 {
-    public class ShoppingCartRepo : Repository<ShoppingCart>, IShoppingCartRepo
+    public class ShoppingCartRepo : EntityBaseRepository<ShoppingCart>, IShoppingCartRepo
     {
         private DrsfanDbContext _db;
         public ShoppingCartRepo(DrsfanDbContext db) : base(db)

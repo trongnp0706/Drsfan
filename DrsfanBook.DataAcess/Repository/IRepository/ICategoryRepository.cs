@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Drsfan.Models;
 
-namespace Drsfan.DataAcess.Repository.IRepository
+namespace Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository
 {
-    public interface ICategoryRepository : IRepository<Category>
+    public interface ICategoryRepository : IEntityBaseRepository<Category>
     {
         
         void Update(Category obj);

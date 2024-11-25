@@ -1,26 +1,28 @@
-﻿using Drsfan.DataAccess.Repository;
-using Drsfan.DataAccess.Repository.IRepository;
+﻿using Drsfan.DataAccess.EntityBaseRepository;
+using Drsfan.DataAccess.EntityBaseRepository.IEntityBaseRepository;
 using Drsfan.DataAcess.Data;
-using Drsfan.DataAcess.Repository.IRepository;
+using Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Drsfan.DataAcess.Repository
+namespace Drsfan.DataAcess.EntityBaseRepository
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private DrsfanDbContext _db;
-        public ICategoryRepo Category { get; private set; }
-        public ICompanyRepo Company { get; private set; }
-        public IProductRepo Product { get; private set; }
+        private DrsfanDbContext _db; // Database context
+        public ICategoryRepo Category { get; private set; } 
+        public ICompanyRepo Company { get; private set; } 
+        public IProductRepo Product { get; private set; } 
         public IProductImageRepo ProductImage { get; private set; }
-        public IShoppingCartRepo ShoppingCart { get; private set; }
-        public IApplicationUserRepo ApplicationUser { get; private set; }
-        public IOrderDetailRepo OrderDetail { get; private set; }
-        public IOrderHeaderRepo OrderHeader { get; private set; }
+        public IShoppingCartRepo ShoppingCart { get; private set; } 
+        public IApplicationUserRepo ApplicationUser { get; private set; } 
+        public IOrderDetailRepo OrderDetail { get; private set; } 
+        public IOrderHeaderRepo OrderHeader { get; private set; } 
+
+        // Constructor to initialize repositories with the database context
         public UnitOfWork(DrsfanDbContext db)
         {
             _db = db;
@@ -34,7 +36,7 @@ namespace Drsfan.DataAcess.Repository
             OrderHeader = new OrderHeaderRepo(_db);
         }
 
-
+        // Save changes to the database
         public void Save()
         {
             _db.SaveChanges();

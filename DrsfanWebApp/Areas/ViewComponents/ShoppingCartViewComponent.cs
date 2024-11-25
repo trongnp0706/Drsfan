@@ -1,4 +1,4 @@
-﻿using Drsfan.DataAcess.Repository.IRepository;
+﻿using Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository;
 using Drsfan.Utility;
 using Drsfan.Utility.Static;
 using Microsoft.AspNetCore.Mvc;

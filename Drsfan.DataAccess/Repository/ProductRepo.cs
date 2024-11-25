@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using Drsfan.DataAcess.Data;
-using Drsfan.DataAcess.Repository.IRepository;
+using Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository;
 using Drsfan.Models;
 
-namespace Drsfan.DataAcess.Repository
+namespace Drsfan.DataAcess.EntityBaseRepository
 {
-    public class ProductRepo : Repository<Product>, IProductRepo
+    public class ProductRepo : EntityBaseRepository<Product>, IProductRepo
     {
         private DrsfanDbContext _db;
 

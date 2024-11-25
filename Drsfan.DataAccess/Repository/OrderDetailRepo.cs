@@ -5,12 +5,12 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Drsfan.DataAcess.Data;
-using Drsfan.DataAcess.Repository.IRepository;
+using Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository;
 using Drsfan.Models;
 
-namespace Drsfan.DataAcess.Repository
+namespace Drsfan.DataAcess.EntityBaseRepository
 {
-    public class OrderDetailRepo : Repository<OrderDetail>, IOrderDetailRepo
+    public class OrderDetailRepo : EntityBaseRepository<OrderDetail>, IOrderDetailRepo
     {
         private DrsfanDbContext _db;
         public OrderDetailRepo(DrsfanDbContext db) : base(db)

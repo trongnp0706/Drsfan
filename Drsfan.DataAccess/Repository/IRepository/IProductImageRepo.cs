@@ -1,4 +1,4 @@
-﻿using Drsfan.DataAcess.Repository.IRepository;
+﻿using Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository;
 using Drsfan.Models;
 using System;
 using System.Collections.Generic;
@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Drsfan.DataAccess.Repository.IRepository
+namespace Drsfan.DataAccess.EntityBaseRepository.IEntityBaseRepository
 {
-    public interface IProductImageRepo : IRepository<ProductImage>
+    public interface IProductImageRepo : IEntityBaseRepository<ProductImage>
     {
         void Update(ProductImage obj);
     }
