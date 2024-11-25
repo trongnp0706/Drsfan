@@ -7,7 +7,6 @@
     <div class="card-body p-4">
         <form method="post" class="row g-3" enctype="multipart/form-data">
             <input asp-for="Product.Id" hidden />
-            <input asp-for="Product.ImageUrl" hidden />
 
             <!-- Left Column: Product Information -->
             <div class="col-lg-8 col-md-12">
@@ -96,12 +95,12 @@
             <!-- Right Column: Product Image -->
             <div class="col-lg-4 col-md-12">
                 <div class="mb-3 text-center">
-                    <img src="@Model.Product.ImageUrl" alt="Product Image" class="img-fluid rounded shadow" style="max-height: 200px; object-fit: cover;" />
+                    <img src="@Model.Product.ProductImages" alt="Product Image" class="img-fluid rounded shadow" style="max-height: 200px; object-fit: cover;" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label fw-bold">Upload Image</label>
-                    <input type="file" name="file" class="form-control shadow-sm" />
-                    <span asp-validation-for="Product.ImageUrl" class="text-danger"></span>
+                    <input type="file" name="files" class="form-control shadow-sm " multiple />
+                    <span asp-validation-for="Product.ProductImages" class="text-danger"></span>
                 </div>
             </div>
         </form>

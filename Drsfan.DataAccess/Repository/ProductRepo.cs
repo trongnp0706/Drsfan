@@ -21,10 +21,11 @@ namespace Drsfan.DataAcess.Repository
             if (objFromDb != null)
             {
                 // Cập nhật trường ImageUrl nếu có thay đổi
-                if (!string.IsNullOrEmpty(obj.ImageUrl))
-                {
-                    objFromDb.ImageUrl = obj.ImageUrl;
-                }
+                //if (!string.IsNullOrEmpty(obj.ImageUrl))
+                //{
+                //    objFromDb.ImageUrl = obj.ImageUrl;
+                //}
+                objFromDb.ProductImages = obj.ProductImages;
 
                 // Cập nhật các trường khác
                 objFromDb.Name = obj.Name;

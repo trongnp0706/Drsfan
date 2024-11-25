@@ -14,6 +14,7 @@ namespace Drsfan.DataAcess.Data
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
@@ -56,8 +57,7 @@ namespace Drsfan.DataAcess.Data
                     WarrantyPeriod = "2 years",
                     CategoryId = 1,
                     Features = "Hygiene Steam, Digital Inverter, EcoBubble Technology",
-                    PowerConsumption = "200W",
-                    ImageUrl = "/images/products/washer1.jpg"
+                    PowerConsumption = "200W"
                 },
                 new Product
                 {
@@ -71,8 +71,7 @@ namespace Drsfan.DataAcess.Data
                     WarrantyPeriod = "3 years",
                     CategoryId = 1,
                     Features = "TurboDrum, Smart Diagnosis, Smart Inverter Control",
-                    PowerConsumption = "250W",
-                    ImageUrl = "/images/products/washer2.jpg"
+                    PowerConsumption = "250W"
                 },
 
                 // Category 2: Refrigerators
@@ -88,8 +87,7 @@ namespace Drsfan.DataAcess.Data
                     WarrantyPeriod = "3 years",
                     CategoryId = 2,
                     Features = "Twin Cooling, MoistFresh Zone, Power Freeze",
-                    PowerConsumption = "350W",
-                    ImageUrl = "/images/products/fridge1.jpg"
+                    PowerConsumption = "350W"
                 },
                 new Product
                 {
@@ -103,8 +101,7 @@ namespace Drsfan.DataAcess.Data
                     WarrantyPeriod = "3 years",
                     CategoryId = 2,
                     Features = "Zeolite Technology, FreshFlow Air Tower, Adaptive Intelligence",
-                    PowerConsumption = "400W",
-                    ImageUrl = "/images/products/fridge2.jpg"
+                    PowerConsumption = "400W"
                 },
 
                 // Category 3: Air Conditioners
@@ -120,8 +117,7 @@ namespace Drsfan.DataAcess.Data
                     WarrantyPeriod = "5 years",
                     CategoryId = 3,
                     Features = "PM2.5 Filter, Quiet Operation, High-Efficiency Cooling",
-                    PowerConsumption = "1500W",
-                    ImageUrl = "/images/products/ac1.jpg"
+                    PowerConsumption = "1500W"
                 },
                 new Product
                 {
@@ -135,8 +131,7 @@ namespace Drsfan.DataAcess.Data
                     WarrantyPeriod = "10 years",
                     CategoryId = 3,
                     Features = "Anti-Bacterial Filter, Dual Inverter, Monsoon Comfort",
-                    PowerConsumption = "1450W",
-                    ImageUrl = "/images/products/ac2.jpg"
+                    PowerConsumption = "1450W"
                 },
 
                 // Category 4: Microwave Ovens
@@ -152,8 +147,7 @@ namespace Drsfan.DataAcess.Data
                     WarrantyPeriod = "2 years",
                     CategoryId = 4,
                     Features = "Convection Cooking, Auto Cook Menu, Touch Keypad",
-                    PowerConsumption = "1200W",
-                    ImageUrl = "/images/products/microwave1.jpg"
+                    PowerConsumption = "1200W"
                 },
                 new Product
                 {
@@ -167,8 +161,7 @@ namespace Drsfan.DataAcess.Data
                     WarrantyPeriod = "1 year",
                     CategoryId = 4,
                     Features = "Ceramic Enamel Cavity, Quick Defrost, Reheat Function",
-                    PowerConsumption = "1150W",
-                    ImageUrl = "/images/products/microwave2.jpg"
+                    PowerConsumption = "1150W"
                 },
 
                 // Category 5: Vacuum Cleaners
@@ -184,8 +177,7 @@ namespace Drsfan.DataAcess.Data
                     WarrantyPeriod = "2 years",
                     CategoryId = 5,
                     Features = "HEPA Filtration, Cordless Design, Multiple Cleaning Modes",
-                    PowerConsumption = "545W",
-                    ImageUrl = "/images/products/vacuum1.jpg"
+                    PowerConsumption = "545W"
                 },
                 new Product
                 {
@@ -199,8 +191,7 @@ namespace Drsfan.DataAcess.Data
                     WarrantyPeriod = "2 years",
                     CategoryId = 5,
                     Features = "Bagless, PowerCyclone 5, Advanced Dust Bin Design",
-                    PowerConsumption = "1900W",
-                    ImageUrl = "/images/products/vacuum2.jpg"
+                    PowerConsumption = "1900W"
                 },
                 // Category 6: Dishwashers
                 new Product
@@ -215,8 +206,7 @@ namespace Drsfan.DataAcess.Data
                     WarrantyPeriod = "2 years",
                     CategoryId = 6,
                     Features = "EcoSilence Drive, AquaStop, Load Sensor",
-                    PowerConsumption = "1200W",
-                    ImageUrl = "/images/products/dishwasher1.jpg"
+                    PowerConsumption = "1200W"
                 },
                 new Product
                 {
@@ -230,8 +220,7 @@ namespace Drsfan.DataAcess.Data
                     WarrantyPeriod = "2 years",
                     CategoryId = 6,
                     Features = "Jet Wash, Adjustable Racks, EcoWash Mode",
-                    PowerConsumption = "1100W",
-                    ImageUrl = "/images/products/dishwasher2.jpg"
+                    PowerConsumption = "1100W"
                 },
 
                 // Category 7: Coffee Makers
@@ -247,8 +236,7 @@ namespace Drsfan.DataAcess.Data
                     WarrantyPeriod = "1 year",
                     CategoryId = 7,
                     Features = "15-bar Pump, Manual Frother, Compact Design",
-                    PowerConsumption = "1450W",
-                    ImageUrl = "/images/products/coffeemaker1.jpg"
+                    PowerConsumption = "1450W"
                 },
                 new Product
                 {
@@ -262,8 +250,7 @@ namespace Drsfan.DataAcess.Data
                     WarrantyPeriod = "1 year",
                     CategoryId = 7,
                     Features = "Centrifusion Technology, One-Touch Brewing, Large Water Tank",
-                    PowerConsumption = "1350W",
-                    ImageUrl = "/images/products/coffeemaker2.jpg"
+                    PowerConsumption = "1350W"
                 },
 
                 // Category 8: Electric Kettles
@@ -279,8 +266,7 @@ namespace Drsfan.DataAcess.Data
                     WarrantyPeriod = "1 year",
                     CategoryId = 8,
                     Features = "Stainless Steel, 1.5L Capacity, Automatic Shut-Off",
-                    PowerConsumption = "2000W",
-                    ImageUrl = "/images/products/kettle1.jpg"
+                    PowerConsumption = "2000W"
                 },
                 new Product
                 {
@@ -294,8 +280,7 @@ namespace Drsfan.DataAcess.Data
                     WarrantyPeriod = "1 year",
                     CategoryId = 8,
                     Features = "Multi-Purpose, Cool-Touch Handle, 1L Capacity",
-                    PowerConsumption = "1800W",
-                    ImageUrl = "/images/products/kettle2.jpg"
+                    PowerConsumption = "1800W"
                 },
 
                 // Category 9: Food Processors
@@ -311,8 +296,7 @@ namespace Drsfan.DataAcess.Data
                     WarrantyPeriod = "3 years",
                     CategoryId = 9,
                     Features = "14-Cup Capacity, Stainless Steel Blades, Easy-to-Clean Design",
-                    PowerConsumption = "1000W",
-                    ImageUrl = "/images/products/foodprocessor1.jpg"
+                    PowerConsumption = "1000W"
                 },
                 new Product
                 {
@@ -326,8 +310,7 @@ namespace Drsfan.DataAcess.Data
                     WarrantyPeriod = "2 years",
                     CategoryId = 9,
                     Features = "Compact Design, Multiple Accessories, Easy Storage",
-                    PowerConsumption = "700W",
-                    ImageUrl = "/images/products/foodprocessor2.jpg"
+                    PowerConsumption = "700W"
                 },
 
                 // Category 10: Blenders
@@ -343,8 +326,7 @@ namespace Drsfan.DataAcess.Data
                     WarrantyPeriod = "1 year",
                     CategoryId = 10,
                     Features = "Powerful Motor, Easy to Clean, Compact Design",
-                    PowerConsumption = "900W",
-                    ImageUrl = "/images/products/blender1.jpg"
+                    PowerConsumption = "900W"
                 },
                 new Product
                 {
@@ -358,8 +340,7 @@ namespace Drsfan.DataAcess.Data
                     WarrantyPeriod = "3 years",
                     CategoryId = 10,
                     Features = "10-Speed Settings, Self-Cleaning, Durable Construction",
-                    PowerConsumption = "1400W",
-                    ImageUrl = "/images/products/blender2.jpg"
+                    PowerConsumption = "1400W"
                 }
 
             );

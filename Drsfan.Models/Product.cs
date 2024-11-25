@@ -43,12 +43,11 @@ namespace Drsfan.Models
         [ValidateNever]
         public Category Category { get; set; }
 
-        [ValidateNever]
-        public string? ImageUrl { get; set; }
-
-        
         public string Features { get; set; }  
 
-        public string PowerConsumption { get; set; }  
+        public string PowerConsumption { get; set; }
+
+        [ValidateNever]
+        public List<ProductImage> ProductImages { get; set; }
     }
 }

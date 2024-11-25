@@ -83,8 +83,8 @@
                 </div>
 
                 <!-- Admin Specific Inputs -->
-                @* @if (User.IsInRole(UserRoles.Admin))
-                { *@
+                @if (User.IsInRole(UserRoles.Admin))
+                {
                     <div class="form-floating col-md-6">
                         <select asp-for="Input.Role" asp-items="@Model.Input.RolesList" class="form-select">
                             <option disabled selected>- Select Role -</option>

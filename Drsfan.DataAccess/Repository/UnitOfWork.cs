@@ -1,4 +1,6 @@
-﻿using Drsfan.DataAcess.Data;
+﻿using Drsfan.DataAccess.Repository;
+using Drsfan.DataAccess.Repository.IRepository;
+using Drsfan.DataAcess.Data;
 using Drsfan.DataAcess.Repository.IRepository;
 using System;
 using System.Collections.Generic;
@@ -14,6 +16,7 @@ namespace Drsfan.DataAcess.Repository
         public ICategoryRepo Category { get; private set; }
         public ICompanyRepo Company { get; private set; }
         public IProductRepo Product { get; private set; }
+        public IProductImageRepo ProductImage { get; private set; }
         public IShoppingCartRepo ShoppingCart { get; private set; }
         public IApplicationUserRepo ApplicationUser { get; private set; }
         public IOrderDetailRepo OrderDetail { get; private set; }
@@ -23,6 +26,7 @@ namespace Drsfan.DataAcess.Repository
             _db = db;
             Category = new CategoryRepo(_db);
             Product = new ProductRepo(_db);
+            ProductImage = new ProductImageRepo(_db);
             Company = new CompanyRepository(_db);
             ShoppingCart = new ShoppingCartRepo(_db);
             ApplicationUser = new ApplicationUserRepo(_db);
