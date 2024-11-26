@@ -42,7 +42,7 @@ builder.Services.AddAuthentication().AddFacebook(options =>
 builder.Services.AddAuthentication().AddMicrosoftAccount(options =>
 {
     options.ClientId = "434240a7-a600-4c7e-addd-9e19ca268293";
-    options.ClientSecret = "OD58Q~9_6LezjSCWx2ekuxnBdgnW~FROEKmZnbsA";
+    options.ClientSecret = "";
 });
 
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
