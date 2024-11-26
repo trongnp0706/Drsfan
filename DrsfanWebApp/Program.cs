@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
-using Drsfan.DataAcess.Data;
-using Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository;
-using Drsfan.DataAcess.EntityBaseRepository;
+using Drsfan.DataAccess.Data;
+using Drsfan.DataAccess.EntityBaseRepository.IEntityBaseRepository;
+using Drsfan.DataAccess.EntityBaseRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Drsfan.Utility;
 using Stripe;
-using Drsfan.DataAcess.DBInitializer;
+using Drsfan.DataAccess.DBInitializer;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,6 +43,7 @@ builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IApplicationUserRepo, ApplicationUserRepo>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 

@@ -3,7 +3,7 @@ using Drsfan.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
-namespace Drsfan.DataAcess.Data
+namespace Drsfan.DataAccess.Data
 {
     public class DrsfanDbContext : IdentityDbContext<IdentityUser>
     {

@@ -4,7 +4,7 @@
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace Drsfan.DataAcess.Migrations
+namespace Drsfan.DataAccess.Migrations
 {
     /// <inheritdoc />
     public partial class seedMoreDataForCompanyCategoryProduct : Migration

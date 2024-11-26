@@ -1,6 +1,6 @@
 ﻿using Drsfan.DataAccess.EntityBaseRepository.IEntityBaseRepository;
-using Drsfan.DataAcess.Data;
-using Drsfan.DataAcess.EntityBaseRepository;
+using Drsfan.DataAccess.Data;
+using Drsfan.DataAccess.EntityBaseRepository;
 using Drsfan.Models;
 using System;
 using System.Collections.Generic;

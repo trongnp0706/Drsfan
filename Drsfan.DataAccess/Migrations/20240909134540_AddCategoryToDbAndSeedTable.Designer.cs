@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Drsfan.DataAcess.Data;
+using Drsfan.DataAccess.Data;
 
 #nullable disable
 
-namespace Drsfan.DataAcess.Migrations
+namespace Drsfan.DataAccess.Migrations
 {
     [DbContext(typeof(DrsfanDbContext))]
     [Migration("20240909134540_AddCategoryToDbAndSeedTable")]

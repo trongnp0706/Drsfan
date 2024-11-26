@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using Drsfan.DataAcess.Data;
-using Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository;
+using Drsfan.DataAccess.Data;
+using Drsfan.DataAccess.EntityBaseRepository.IEntityBaseRepository;
 using Drsfan.Models;
 
-namespace Drsfan.DataAcess.EntityBaseRepository
+namespace Drsfan.DataAccess.EntityBaseRepository
 {
     public class ProductRepo : EntityBaseRepository<Product>, IProductRepo
     {

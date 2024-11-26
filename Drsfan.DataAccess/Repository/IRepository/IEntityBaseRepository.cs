@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository
+namespace Drsfan.DataAccess.EntityBaseRepository.IEntityBaseRepository
 {
     // Interface for a generic repository that provides basic CRUD operations
     public interface IEntityBaseRepository<T> where T : class

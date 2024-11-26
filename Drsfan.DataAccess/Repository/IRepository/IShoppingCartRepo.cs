@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Drsfan.Models;
 
-namespace Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository
+namespace Drsfan.DataAccess.EntityBaseRepository.IEntityBaseRepository
 {
     public interface IShoppingCartRepo : IEntityBaseRepository<ShoppingCart>
     {

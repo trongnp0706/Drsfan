@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Drsfan.DataAcess.DBInitializer
+namespace Drsfan.DataAccess.DBInitializer
 {
     public interface IDbInitializer
     {

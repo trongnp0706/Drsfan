@@ -1,4 +1,4 @@
-﻿using Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository;
+﻿using Drsfan.DataAccess.EntityBaseRepository.IEntityBaseRepository;
 using Drsfan.Models;
 using Drsfan.Models.ViewModels;
 using Drsfan.Utility;

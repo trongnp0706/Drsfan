@@ -4,12 +4,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository;
-using Drsfan.DataAcess.Data;
+using Drsfan.DataAccess.EntityBaseRepository.IEntityBaseRepository;
+using Drsfan.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
-namespace Drsfan.DataAcess.EntityBaseRepository
+namespace Drsfan.DataAccess.EntityBaseRepository
 {
     public class EntityBaseRepository<T> : IEntityBaseRepository<T> where T : class
     {

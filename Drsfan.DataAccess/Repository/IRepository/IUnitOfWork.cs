@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository
+namespace Drsfan.DataAccess.EntityBaseRepository.IEntityBaseRepository
 {
     // Interface for Unit of Work pattern
     public interface IUnitOfWork

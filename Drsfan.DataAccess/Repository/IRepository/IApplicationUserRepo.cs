@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository
+namespace Drsfan.DataAccess.EntityBaseRepository.IEntityBaseRepository
 {
     public interface IApplicationUserRepo : IEntityBaseRepository<ApplicationUser>
     {
-
+        public void Update(ApplicationUser applicationUser);
     }
 }

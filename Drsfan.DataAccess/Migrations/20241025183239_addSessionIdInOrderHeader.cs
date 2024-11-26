@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Drsfan.DataAcess.Migrations
+namespace Drsfan.DataAccess.Migrations
 {
     /// <inheritdoc />
     public partial class addSessionIdInOrderHeader : Migration

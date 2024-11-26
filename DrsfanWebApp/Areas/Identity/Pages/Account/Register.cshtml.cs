@@ -10,7 +10,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
-using Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository;
+using Drsfan.DataAccess.EntityBaseRepository.IEntityBaseRepository;
 using Drsfan.Models;
 using Drsfan.Utility;
 using Drsfan.Utility.Static;

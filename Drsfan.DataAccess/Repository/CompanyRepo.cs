@@ -4,11 +4,11 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Drsfan.DataAcess.Data;
-using Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository;
+using Drsfan.DataAccess.Data;
+using Drsfan.DataAccess.EntityBaseRepository.IEntityBaseRepository;
 using Drsfan.Models;
 
-namespace Drsfan.DataAcess.EntityBaseRepository
+namespace Drsfan.DataAccess.EntityBaseRepository
 {
     public class CompanyRepository : EntityBaseRepository<Company>, ICompanyRepo
     {

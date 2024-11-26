@@ -1,14 +1,13 @@
 ﻿using Drsfan.DataAccess.EntityBaseRepository;
 using Drsfan.DataAccess.EntityBaseRepository.IEntityBaseRepository;
-using Drsfan.DataAcess.Data;
-using Drsfan.DataAcess.EntityBaseRepository.IEntityBaseRepository;
+using Drsfan.DataAccess.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Drsfan.DataAcess.EntityBaseRepository
+namespace Drsfan.DataAccess.EntityBaseRepository
 {
     public class UnitOfWork : IUnitOfWork
     {

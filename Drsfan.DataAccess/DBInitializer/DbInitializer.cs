@@ -1,4 +1,4 @@
-﻿using Drsfan.DataAcess.Data;
+﻿using Drsfan.DataAccess.Data;
 using Drsfan.Models;
 using Drsfan.Utility;
 using Drsfan.Utility.Static;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Drsfan.DataAcess.DBInitializer
+namespace Drsfan.DataAccess.DBInitializer
 {
     public class DbInitializer : IDbInitializer
     {
