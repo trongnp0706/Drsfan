@@ -4,6 +4,7 @@ using Drsfan.Utility;
 using Drsfan.Utility.Static;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -22,10 +23,27 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string searchString, string category)
         {
+            // Lấy danh sách danh mục sản phẩm
+            ViewBag.Categories = _unitOfWork.Category.GetAll();
+
             // Lấy danh sách sản phẩm để hiển thị
             IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
+
+            // Lọc sản phẩm theo tên và danh mục
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                productList = productList.Where(p => p.Name.Contains(searchString) ||
+                                                    p.Brand.Contains(searchString) ||
+                                                    p.ModelNumber.Contains(searchString));
+            }
+
+            if (!string.IsNullOrEmpty(category))
+            {
+                productList = productList.Where(p => p.Category.Name.Equals(category, StringComparison.OrdinalIgnoreCase));
+            }
+
             return View(productList);
         }
         public IActionResult Details(int productId)
@@ -73,7 +91,6 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
 
         public IActionResult Privacy()
         {

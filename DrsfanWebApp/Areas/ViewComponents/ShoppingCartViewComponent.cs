@@ -20,12 +20,13 @@ namespace DrsfanBookWeb.Areas.ViewComponents
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-            if (claim != null) 
+            if (claim != null)
             {
                 if (HttpContext.Session.GetInt32(Constants.CartSession) == null)
                 {
-                    HttpContext.Session.SetInt32(Constants.CartSession,
-                    _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claim.Value).Count());
+                    var cartItems = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claim.Value);
+                    var totalQuantity = cartItems.Sum(item => item.Count);
+                    HttpContext.Session.SetInt32(Constants.CartSession, totalQuantity);
                 }
 
                 return View(HttpContext.Session.GetInt32(Constants.CartSession));

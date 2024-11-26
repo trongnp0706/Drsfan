@@ -36,8 +36,20 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
                 OrderHeader = new()
             };
 
+            ShoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
+            // Calculate total item count in the cart for the current user
+            int totalItemCount = _unitOfWork.ShoppingCart
+                .GetAll(u => u.ApplicationUserId == userId)
+                .Sum(item => item.Count); // Sum the count of each product
+
+            // Update session with the accurate total item count
+            HttpContext.Session.SetInt32(Constants.CartSession, totalItemCount);
+
+            IEnumerable<ProductImage> productImages = _unitOfWork.ProductImage.GetAll();
+
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
+                cart.Product.ProductImages = productImages.Where(p => p.ProductId == cart.ProductId).ToList();
                 // Tính giá sau giảm giá hoặc giá gốc
                 cart.Price = CalculateOrderTotal(cart);
                 ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
@@ -187,10 +199,23 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
 
         public IActionResult Plus(int cartId)
         {
-            var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId);
+            var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId, tracked: true);
             cartFromDb.Count += 1;
             _unitOfWork.ShoppingCart.Update(cartFromDb);
             _unitOfWork.Save();
+
+            // Get current user information
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            // Calculate total item count in the cart for the current user
+            int totalItemCount = _unitOfWork.ShoppingCart
+                .GetAll(u => u.ApplicationUserId == userId)
+                .Sum(item => item.Count); // Sum the count of each product
+
+            // Update session with the accurate total item count
+            HttpContext.Session.SetInt32(Constants.CartSession, totalItemCount);
+
             return RedirectToAction(nameof(Index));
         }
         public IActionResult Minus(int cartId)
@@ -209,6 +234,17 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
                 cartFromDb.Count -= 1;
                 _unitOfWork.ShoppingCart.Update(cartFromDb);
                 _unitOfWork.Save();
+                // Get current user information
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                // Calculate total item count in the cart for the current user
+                int totalItemCount = _unitOfWork.ShoppingCart
+                    .GetAll(u => u.ApplicationUserId == userId)
+                    .Sum(item => item.Count); // Sum the count of each product
+
+                // Update session with the accurate total item count
+                HttpContext.Session.SetInt32(Constants.CartSession, totalItemCount);
             }
             _unitOfWork.Save();
             return RedirectToAction(nameof(Index));

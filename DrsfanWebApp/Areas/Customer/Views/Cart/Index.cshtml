@@ -29,44 +29,70 @@
             }
             else
             {
-                <div class="row">
-                    @foreach (var item in Model.ShoppingCartList)
-                    {
-                        <div class="col-12 mb-4">
-                            <div class="d-flex align-items-center border-bottom pb-3">
-                                <!-- Product Image -->
-                                <div class="col-lg-2 col-md-3 col-sm-4 text-center">
-@*                                     <img src="@item.Product.ImageUrl" class="img-fluid rounded shadow-sm" alt="@item.Product.Name" />
- *@                                </div>
+                <div class="table-responsive">
+                    <table class="table table-borderless">
+                        <thead class="border-bottom">
+                            <tr>
+                                <th class="text-secondary">Product</th>
+                                <th class="text-secondary text-center">Price</th>
+                                <th class="text-secondary text-center">Quantity</th>
+                                <th class="text-secondary text-center">Total</th>
+                                <th class="text-secondary text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ShoppingCartList)
+                            {
+                                <tr>
+                                    <!-- Product Details -->
+                                    <td class="d-flex align-items-center">
+                                        <img src="@((item.Product.ProductImages?.FirstOrDefault()?.ImageUrl) ?? "https://placehold.co/400x400/png")"
+                                             alt="@item.Product.Name" class="img-thumbnail me-3" style="width: 80px; height: 80px;">
+                                        <div>
+                                            <h6 class="text-uppercase text-secondary">@item.Product.Name</h6>
+                                            <small class="text-muted">
+                                                @if (item.Product.DiscountPrice < item.Product.ListPrice)
+                                                {
+                                                    <span>Discounted Price:</span>
+                                                    <span class="text-danger">@item.Price.ToString("$#,##")</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>Price:</span> @item.Price.ToString("$#,##")
+                                                }
+                                            </small>
+                                        </div>
+                                    </td>
 
-                                <!-- Product Details -->
-                                <div class="col-lg-6 col-md-5 col-sm-8">
-                                    <h6 class="text-uppercase text-secondary">@item.Product.Name</h6>
-                                    <small class="text-muted">Price: @item.Price.ToString("$#,##")</small>
-                                    <p class="text-muted">Quantity: @item.Count</p>
-                                </div>
+                                    <!-- Price -->
+                                    <td class="text-center">@item.Price.ToString("$#,##")</td>
 
-                                <!-- Quantity Control -->
-                                <div class="col-lg-2 col-md-2 col-sm-12 d-flex justify-content-center align-items-center">
-                                    <div class="btn-group">
-                                        <a asp-action="minus" asp-route-cartId="@item.Id" class="btn btn-outline-primary">
-                                            <i class="bi bi-dash"></i>
+                                    <!-- Quantity -->
+                                    <td class="text-center">
+                                        <div class="btn-group">
+                                            <a asp-action="minus" asp-route-cartId="@item.Id" class="btn btn-outline-primary btn-sm">
+                                                <i class="bi bi-dash"></i>
+                                            </a>
+                                            <span class="mx-2">@item.Count</span>
+                                            <a asp-action="plus" asp-route-cartId="@item.Id" class="btn btn-outline-primary btn-sm">
+                                                <i class="bi bi-plus"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+
+                                    <!-- Total Price -->
+                                    <td class="text-center">@((item.Price * item.Count).ToString("$#,##"))</td>
+
+                                    <!-- Actions -->
+                                    <td class="text-center">
+                                        <a asp-action="Remove" asp-route-cartId="@item.Id" class="btn btn-danger btn-sm">
+                                            <i class="bi bi-trash"></i> Remove
                                         </a>
-                                        <a asp-action="plus" asp-route-cartId="@item.Id" class="btn btn-outline-primary">
-                                            <i class="bi bi-plus"></i>
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <!-- Remove Item -->
-                                <div class="col-lg-2 col-md-2 col-sm-12 text-center">
-                                    <a asp-area="Customer" asp-controller="Cart" asp-action="Remove" asp-route-cartId="@item.Id" class="btn btn-danger btn-sm">
-                                        <i class="bi bi-trash"></i> Remove
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             }
         </div>
@@ -77,16 +103,12 @@
             <div class="card-footer bg-light">
                 <div class="row">
                     <!-- Total Price -->
-                    <div class="col-md-4 offset-md-4">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="text-uppercase text-dark">Total (USD):</h5>
-                            <h4 class="text-primary">@Model.OrderHeader.OrderTotal.ToString("$#,##")</h4>
-                        </div>
+                    <div class="col-md-6">
+                        <h5 class="text-uppercase text-dark">Subtotal:</h5>
+                        <h4 class="text-primary">@Model.OrderHeader.OrderTotal.ToString("$#,##")</h4>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 offset-md-5">
-                        <a asp-action="Summary" class="btn btn-primary w-100 py-2">
+                    <div class="col-md-6 text-end">
+                        <a asp-action="Summary" class="btn btn-primary w-50 py-2">
                             Proceed to Checkout
                         </a>
                     </div>

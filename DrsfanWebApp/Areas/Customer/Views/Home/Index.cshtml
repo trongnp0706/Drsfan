@@ -1,6 +1,27 @@
 ﻿@model IEnumerable<Product>
 
 <div class="container">
+    <!-- Search Form -->
+    <div class="row pb-3">
+        <div class="col-12">
+            <form asp-action="Index" method="get" class="d-flex align-items-center justify-content-between">
+                <!-- Search Input -->
+                <div class="d-flex flex-grow-1">
+                    <input type="text" name="searchString" class="form-control me-2" placeholder="Search products..." />
+                    <select name="category" class="form-select me-2">
+                        <option value="">All Categories</option>
+                        @foreach (var category in ViewBag.Categories)
+                        {
+                            <option value="@category.Name">@category.Name</option>
+                        }
+                    </select>
+                </div>
+                <!-- Search Button -->
+                <button type="submit" class="btn btn-primary ms-2">Search</button>
+            </form>
+        </div>
+    </div>
+
     <!-- Product Display Section -->
     <div class="row pb-3">
         @if (!Model.Any())
