@@ -20,6 +20,17 @@
 }
 
 
+.hover-shadow:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+    transition: all 0.3s ease-in-out;
+}
+
+.card-title {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
@@ -33,7 +44,7 @@ body {
     margin-bottom: 60px;
 }
 
-<style >
+
 .navbar {
     background: linear-gradient(90deg, #007bff, #0056b3);
 }
@@ -82,30 +93,79 @@ body {
 .navbar-toggler {
     cursor: pointer;
 }
-</style >
 
-<style>
-    .form-control,
-    .form-select {
-        font-size: 1rem;
-        border-radius: 8px;
-    }
 
-    .btn {
-        border-radius: 8px;
-        transition: all 0.3s ease;
-    }
+
+.form-control,
+.form-select {
+    font-size: 1rem;
+    border-radius: 8px;
+}
+
+.btn {
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
 
     .btn:hover {
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     }
 
-    .card-header {
-        border-bottom: 3px solid #f8f9fa;
-    }
+.card-header {
+    border-bottom: 3px solid #f8f9fa;
+}
+
 .custom-card {
     background-color: #F5F5F5;
-    
 }
-</style>
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffcc00; /* Màu nổi bật khi hover */
+    text-decoration: underline;
+}
+
+.navbar-brand img {
+    transition: transform 0.3s ease;
+}
+
+    .navbar-brand img:hover {
+        transform: scale(1.1); /* Phóng to logo nhẹ khi hover */
+    }
+
+
+.text-danger[role="alert"] {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.btn-gradient {
+    background: linear-gradient(to right, #007bff, #0056b3);
+    border: none;
+    color: white;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+    .btn-gradient:hover {
+        background: linear-gradient(to right, #0056b3, #007bff);
+        transform: scale(1.05);
+    }
+
+@media (max-width: 576px) {
+    .form-floating {
+        margin-bottom: 1rem;
+    }
+}

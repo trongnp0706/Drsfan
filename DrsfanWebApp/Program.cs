@@ -35,14 +35,14 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddAuthentication().AddFacebook(options =>
 {
-    options.AppId = "1208453516894566";
-    options.AppSecret = "2f43f14e2cb648ced20f2876dfe3183b";
+    options.AppId = builder.Configuration["Authentication:Facebook:AppId"];
+    options.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
 });
 
 builder.Services.AddAuthentication().AddMicrosoftAccount(options =>
 {
-    options.ClientId = "434240a7-a600-4c7e-addd-9e19ca268293";
-    options.ClientSecret = "";
+    options.ClientId = "f4119211-77d5-466e-8144-40f0a7215bf3";
+    options.ClientSecret = "5-q8Q~23VTrc6nDGC0duh6SYNQBZMcNJ50651alM";
 });
 
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();

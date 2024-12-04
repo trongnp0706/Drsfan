@@ -10,90 +10,71 @@
 
             <!-- Left Column: Product Information -->
             <div class="col-lg-8 col-md-12">
-                <div class="mb-3">
-                    <label asp-for="Product.Name" class="form-label fw-bold">Product Name</label>
-                    <input asp-for="Product.Name" class="form-control shadow-sm" placeholder="Enter product name" />
-                    <span asp-validation-for="Product.Name" class="text-danger"></span>
-                </div>
+                @* Product Name *@
+                @Html.LabelFor(model => model.Product.Name, new { @class = "form-label fw-bold" })
+                @Html.TextBoxFor(model => model.Product.Name, new { @class = "form-control shadow-sm", placeholder = "Enter product name" })
+                @Html.ValidationMessageFor(model => model.Product.Name, "", new { @class = "text-danger" })
 
-                <div class="mb-3">
-                    <label asp-for="Product.Description" class="form-label fw-bold">Description</label>
-                    <textarea asp-for="Product.Description" class="form-control shadow-sm" placeholder="Enter product description"></textarea>
-                    <span asp-validation-for="Product.Description" class="text-danger"></span>
-                </div>
+                @* Description *@
+                @Html.LabelFor(model => model.Product.Description, new { @class = "form-label fw-bold" })
+                @Html.TextAreaFor(model => model.Product.Description, new { @class = "form-control shadow-sm", placeholder = "Enter product description" })
+                @Html.ValidationMessageFor(model => model.Product.Description, "", new { @class = "text-danger" })
 
-                <div class="mb-3">
-                    <label asp-for="Product.Brand" class="form-label fw-bold">Brand</label>
-                    <input asp-for="Product.Brand" class="form-control shadow-sm" placeholder="Enter product brand" />
-                    <span asp-validation-for="Product.Brand" class="text-danger"></span>
-                </div>
+                @* Brand *@
+                @Html.LabelFor(model => model.Product.Brand, new { @class = "form-label fw-bold" })
+                @Html.TextBoxFor(model => model.Product.Brand, new { @class = "form-control shadow-sm", placeholder = "Enter product brand" })
+                @Html.ValidationMessageFor(model => model.Product.Brand, "", new { @class = "text-danger" })
 
-                <div class="mb-3">
-                    <label asp-for="Product.ModelNumber" class="form-label fw-bold">Model Number</label>
-                    <input asp-for="Product.ModelNumber" class="form-control shadow-sm" placeholder="Enter model number" />
-                    <span asp-validation-for="Product.ModelNumber" class="text-danger"></span>
-                </div>
+                @* Model Number *@
+                @Html.LabelFor(model => model.Product.ModelNumber, new { @class = "form-label fw-bold" })
+                @Html.TextBoxFor(model => model.Product.ModelNumber, new { @class = "form-control shadow-sm", placeholder = "Enter model number" })
+                @Html.ValidationMessageFor(model => model.Product.ModelNumber, "", new { @class = "text-danger" })
 
+                <!-- Pricing -->
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="mb-3">
-                            <label asp-for="Product.ListPrice" class="form-label fw-bold">List Price</label>
-                            <input asp-for="Product.ListPrice" class="form-control shadow-sm" placeholder="Enter list price" />
-                            <span asp-validation-for="Product.ListPrice" class="text-danger"></span>
-                        </div>
+                        @Html.LabelFor(model => model.Product.ListPrice, new { @class = "form-label fw-bold" })
+                        @Html.TextBoxFor(model => model.Product.ListPrice, new { @class = "form-control shadow-sm", placeholder = "Enter list price" })
+                        @Html.ValidationMessageFor(model => model.Product.ListPrice, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="col-md-6">
-                        <div class="mb-3">
-                            <label asp-for="Product.DiscountPrice" class="form-label fw-bold">Discount Price</label>
-                            <input asp-for="Product.DiscountPrice" class="form-control shadow-sm" placeholder="Enter discount price" />
-                            <span asp-validation-for="Product.DiscountPrice" class="text-danger"></span>
-                        </div>
+                        @Html.LabelFor(model => model.Product.DiscountPrice, new { @class = "form-label fw-bold" })
+                        @Html.TextBoxFor(model => model.Product.DiscountPrice, new { @class = "form-control shadow-sm", placeholder = "Enter discount price" })
+                        @Html.ValidationMessageFor(model => model.Product.DiscountPrice, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label asp-for="Product.WarrantyPeriod" class="form-label fw-bold">Warranty Period</label>
-                    <input asp-for="Product.WarrantyPeriod" class="form-control shadow-sm" placeholder="Enter warranty period" />
-                    <span asp-validation-for="Product.WarrantyPeriod" class="text-danger"></span>
-                </div>
+                @* Warranty & Features *@
+                @Html.LabelFor(model => model.Product.WarrantyPeriod, new { @class = "form-label fw-bold" })
+                @Html.TextBoxFor(model => model.Product.WarrantyPeriod, new { @class = "form-control shadow-sm", placeholder = "Enter warranty period" })
+                @Html.ValidationMessageFor(model => model.Product.WarrantyPeriod, "", new { @class = "text-danger" })
 
-                <div class="mb-3">
-                    <label asp-for="Product.Features" class="form-label fw-bold">Features</label>
-                    <textarea asp-for="Product.Features" class="form-control shadow-sm" placeholder="Enter product features"></textarea>
-                    <span asp-validation-for="Product.Features" class="text-danger"></span>
-                </div>
+                @Html.LabelFor(model => model.Product.Features, new { @class = "form-label fw-bold" })
+                @Html.TextAreaFor(model => model.Product.Features, new { @class = "form-control shadow-sm", placeholder = "Enter product features" })
+                @Html.ValidationMessageFor(model => model.Product.Features, "", new { @class = "text-danger" })
 
-                <div class="mb-3">
-                    <label asp-for="Product.PowerConsumption" class="form-label fw-bold">Power Consumption</label>
-                    <input asp-for="Product.PowerConsumption" class="form-control shadow-sm" placeholder="Enter power consumption" />
-                    <span asp-validation-for="Product.PowerConsumption" class="text-danger"></span>
-                </div>
+                @Html.LabelFor(model => model.Product.PowerConsumption, new { @class = "form-label fw-bold" })
+                @Html.TextBoxFor(model => model.Product.PowerConsumption, new { @class = "form-control shadow-sm", placeholder = "Enter power consumption" })
+                @Html.ValidationMessageFor(model => model.Product.PowerConsumption, "", new { @class = "text-danger" })
 
-                <div class="mb-3">
-                    <label asp-for="Product.CategoryId" class="form-label fw-bold">Category</label>
-                    <select asp-for="Product.CategoryId" asp-items="Model.CategoryList" class="form-select shadow-sm">
-                        <option disabled selected>-- Select Category --</option>
-                    </select>
-                    <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
-                </div>
+                @* Category Selection *@
+                @Html.LabelFor(model => model.Product.CategoryId, new { @class = "form-label fw-bold" })
+                @Html.DropDownListFor(model => model.Product.CategoryId, Model.CategoryList, "-- Select Category --", new { @class = "form-select shadow-sm" })
+                @Html.ValidationMessageFor(model => model.Product.CategoryId, "", new { @class = "text-danger" })
 
                 <!-- Submit Button -->
                 <div class="d-flex justify-content-start mt-3">
-                    @if (Model.Product.Id != 0)
-                    {
-                        <button type="submit" class="btn btn-success me-2">Update Product</button>
-                    }
-                    else
-                    {
-                        <button type="submit" class="btn btn-primary me-2">Create Product</button>
-                    }
+                    <button type="submit" class="btn btn-@(Model.Product.Id != 0 ? "success" : "primary") me-2">
+                        @(Model.Product.Id != 0 ? "Update Product" : "Create Product")
+                    </button>
                     <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">Back to List</a>
                 </div>
             </div>
 
             <!-- Right Column: Product Image -->
             <div class="col-lg-4 col-md-12">
+                @* Display Product Images *@
                 <div class="mb-3 text-center">
                     @if (Model.Product.ProductImages != null && Model.Product.ProductImages.Any())
                     {
@@ -106,17 +87,18 @@
                                 </a>
                             </div>
                         }
-
                     }
                     else
                     {
                         <p>No images available</p>
                     }
                 </div>
+
+                @* Upload Image *@
                 <div class="mb-3">
                     <label class="form-label fw-bold">Upload Image</label>
-                    <input type="file" name="files" class="form-control shadow-sm " multiple />
-                    <span asp-validation-for="Product.ProductImages" class="text-danger"></span>
+                    <input type="file" name="files" class="form-control shadow-sm" multiple />
+                    @Html.ValidationMessageFor(model => model.Product.ProductImages, "", new { @class = "text-danger" })
                 </div>
             </div>
         </form>

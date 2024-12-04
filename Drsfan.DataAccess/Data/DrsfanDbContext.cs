@@ -7,10 +7,7 @@ namespace Drsfan.DataAccess.Data
 {
     public class DrsfanDbContext : IdentityDbContext<IdentityUser>
     {
-        public DrsfanDbContext(DbContextOptions<DrsfanDbContext> options) : base(options)
-        {
-
-        }
+        public DrsfanDbContext(DbContextOptions<DrsfanDbContext> options) : base(options) { }
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }

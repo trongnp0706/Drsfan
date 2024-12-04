@@ -1,60 +1,71 @@
-﻿@model IEnumerable<Product>
+﻿@model ProductVM
 
 <div class="container">
+    <!-- Introduction Section -->
+    <div class="row pb-4">
+        <div class="col-12 text-center">
+            <h2>Welcome to Our Online Store</h2>
+            <p class="lead text-muted">
+                Discover the best household appliances and home essentials at unbeatable prices. Our store offers a wide range of high-quality products to make your home more comfortable and convenient.
+            </p>
+            <p>
+                From kitchen gadgets to living room essentials, we provide a diverse selection to suit every need. Start shopping now and transform your home with our premium products.
+            </p>
+        </div>
+    </div>
+
     <!-- Search Form -->
     <div class="row pb-3">
         <div class="col-12">
-            <form asp-action="Index" method="get" class="d-flex align-items-center justify-content-between">
+            <form asp-action="Index" method="get" class="d-flex align-items-center flex-wrap gap-2">
                 <!-- Search Input -->
-                <div class="d-flex flex-grow-1">
-                    <input type="text" name="searchString" class="form-control me-2" placeholder="Search products..." />
-                    <select name="category" class="form-select me-2">
+                <div class="flex-grow-1">
+                    <label for="searchString" class="form-label visually-hidden">Search Products</label>
+                    <input type="text" name="searchString" id="searchString" class="form-control" placeholder="Search products..." />
+                </div>
+                <!-- Category Dropdown -->
+                <div>
+                    <label for="category" class="form-label visually-hidden">Select Category</label>
+                    <select name="category" id="category" class="form-select">
                         <option value="">All Categories</option>
-                        @foreach (var category in ViewBag.Categories)
+                        @foreach (var category in Model.Categories)
                         {
                             <option value="@category.Name">@category.Name</option>
                         }
                     </select>
                 </div>
                 <!-- Search Button -->
-                <button type="submit" class="btn btn-primary ms-2">Search</button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-search"></i> Search
+                </button>
             </form>
         </div>
     </div>
 
     <!-- Product Display Section -->
     <div class="row pb-3">
-        @if (!Model.Any())
+        @if (!Model.Products.Any())
         {
             <div class="col-12 text-center">
-                <p class="text-muted">No products available.</p>
+                <img src="https://placehold.co/300x200?text=No+Products" alt="No products" class="img-fluid mb-3" />
+                <p class="text-muted">No products available. Try adjusting your search criteria.</p>
+                <a asp-action="Index" class="btn btn-outline-secondary">Go Back</a>
             </div>
         }
         else
         {
-            @foreach (var product in Model)
+            @foreach (var product in Model.Products)
             {
                 <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                    <div class="card border-0 shadow-sm rounded h-100 d-flex flex-column">
+                    <div class="card border-0 shadow-sm rounded h-100 d-flex flex-column hover-shadow">
                         <!-- Product Image -->
-                        @if (product.ProductImages != null && product.ProductImages.Count > 0)
-                        {
-                            <img src="@product.ProductImages.FirstOrDefault().ImageUrl" class="card-img-top rounded-top" alt="@product.Name" />
-                        }
-                        else
-                        {
-                            <img src="https://placehold.co/400x400/png" class="card-img-top rounded-top" alt="@product.Name" />
-                        }
+                        <img src="@(product.ProductImages?.FirstOrDefault()?.ImageUrl ?? "https://placehold.co/400x400/png")"
+                             class="card-img-top rounded-top" alt="@product.Name" />
 
                         <!-- Product Details -->
                         <div class="card-body text-center flex-grow-1">
-                            <h6 class="card-title text-dark text-uppercase">
-                                @product.Name
-                                (@product.ModelNumber)
-                            </h6>
+                            <h6 class="card-title text-dark text-uppercase text-truncate">@product.Name (@product.ModelNumber)</h6>
                             <p class="text-muted mb-1">Brand: <strong>@product.Brand</strong></p>
-
-                            <!-- Price Section -->
                             <p class="mb-1 text-muted">
                                 <strong>List Price:</strong>
                                 <span class="text-decoration-line-through">@product.ListPrice.ToString("$#,##")</span>
@@ -67,7 +78,7 @@
                         <!-- Product Footer -->
                         <div class="card-footer p-2">
                             <a asp-action="Details" asp-route-productId="@product.Id" class="btn btn-primary w-100">
-                                View Details
+                                <i class="bi bi-info-circle"></i> View Details
                             </a>
                         </div>
                     </div>

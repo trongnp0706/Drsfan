@@ -1,5 +1,6 @@
 ﻿using Drsfan.DataAccess.EntityBaseRepository.IEntityBaseRepository;
 using Drsfan.Models;
+using Drsfan.Models.ViewModels;
 using Drsfan.Utility;
 using Drsfan.Utility.Static;
 using Microsoft.AspNetCore.Authorization;
@@ -26,17 +27,16 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
         public IActionResult Index(string searchString, string category)
         {
             // Lấy danh sách danh mục sản phẩm
-            ViewBag.Categories = _unitOfWork.Category.GetAll();
+            IEnumerable<Category> categories = _unitOfWork.Category.GetAll();
 
-            // Lấy danh sách sản phẩm để hiển thị
             IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
 
             // Lọc sản phẩm theo tên và danh mục
             if (!string.IsNullOrEmpty(searchString))
             {
-                productList = productList.Where(p => p.Name.Contains(searchString) ||
-                                                    p.Brand.Contains(searchString) ||
-                                                    p.ModelNumber.Contains(searchString));
+                productList = productList.Where(p => p.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                                                     p.Brand.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                                                     p.ModelNumber.Contains(searchString, StringComparison.OrdinalIgnoreCase));
             }
 
             if (!string.IsNullOrEmpty(category))
@@ -44,7 +44,14 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
                 productList = productList.Where(p => p.Category.Name.Equals(category, StringComparison.OrdinalIgnoreCase));
             }
 
-            return View(productList);
+            // Sử dụng ViewModel để truyền dữ liệu
+            var viewModel = new ProductVM
+            {
+                Products = productList,
+                Categories = categories
+            };
+
+            return View(viewModel);
         }
         public IActionResult Details(int productId)
         {

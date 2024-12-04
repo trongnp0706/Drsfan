@@ -167,7 +167,6 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
         }
 
 
-
         #region API CALLS
 
         [HttpGet]
