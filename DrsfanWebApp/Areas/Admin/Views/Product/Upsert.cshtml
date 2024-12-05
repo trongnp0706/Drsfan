@@ -1,107 +1,108 @@
 ﻿@model Drsfan.Models.ViewModels.ProductVM
 
-<div class="card shadow-lg border-0 mt-4">
-    <div class="card-header bg-dark text-white py-3 text-center">
-        <h3>@((Model.Product.Id != 0 ? "Update" : "Create") + " Product")</h3>
+<div class="row g-3">
+    <!-- Left Column: Product Information -->
+    <div class="col-lg-8 col-md-12">
+        @* Product Name *@
+        <label asp-for="Product.Name" class="form-label fw-bold"></label>
+        <input asp-for="Product.Name" class="form-control shadow-sm" placeholder="Enter product name" />
+        <span asp-validation-for="Product.Name" class="text-danger"></span>
+
+        @* Description *@
+        <label asp-for="Product.Description" class="form-label fw-bold"></label>
+        <textarea asp-for="Product.Description" class="form-control shadow-sm" placeholder="Enter product description"></textarea>
+        <span asp-validation-for="Product.Description" class="text-danger"></span>
+
+        <label asp-for="Product.Features" class="form-label fw-bold"></label>
+        <textarea asp-for="Product.Features" class="form-control shadow-sm" placeholder="Enter product features"></textarea>
+        <span asp-validation-for="Product.Features" class="text-danger"></span>
+
+        <!-- Compact Row: Brand, Model Number -->
+        <div class="row">
+            <div class="col-md-6">
+                <label asp-for="Product.Brand" class="form-label fw-bold"></label>
+                <input asp-for="Product.Brand" class="form-control shadow-sm" placeholder="Brand" />
+                <span asp-validation-for="Product.Brand" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="Product.ModelNumber" class="form-label fw-bold"></label>
+                <input asp-for="Product.ModelNumber" class="form-control shadow-sm" placeholder="Model Number" />
+                <span asp-validation-for="Product.ModelNumber" class="text-danger"></span>
+            </div>
+        </div>
+
+        <!-- Pricing -->
+        <div class="row">
+            <div class="col-md-6">
+                <label asp-for="Product.ListPrice" class="form-label fw-bold"></label>
+                <input asp-for="Product.ListPrice" class="form-control shadow-sm" placeholder="Enter list price" />
+                <span asp-validation-for="Product.ListPrice" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="Product.DiscountPrice" class="form-label fw-bold"></label>
+                <input asp-for="Product.DiscountPrice" class="form-control shadow-sm" placeholder="Enter discount price" />
+                <span asp-validation-for="Product.DiscountPrice" class="text-danger"></span>
+            </div>
+        </div>
+
+        <!-- Compact Row: Warranty, Power Consumption, Category -->
+        <div class="row">
+            <div class="col-md-4">
+                <label asp-for="Product.WarrantyPeriod" class="form-label fw-bold"></label>
+                <input asp-for="Product.WarrantyPeriod" class="form-control shadow-sm" placeholder="Warranty" />
+                <span asp-validation-for="Product.WarrantyPeriod" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Product.PowerConsumption" class="form-label fw-bold"></label>
+                <input asp-for="Product.PowerConsumption" class="form-control shadow-sm" placeholder="Power" />
+                <span asp-validation-for="Product.PowerConsumption" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Product.CategoryId" class="form-label fw-bold"></label>
+                <select asp-for="Product.CategoryId" asp-items="Model.CategoryList" class="form-select shadow-sm">
+                    <option value="">-- Category --</option>
+                </select>
+                <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="d-flex justify-content-start mt-3">
+            <button type="submit" class="btn btn-@(Model.Product.Id != 0 ? "success" : "primary") me-2">
+                @(Model.Product.Id != 0 ? "Update Product" : "Create Product")
+            </button>
+            <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
     </div>
-    <div class="card-body p-4">
-        <form method="post" class="row g-3" enctype="multipart/form-data">
-            <input asp-for="Product.Id" hidden />
 
-            <!-- Left Column: Product Information -->
-            <div class="col-lg-8 col-md-12">
-                @* Product Name *@
-                @Html.LabelFor(model => model.Product.Name, new { @class = "form-label fw-bold" })
-                @Html.TextBoxFor(model => model.Product.Name, new { @class = "form-control shadow-sm", placeholder = "Enter product name" })
-                @Html.ValidationMessageFor(model => model.Product.Name, "", new { @class = "text-danger" })
-
-                @* Description *@
-                @Html.LabelFor(model => model.Product.Description, new { @class = "form-label fw-bold" })
-                @Html.TextAreaFor(model => model.Product.Description, new { @class = "form-control shadow-sm", placeholder = "Enter product description" })
-                @Html.ValidationMessageFor(model => model.Product.Description, "", new { @class = "text-danger" })
-
-                @* Brand *@
-                @Html.LabelFor(model => model.Product.Brand, new { @class = "form-label fw-bold" })
-                @Html.TextBoxFor(model => model.Product.Brand, new { @class = "form-control shadow-sm", placeholder = "Enter product brand" })
-                @Html.ValidationMessageFor(model => model.Product.Brand, "", new { @class = "text-danger" })
-
-                @* Model Number *@
-                @Html.LabelFor(model => model.Product.ModelNumber, new { @class = "form-label fw-bold" })
-                @Html.TextBoxFor(model => model.Product.ModelNumber, new { @class = "form-control shadow-sm", placeholder = "Enter model number" })
-                @Html.ValidationMessageFor(model => model.Product.ModelNumber, "", new { @class = "text-danger" })
-
-                <!-- Pricing -->
-                <div class="row">
-                    <div class="col-md-6">
-                        @Html.LabelFor(model => model.Product.ListPrice, new { @class = "form-label fw-bold" })
-                        @Html.TextBoxFor(model => model.Product.ListPrice, new { @class = "form-control shadow-sm", placeholder = "Enter list price" })
-                        @Html.ValidationMessageFor(model => model.Product.ListPrice, "", new { @class = "text-danger" })
+    <!-- Right Column: Product Image -->
+    <div class="col-lg-4 col-md-12">
+        <!-- Display Product Images -->
+        <div class="mb-3 text-center">
+            @if (Model.Product.ProductImages != null && Model.Product.ProductImages.Any())
+            {
+                @foreach (var image in Model.Product.ProductImages)
+                {
+                    <div class="d-flex align-items-center mb-2">
+                        <img src="@image.ImageUrl" alt="Product Image" class="img-fluid rounded shadow m-2" style="max-height: 200px; object-fit: cover;" />
+                        <a type="button" class="btn btn-danger ms-2" asp-action="DeleteImage" asp-route-imageId="@image.Id">
+                            <i class="bi bi-trash-fill"></i> Delete
+                        </a>
                     </div>
+                }
+            }
+            else
+            {
+                <p>No images available</p>
+            }
+        </div>
 
-                    <div class="col-md-6">
-                        @Html.LabelFor(model => model.Product.DiscountPrice, new { @class = "form-label fw-bold" })
-                        @Html.TextBoxFor(model => model.Product.DiscountPrice, new { @class = "form-control shadow-sm", placeholder = "Enter discount price" })
-                        @Html.ValidationMessageFor(model => model.Product.DiscountPrice, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                @* Warranty & Features *@
-                @Html.LabelFor(model => model.Product.WarrantyPeriod, new { @class = "form-label fw-bold" })
-                @Html.TextBoxFor(model => model.Product.WarrantyPeriod, new { @class = "form-control shadow-sm", placeholder = "Enter warranty period" })
-                @Html.ValidationMessageFor(model => model.Product.WarrantyPeriod, "", new { @class = "text-danger" })
-
-                @Html.LabelFor(model => model.Product.Features, new { @class = "form-label fw-bold" })
-                @Html.TextAreaFor(model => model.Product.Features, new { @class = "form-control shadow-sm", placeholder = "Enter product features" })
-                @Html.ValidationMessageFor(model => model.Product.Features, "", new { @class = "text-danger" })
-
-                @Html.LabelFor(model => model.Product.PowerConsumption, new { @class = "form-label fw-bold" })
-                @Html.TextBoxFor(model => model.Product.PowerConsumption, new { @class = "form-control shadow-sm", placeholder = "Enter power consumption" })
-                @Html.ValidationMessageFor(model => model.Product.PowerConsumption, "", new { @class = "text-danger" })
-
-                @* Category Selection *@
-                @Html.LabelFor(model => model.Product.CategoryId, new { @class = "form-label fw-bold" })
-                @Html.DropDownListFor(model => model.Product.CategoryId, Model.CategoryList, "-- Select Category --", new { @class = "form-select shadow-sm" })
-                @Html.ValidationMessageFor(model => model.Product.CategoryId, "", new { @class = "text-danger" })
-
-                <!-- Submit Button -->
-                <div class="d-flex justify-content-start mt-3">
-                    <button type="submit" class="btn btn-@(Model.Product.Id != 0 ? "success" : "primary") me-2">
-                        @(Model.Product.Id != 0 ? "Update Product" : "Create Product")
-                    </button>
-                    <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">Back to List</a>
-                </div>
-            </div>
-
-            <!-- Right Column: Product Image -->
-            <div class="col-lg-4 col-md-12">
-                @* Display Product Images *@
-                <div class="mb-3 text-center">
-                    @if (Model.Product.ProductImages != null && Model.Product.ProductImages.Any())
-                    {
-                        @foreach (var image in Model.Product.ProductImages)
-                        {
-                            <div class="d-flex align-items-center mb-2">
-                                <img src="@image.ImageUrl" alt="Product Image" class="img-fluid rounded shadow m-2" style="max-height: 200px; object-fit: cover;" />
-                                <a type="button" class="btn btn-danger ms-2" asp-action="DeleteImage" asp-route-imageId="@image.Id">
-                                    <i class="bi bi-trash-fill"></i> Delete
-                                </a>
-                            </div>
-                        }
-                    }
-                    else
-                    {
-                        <p>No images available</p>
-                    }
-                </div>
-
-                @* Upload Image *@
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Upload Image</label>
-                    <input type="file" name="files" class="form-control shadow-sm" multiple />
-                    @Html.ValidationMessageFor(model => model.Product.ProductImages, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </form>
+        @* Upload Image *@
+        <div class="mb-3">
+            <label class="form-label fw-bold">Upload Image</label>
+            <input type="file" name="files" class="form-control shadow-sm" multiple />
+            <span asp-validation-for="Product.ProductImages" class="text-danger"></span>
+        </div>
     </div>
 </div>
 
@@ -111,7 +112,10 @@
             selector: 'textarea',
             plugins: 'lists link image table code',
             toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
-            menubar: false
+            menubar: false,
+            autoresize_min_height: 100,
+            autoresize_max_height: 500,
+            plugins: 'autoresize'
         });
     </script>
 }

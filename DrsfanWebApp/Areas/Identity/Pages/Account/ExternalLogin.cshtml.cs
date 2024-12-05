@@ -143,7 +143,6 @@ namespace DrsfanBookWeb.Areas.Identity.Pages.Account
                     {
                         Email = info.Principal.FindFirstValue(ClaimTypes.Email),
                         Name = info.Principal.FindFirstValue(ClaimTypes.Name)
-                        
                     };
                 }
                 return Page();
@@ -217,14 +216,16 @@ namespace DrsfanBookWeb.Areas.Identity.Pages.Account
 
         private ApplicationUser CreateUser()
         {
-            try 
+            try
             {
-                return Activator.CreateInstance<ApplicationUser>();
+                var user = Activator.CreateInstance<ApplicationUser>();
+                user.Name = Input.Name; 
+                return user;
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. " +
-                    $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser)}'. " +
+                    $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the external login page in /Areas/Identity/Pages/Account/ExternalLogin.cshtml");
             }
         }

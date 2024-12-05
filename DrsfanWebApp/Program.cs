@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Drsfan.DataAccess.Data;
 using Drsfan.DataAccess.EntityBaseRepository.IEntityBaseRepository;
 using Drsfan.DataAccess.EntityBaseRepository;
@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Drsfan.Utility;
 using Stripe;
 using Drsfan.DataAccess.DBInitializer;
+using Microsoft.AspNetCore.Authentication.Facebook;
 
 
 var builder = WebApplication.CreateBuilder(args);
