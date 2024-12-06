@@ -56,11 +56,6 @@ namespace DrsfanBookWeb.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Name")]
             public string Name { get; set; }
 
-            [Required]
-            [EmailAddress]
-            [Display(Name = "Email")]
-            public string Email { get; set; }
-
             [Display(Name = "Street Address")]
             public string StreetAddress { get; set; }
 
@@ -83,7 +78,6 @@ namespace DrsfanBookWeb.Areas.Identity.Pages.Account.Manage
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             var name = user.Name;
-            var email = user.Email;
             var streetAddress = user.StreetAddress;
             var city = user.City;
             var state = user.State;
@@ -94,7 +88,6 @@ namespace DrsfanBookWeb.Areas.Identity.Pages.Account.Manage
             Input = new InputModel
             {
                 Name = name,
-                Email = email,
                 StreetAddress = streetAddress,
                 City = city,
                 State = state,
@@ -148,18 +141,6 @@ namespace DrsfanBookWeb.Areas.Identity.Pages.Account.Manage
                 if (!setNameResult.Succeeded)
                 {
                     StatusMessage = "Unexpected error when trying to set name.";
-                    return RedirectToPage();
-                }
-            }
-
-            var currentEmail = user.Email;
-            if (Input.Email != currentEmail)
-            {
-                user.Email = Input.Email;
-                var setEmailResult = await _userManager.UpdateAsync(user);
-                if (!setEmailResult.Succeeded)
-                {
-                    StatusMessage = "Unexpected error when trying to set email.";
                     return RedirectToPage();
                 }
             }

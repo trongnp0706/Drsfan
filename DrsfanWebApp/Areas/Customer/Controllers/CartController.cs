@@ -50,7 +50,7 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
                 cart.Product.ProductImages = productImages.Where(p => p.ProductId == cart.ProductId).ToList();
-                // Tính giá sau giảm giá hoặc giá gốc
+                // Calculate price after discount or original price
                 cart.Price = CalculateOrderTotal(cart);
                 ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
             }
@@ -72,7 +72,7 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
             // Get current user information
             ShoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
 
-          
+
 
             // Calculate total order amount based on products in cart
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
@@ -135,11 +135,11 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
             // Payment logic (unchanged)
             if (applicationUser.CompanyId.GetValueOrDefault() == 0)
             {
-                var domain = Request.Scheme + "://" + Request.Host.Value + "/" ;
+                var domain = $"{Request.Scheme}://{Request.Host.Value}/";
                 var options = new SessionCreateOptions
                 {
-                    SuccessUrl = domain + $"customer/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
-                    CancelUrl = domain + "customer/cart/index",
+                    SuccessUrl = $"{domain}customer/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
+                    CancelUrl = $"{domain}customer/cart/index",
                     LineItems = new List<SessionLineItemOptions>(),
                     Mode = "payment",
                 };
@@ -186,7 +186,7 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
                 HttpContext.Session.Clear();
 
             }
-            _emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, $"Order {orderHeader.Id} Created", "Order has been submitted successfully"); 
+            _emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, $"Order {orderHeader.Id} Created", "Order has been submitted successfully");
 
             List<ShoppingCart> shoppingCartList = _unitOfWork.ShoppingCart.
                 GetAll(u => u.ApplicationUserId == orderHeader.ApplicationUserId).ToList();
@@ -224,7 +224,7 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
             if (cartFromDb.Count <= 1)
             {
                 //remove that from cart
-                HttpContext.Session.SetInt32(Constants.CartSession, 
+                HttpContext.Session.SetInt32(Constants.CartSession,
                     _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).ToList().Count - 1);
                 _unitOfWork.ShoppingCart.Remove(cartFromDb);
                 _unitOfWork.Save();
@@ -255,17 +255,17 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
 
             if (cartFromDb != null)
             {
-                // Xóa sản phẩm khỏi giỏ hàng
+                // Remove product from cart
                 _unitOfWork.ShoppingCart.Remove(cartFromDb);
                 _unitOfWork.Save();
 
-                // Tính toán lại tổng số sản phẩm trong giỏ hàng của người dùng hiện tại
+                // Recalculate total item count in the cart for the current user
                 var userId = cartFromDb.ApplicationUserId;
                 int totalItemCount = _unitOfWork.ShoppingCart
                     .GetAll(u => u.ApplicationUserId == userId)
-                    .Sum(item => item.Count); // Tính tổng số lượng của từng sản phẩm
+                    .Sum(item => item.Count); // Sum the count of each product
 
-                // Cập nhật session với tổng số lượng chính xác
+                // Update session with the accurate total item count
                 HttpContext.Session.SetInt32(Constants.CartSession, totalItemCount);
             }
             else
@@ -275,7 +275,7 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
 
             TempData["success"] = "Item removed successfully.";
 
-            // Quay lại trang Index để hiển thị các sản phẩm còn lại trong giỏ
+            // Redirect to Index to display remaining products in the cart
             return RedirectToAction(nameof(Index));
         }
 
@@ -285,12 +285,12 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
         {
             if (shoppingCart.Product.DiscountPrice < shoppingCart.Product.ListPrice)
             {
-                // Nếu có giá giảm, sử dụng DiscountPrice
+                // If there is a discount price, use DiscountPrice
                 return shoppingCart.Product.DiscountPrice;
             }
             else
             {
-                // Nếu không có giảm giá, sử dụng ListPrice
+                // If there is no discount, use ListPrice
                 return shoppingCart.Product.ListPrice;
             }
         }

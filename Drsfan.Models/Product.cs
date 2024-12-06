@@ -16,8 +16,8 @@ namespace Drsfan.Models
         public int Id { get; set; }
 
         [Required]
-        public string Name { get; set; }  
-
+        [MaxLength(100, ErrorMessage = "Product name cannot exceed 100 characters.")]
+        public string Name { get; set; }
         public string Description { get; set; }
 
         public string Brand { get; set; }  
@@ -29,8 +29,8 @@ namespace Drsfan.Models
 
         
         [Required]
-        [Display(Name = "Discount Price")]
-        public double DiscountPrice { get; set; }  
+        [Range(0, Double.MaxValue, ErrorMessage = "Discount Price must be less than or equal to List Price.")]
+        public double DiscountPrice { get; set; }
 
 
         [Required]

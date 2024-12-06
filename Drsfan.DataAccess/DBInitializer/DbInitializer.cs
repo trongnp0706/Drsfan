@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,21 +47,34 @@ namespace Drsfan.DataAccess.DBInitializer
                 _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(UserRoles.Company)).GetAwaiter().GetResult();
 
-                _userManager.CreateAsync(new ApplicationUser
+                var adminUser = new ApplicationUser
                 {
-                    UserName = "admin@email.com",
-                    Email = "admin@email.com",
-                    Name = "Admin",
-                    PhoneNumber = "1112223333",
-                    StreetAddress = "123 Admin St",
-                    City = "Admin City",
-                    PostalCode = "12345",
-                    State = "Admin State"
-                }, "Admin123*").GetAwaiter().GetResult();
+                    Id = "AdminID123",
+                    Name = "Nguyen Phuoc Trong",
+                    StreetAddress = "Da Nang",
+                    UserName = "admin@gmail.com",
+                    NormalizedUserName = "ADMIN@GMAIL.COM",
+                    Email = "admin@gmail.com",
+                    NormalizedEmail = "ADMIN@GMAIL.COM",
+                    EmailConfirmed = true,
+                    PhoneNumber = "0976695165",
+                    PhoneNumberConfirmed = false,
+                    TwoFactorEnabled = false,
+                    LockoutEnd = null,
+                    LockoutEnabled = true,
+                    AccessFailedCount = 0
+                };
 
-                ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "admin@email.com");
-                _userManager.AddToRoleAsync(user, UserRoles.Admin).GetAwaiter().GetResult();
+                var result = _userManager.CreateAsync(adminUser, "Admin123*").GetAwaiter().GetResult();
 
+                if (result.Succeeded)
+                {
+                    ApplicationUser? user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "admin@gmail.com");
+                    if (user != null)
+                    {
+                        _userManager.AddToRoleAsync(user, UserRoles.Admin).GetAwaiter().GetResult();
+                    }
+                }
             }
 
             return;

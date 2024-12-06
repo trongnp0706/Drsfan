@@ -23,7 +23,8 @@ namespace Drsfan.Models
 
         public string? OrderStatus { get; set; }
         public string? PaymentStatus { get; set; }
-        public string? TrackingNumber { get; set; }
+
+        public string? TrackingNumber { get; set; } 
         public string? Carrier { get; set; }
 
         public DateTime PaymentDate { get; set; }
@@ -32,17 +33,17 @@ namespace Drsfan.Models
         public string? SessionId { get; set; }
         public string? PaymentIntentId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Phone number is required.")]
         public string PhoneNumber { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Street address is required.")]
         public string StreetAddress { get; set; }
-        [Required]
+        [Required(ErrorMessage = "City is required.")]
         public string City { get; set; }
-        [Required]
+        [Required(ErrorMessage = "State is required.")]
         public string State { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Postal code is required.")]
         public string PostalCode { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Name is required.")]
         public string Name { get; set; }
     }
 }

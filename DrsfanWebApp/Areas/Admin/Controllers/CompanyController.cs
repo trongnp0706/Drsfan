@@ -15,91 +15,82 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
     public class CompanyController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+
         public CompanyController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
+
         public IActionResult Index()
         {
-            List<Company> ojbCompanyList = _unitOfWork.Company.GetAll().ToList();
-
-            return View(ojbCompanyList);
+            var companyList = _unitOfWork.Company.GetAll().ToList();
+            return View(companyList);
         }
+
+        // Action method to display the create/update form
         public IActionResult Upsert(int? id)
         {
-
-
             if (id == null || id == 0)
             {
-                //Create
+                // Create
                 return View(new Company());
             }
             else
             {
-                //Update
-                Company companyOjb = _unitOfWork.Company.Get(u => u.Id == id);
-                return View(companyOjb);
+                // Update
+                var company = _unitOfWork.Company.Get(u => u.Id == id);
+                return View(company);
             }
-
         }
-        [HttpPost]
-        public IActionResult Upsert(Company companyOjb)
-        {
 
+        // Action method to handle the form submission for create/update
+        [HttpPost]
+        public IActionResult Upsert(Company company)
+        {
             if (ModelState.IsValid)
             {
-
-                if (companyOjb.Id == 0)
+                if (company.Id == 0)
                 {
-                    _unitOfWork.Company.Add(companyOjb);
+                    _unitOfWork.Company.Add(company);
+                    TempData["success"] = "Company created successfully";
                 }
                 else
                 {
-                    _unitOfWork.Company.Update(companyOjb);
+                    _unitOfWork.Company.Update(company);
+                    TempData["success"] = "Company updated successfully";
                 }
 
                 _unitOfWork.Save();
-                TempData["success"] = "Company created successfully";
                 return RedirectToAction("Index");
             }
-            else
-            {
-
-                return View(companyOjb);
-            }
+            return View(company);
         }
-
-
-
-
-
-
 
         #region API CALLS
 
+        // API call to get all companies
         [HttpGet]
         public IActionResult GetAll()
         {
-            List<Company> objCompanyList = _unitOfWork.Company.GetAll().ToList();
-            return Json(new { data = objCompanyList });
+            var companyList = _unitOfWork.Company.GetAll().ToList();
+            return Json(new { data = companyList });
         }
 
-
+        // API call to delete a company
         [HttpDelete]
         public IActionResult Delete(int? id)
         {
-            var CompanyToBeDeleted = _unitOfWork.Company.Get(u => u.Id == id);
-            if (CompanyToBeDeleted == null)
+            var company = _unitOfWork.Company.Get(u => u.Id == id);
+            if (company == null)
             {
                 return Json(new { success = false, message = "Error while deleting" });
             }
 
-            _unitOfWork.Company.Remove(CompanyToBeDeleted);
+            _unitOfWork.Company.Remove(company);
             _unitOfWork.Save();
-
             return Json(new { success = true, message = "Delete Successful" });
         }
 
-        #endregion    }
+        #endregion
     }
 }

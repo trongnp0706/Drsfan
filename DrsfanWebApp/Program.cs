@@ -42,15 +42,14 @@ builder.Services.AddAuthentication().AddFacebook(options =>
 
 builder.Services.AddAuthentication().AddMicrosoftAccount(options =>
 {
-    options.ClientId = "f4119211-77d5-466e-8144-40f0a7215bf3";
-    options.ClientSecret = "5-q8Q~23VTrc6nDGC0duh6SYNQBZMcNJ50651alM";
+    options.ClientId = builder.Configuration["Authentication:Microsoft:ClientId"];
+    options.ClientSecret = builder.Configuration["Authentication:Microsoft:ClientSecret"];
 });
 
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IApplicationUserRepo, ApplicationUserRepo>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 

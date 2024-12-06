@@ -46,28 +46,45 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
         [Authorize(Roles = UserRoles.Admin + "," + UserRoles.Staff)]
         public IActionResult UpdateOrderDetail()
         {
+            // Retrieve the order header from the database using the order ID from the view model
             var orderHeaderFromDb = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVM.OrderHeader.Id);
-            orderHeaderFromDb.Name = OrderVM.OrderHeader.Name;
-            orderHeaderFromDb.PhoneNumber = OrderVM.OrderHeader.PhoneNumber;
-            orderHeaderFromDb.StreetAddress = OrderVM.OrderHeader.StreetAddress;
-            orderHeaderFromDb.City = OrderVM.OrderHeader.City;
-            orderHeaderFromDb.State = OrderVM.OrderHeader.State;
-            orderHeaderFromDb.PostalCode = OrderVM.OrderHeader.PostalCode;
-            if (!string.IsNullOrEmpty(OrderVM.OrderHeader.Carrier))
+
+            // If the order header is not found, set an error message and redirect to the index page
+            if (orderHeaderFromDb == null)
             {
-                orderHeaderFromDb.Carrier = OrderVM.OrderHeader.Carrier;
+                TempData["Error"] = "Order not found.";
+                return RedirectToAction(nameof(Index));
             }
-            if (!string.IsNullOrEmpty(OrderVM.OrderHeader.TrackingNumber))
-            {
-                orderHeaderFromDb.TrackingNumber = OrderVM.OrderHeader.TrackingNumber;
-            }
+
+            // Update the order header properties with the values from the view model
+            UpdateOrderHeaderProperties(orderHeaderFromDb, OrderVM.OrderHeader);
+
+            // Save the updated order header to the database
             _unitOfWork.OrderHeader.Update(orderHeaderFromDb);
             _unitOfWork.Save();
 
             TempData["Success"] = "Order Details Updated Successfully.";
-
-
             return RedirectToAction(nameof(Details), new { orderId = orderHeaderFromDb.Id });
+        }
+
+        private void UpdateOrderHeaderProperties(OrderHeader orderHeaderFromDb, OrderHeader orderHeaderFromVm)
+        {
+            orderHeaderFromDb.Name = orderHeaderFromVm.Name;
+            orderHeaderFromDb.PhoneNumber = orderHeaderFromVm.PhoneNumber;
+            orderHeaderFromDb.StreetAddress = orderHeaderFromVm.StreetAddress;
+            orderHeaderFromDb.City = orderHeaderFromVm.City;
+            orderHeaderFromDb.State = orderHeaderFromVm.State;
+            orderHeaderFromDb.PostalCode = orderHeaderFromVm.PostalCode;
+
+            if (!string.IsNullOrEmpty(orderHeaderFromVm.Carrier))
+            {
+                orderHeaderFromDb.Carrier = orderHeaderFromVm.Carrier;
+            }
+
+            if (!string.IsNullOrEmpty(orderHeaderFromVm.TrackingNumber))
+            {
+                orderHeaderFromDb.TrackingNumber = orderHeaderFromVm.TrackingNumber;
+            }
         }
 
 
@@ -77,37 +94,49 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
         {
             _unitOfWork.OrderHeader.UpdateStatus(OrderVM.OrderHeader.Id, Status.InProcess);
             _unitOfWork.Save();
-            TempData["Success"] = "Order Details Updated Successfully.";
+            TempData["Success"] = "Order is now being processed.";
             return RedirectToAction(nameof(Details), new { orderId = OrderVM.OrderHeader.Id });
         }
 
 		[HttpPost]
         [Authorize(Roles = UserRoles.Admin + "," + UserRoles.Staff)]
         public IActionResult ShipOrder()
-		{
+        {
+            var orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVM.OrderHeader.Id);
 
-			var orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVM.OrderHeader.Id);
-			orderHeader.TrackingNumber = OrderVM.OrderHeader.TrackingNumber;
-			orderHeader.Carrier = OrderVM.OrderHeader.Carrier;
-			orderHeader.OrderStatus = Status.Shipped;
-			orderHeader.ShippingDate = DateTime.Now;
-			if (orderHeader.PaymentStatus == Payment.StatusDelayedPayment)
-			{
-				orderHeader.PaymentDueDate = DateOnly.FromDateTime(DateTime.Now.AddDays(30));
-			}
+            if (orderHeader == null)
+            {
+                TempData["Error"] = "Order not found.";
+                return RedirectToAction(nameof(Index));
+            }
 
-			_unitOfWork.OrderHeader.Update(orderHeader);
-			_unitOfWork.Save();
-			TempData["Success"] = "Order Shipped Successfully.";
-			return RedirectToAction(nameof(Details), new { orderId = OrderVM.OrderHeader.Id });
-		}
+            orderHeader.TrackingNumber = OrderVM.OrderHeader.TrackingNumber;
+            orderHeader.Carrier = OrderVM.OrderHeader.Carrier;
+            orderHeader.OrderStatus = Status.Shipped;
+            orderHeader.ShippingDate = DateTime.Now;
+
+            if (orderHeader.PaymentStatus == Payment.StatusDelayedPayment)
+            {
+                orderHeader.PaymentDueDate = DateOnly.FromDateTime(DateTime.Now.AddDays(30));
+            }
+
+            _unitOfWork.OrderHeader.Update(orderHeader);
+            _unitOfWork.Save();
+            TempData["Success"] = "Order Shipped Successfully.";
+            return RedirectToAction(nameof(Details), new { orderId = OrderVM.OrderHeader.Id });
+        }
 
 		[HttpPost]
         [Authorize(Roles = UserRoles.Admin + "," + UserRoles.Staff)]
         public IActionResult CancelOrder()
         {
-
             var orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVM.OrderHeader.Id);
+
+            if (orderHeader == null)
+            {
+                TempData["Error"] = "Order not found.";
+                return RedirectToAction(nameof(Index));
+            }
 
             if (orderHeader.PaymentStatus == Payment.StatusApproved)
             {
@@ -126,10 +155,10 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
             {
                 _unitOfWork.OrderHeader.UpdateStatus(orderHeader.Id, Status.Cancelled, Status.Cancelled);
             }
+
             _unitOfWork.Save();
             TempData["Success"] = "Order Cancelled Successfully.";
             return RedirectToAction(nameof(Details), new { orderId = OrderVM.OrderHeader.Id });
-
         }
 
 
@@ -143,12 +172,12 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
             OrderVM.OrderDetail = _unitOfWork.OrderDetail
                 .GetAll(u => u.OrderHeaderId == OrderVM.OrderHeader.Id, includeProperties: "Product");
 
-            //stripe logic
-            var domain = Request.Scheme + "://" + Request.Host.Value + "/";
+            // Stripe logic
+            var domain = $"{Request.Scheme}://{Request.Host.Value}/";
             var options = new SessionCreateOptions
             {
-                SuccessUrl = domain + $"admin/order/PaymentConfirmation?orderHeaderId={OrderVM.OrderHeader.Id}",
-                CancelUrl = domain + $"admin/order/details?orderId={OrderVM.OrderHeader.Id}",
+                SuccessUrl = $"{domain}admin/order/PaymentConfirmation?orderHeaderId={OrderVM.OrderHeader.Id}",
+                CancelUrl = $"{domain}admin/order/details?orderId={OrderVM.OrderHeader.Id}",
                 LineItems = new List<SessionLineItemOptions>(),
                 Mode = "payment",
             };
@@ -170,7 +199,6 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
                 };
                 options.LineItems.Add(sessionLineItem);
             }
-
 
             var service = new SessionService();
             Session session = service.Create(options);
@@ -198,37 +226,37 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
                     _unitOfWork.Save();
                 }
 
-
             }
-
 
             return View(orderHeaderId);
         }
-
-
 
         #region API CALLS
 
         [HttpGet]
         public IActionResult GetAll(string status)
         {
+            // Declare a variable to hold the order headers
             IEnumerable<OrderHeader> objOrderHeaders;
 
+            // Check if the user is an Admin or Staff
             if (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.Staff))
             {
+                // If the user is an Admin or Staff, get all order headers including the ApplicationUser property
                 objOrderHeaders = _unitOfWork.OrderHeader.GetAll(includeProperties: "ApplicationUser").ToList();
             }
             else
             {
-
+                // If the user is not an Admin or Staff, get the user ID from the claims
                 var claimsIdentity = (ClaimsIdentity)User.Identity;
                 var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
+                // Get all order headers for the current user including the ApplicationUser property
                 objOrderHeaders = _unitOfWork.OrderHeader
                     .GetAll(u => u.ApplicationUserId == userId, includeProperties: "ApplicationUser");
             }
 
-
+            // Filter the order headers based on the status parameter
             switch (status)
             {
                 case "pending":
@@ -245,10 +273,9 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
                     break;
                 default:
                     break;
-
             }
 
-
+            // Return the filtered order headers as JSON
             return Json(new { data = objOrderHeaders });
         }
 

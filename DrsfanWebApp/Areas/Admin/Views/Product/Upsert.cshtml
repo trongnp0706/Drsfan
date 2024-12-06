@@ -1,110 +1,113 @@
 ﻿@model Drsfan.Models.ViewModels.ProductVM
 
-<div class="row g-3">
-    <!-- Left Column: Product Information -->
-    <div class="col-lg-8 col-md-12">
-        @* Product Name *@
-        <label asp-for="Product.Name" class="form-label fw-bold"></label>
-        <input asp-for="Product.Name" class="form-control shadow-sm" placeholder="Enter product name" />
-        <span asp-validation-for="Product.Name" class="text-danger"></span>
+<form asp-action="Upsert" asp-controller="Product" method="post" enctype="multipart/form-data">
+    <input asp-for="Product.Id" type="hidden" />
+    <div class="row g-3">
+        <!-- Left Column: Product Information -->
+        <div class="col-lg-8 col-md-12">
+            @* Product Name *@
+            <label asp-for="Product.Name" class="form-label fw-bold"></label>
+            <input asp-for="Product.Name" class="form-control shadow-sm" placeholder="Enter product name" />
+            <span asp-validation-for="Product.Name" class="text-danger"></span>
 
-        @* Description *@
-        <label asp-for="Product.Description" class="form-label fw-bold"></label>
-        <textarea asp-for="Product.Description" class="form-control shadow-sm" placeholder="Enter product description"></textarea>
-        <span asp-validation-for="Product.Description" class="text-danger"></span>
+            @* Description *@
+            <label asp-for="Product.Description" class="form-label fw-bold"></label>
+            <textarea asp-for="Product.Description" class="form-control shadow-sm" placeholder="Enter product description"></textarea>
+            <span asp-validation-for="Product.Description" class="text-danger"></span>
 
-        <label asp-for="Product.Features" class="form-label fw-bold"></label>
-        <textarea asp-for="Product.Features" class="form-control shadow-sm" placeholder="Enter product features"></textarea>
-        <span asp-validation-for="Product.Features" class="text-danger"></span>
+            <label asp-for="Product.Features" class="form-label fw-bold"></label>
+            <textarea asp-for="Product.Features" class="form-control shadow-sm" placeholder="Enter product features"></textarea>
+            <span asp-validation-for="Product.Features" class="text-danger"></span>
 
-        <!-- Compact Row: Brand, Model Number -->
-        <div class="row">
-            <div class="col-md-6">
-                <label asp-for="Product.Brand" class="form-label fw-bold"></label>
-                <input asp-for="Product.Brand" class="form-control shadow-sm" placeholder="Brand" />
-                <span asp-validation-for="Product.Brand" class="text-danger"></span>
+            <!-- Compact Row: Brand, Model Number -->
+            <div class="row">
+                <div class="col-md-6">
+                    <label asp-for="Product.Brand" class="form-label fw-bold"></label>
+                    <input asp-for="Product.Brand" class="form-control shadow-sm" placeholder="Brand" />
+                    <span asp-validation-for="Product.Brand" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Product.ModelNumber" class="form-label fw-bold"></label>
+                    <input asp-for="Product.ModelNumber" class="form-control shadow-sm" placeholder="Model Number" />
+                    <span asp-validation-for="Product.ModelNumber" class="text-danger"></span>
+                </div>
             </div>
-            <div class="col-md-6">
-                <label asp-for="Product.ModelNumber" class="form-label fw-bold"></label>
-                <input asp-for="Product.ModelNumber" class="form-control shadow-sm" placeholder="Model Number" />
-                <span asp-validation-for="Product.ModelNumber" class="text-danger"></span>
+
+            <!-- Pricing -->
+            <div class="row">
+                <div class="col-md-6">
+                    <label asp-for="Product.ListPrice" class="form-label fw-bold"></label>
+                    <input asp-for="Product.ListPrice" class="form-control shadow-sm" placeholder="Enter list price" />
+                    <span asp-validation-for="Product.ListPrice" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Product.DiscountPrice" class="form-label fw-bold"></label>
+                    <input asp-for="Product.DiscountPrice" class="form-control shadow-sm" placeholder="Enter discount price" />
+                    <span asp-validation-for="Product.DiscountPrice" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Compact Row: Warranty, Power Consumption, Category -->
+            <div class="row">
+                <div class="col-md-4">
+                    <label asp-for="Product.WarrantyPeriod" class="form-label fw-bold"></label>
+                    <input asp-for="Product.WarrantyPeriod" class="form-control shadow-sm" placeholder="Warranty" />
+                    <span asp-validation-for="Product.WarrantyPeriod" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Product.PowerConsumption" class="form-label fw-bold"></label>
+                    <input asp-for="Product.PowerConsumption" class="form-control shadow-sm" placeholder="Power" />
+                    <span asp-validation-for="Product.PowerConsumption" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Product.CategoryId" class="form-label fw-bold"></label>
+                    <select asp-for="Product.CategoryId" asp-items="Model.CategoryList" class="form-select shadow-sm">
+                        <option value="">-- Category --</option>
+                    </select>
+                    <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-flex justify-content-start mt-3">
+                <button type="submit" class="btn btn-@(Model.Product.Id != 0 ? "success" : "primary") me-2">
+                    @(Model.Product.Id != 0 ? "Update Product" : "Create Product")
+                </button>
+                <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">Back to List</a>
             </div>
         </div>
 
-        <!-- Pricing -->
-        <div class="row">
-            <div class="col-md-6">
-                <label asp-for="Product.ListPrice" class="form-label fw-bold"></label>
-                <input asp-for="Product.ListPrice" class="form-control shadow-sm" placeholder="Enter list price" />
-                <span asp-validation-for="Product.ListPrice" class="text-danger"></span>
-            </div>
-            <div class="col-md-6">
-                <label asp-for="Product.DiscountPrice" class="form-label fw-bold"></label>
-                <input asp-for="Product.DiscountPrice" class="form-control shadow-sm" placeholder="Enter discount price" />
-                <span asp-validation-for="Product.DiscountPrice" class="text-danger"></span>
-            </div>
-        </div>
-
-        <!-- Compact Row: Warranty, Power Consumption, Category -->
-        <div class="row">
-            <div class="col-md-4">
-                <label asp-for="Product.WarrantyPeriod" class="form-label fw-bold"></label>
-                <input asp-for="Product.WarrantyPeriod" class="form-control shadow-sm" placeholder="Warranty" />
-                <span asp-validation-for="Product.WarrantyPeriod" class="text-danger"></span>
-            </div>
-            <div class="col-md-4">
-                <label asp-for="Product.PowerConsumption" class="form-label fw-bold"></label>
-                <input asp-for="Product.PowerConsumption" class="form-control shadow-sm" placeholder="Power" />
-                <span asp-validation-for="Product.PowerConsumption" class="text-danger"></span>
-            </div>
-            <div class="col-md-4">
-                <label asp-for="Product.CategoryId" class="form-label fw-bold"></label>
-                <select asp-for="Product.CategoryId" asp-items="Model.CategoryList" class="form-select shadow-sm">
-                    <option value="">-- Category --</option>
-                </select>
-                <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
-            </div>
-        </div>
-
-        <!-- Submit Button -->
-        <div class="d-flex justify-content-start mt-3">
-            <button type="submit" class="btn btn-@(Model.Product.Id != 0 ? "success" : "primary") me-2">
-                @(Model.Product.Id != 0 ? "Update Product" : "Create Product")
-            </button>
-            <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">Back to List</a>
-        </div>
-    </div>
-
-    <!-- Right Column: Product Image -->
-    <div class="col-lg-4 col-md-12">
-        <!-- Display Product Images -->
-        <div class="mb-3 text-center">
-            @if (Model.Product.ProductImages != null && Model.Product.ProductImages.Any())
-            {
-                @foreach (var image in Model.Product.ProductImages)
+        <!-- Right Column: Product Image -->
+        <div class="col-lg-4 col-md-12">
+            <!-- Display Product Images -->
+            <div class="mb-3 text-center">
+                @if (Model.Product.ProductImages != null && Model.Product.ProductImages.Any())
                 {
-                    <div class="d-flex align-items-center mb-2">
-                        <img src="@image.ImageUrl" alt="Product Image" class="img-fluid rounded shadow m-2" style="max-height: 200px; object-fit: cover;" />
-                        <a type="button" class="btn btn-danger ms-2" asp-action="DeleteImage" asp-route-imageId="@image.Id">
-                            <i class="bi bi-trash-fill"></i> Delete
-                        </a>
-                    </div>
+                    @foreach (var image in Model.Product.ProductImages)
+                    {
+                        <div class="d-flex align-items-center mb-2">
+                            <img src="@image.ImageUrl" alt="Product Image" class="img-fluid rounded shadow m-2" style="max-height: 200px; object-fit: cover;" />
+                            <a type="button" class="btn btn-danger ms-2" asp-action="DeleteImage" asp-route-imageId="@image.Id">
+                                <i class="bi bi-trash-fill"></i> Delete
+                            </a>
+                        </div>
+                    }
                 }
-            }
-            else
-            {
-                <p>No images available</p>
-            }
-        </div>
+                else
+                {
+                    <p>No images available</p>
+                }
+            </div>
 
-        @* Upload Image *@
-        <div class="mb-3">
-            <label class="form-label fw-bold">Upload Image</label>
-            <input type="file" name="files" class="form-control shadow-sm" multiple />
-            <span asp-validation-for="Product.ProductImages" class="text-danger"></span>
+            @* Upload Image *@
+            <div class="mb-3">
+                <label class="form-label fw-bold">Upload Image</label>
+                <input type="file" name="files" class="form-control shadow-sm" multiple />
+                <span asp-validation-for="Product.ProductImages" class="text-danger"></span>
+            </div>
         </div>
     </div>
-</div>
+</form>
 
 @section Scripts {
     <script>

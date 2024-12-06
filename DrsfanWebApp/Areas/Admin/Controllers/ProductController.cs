@@ -23,14 +23,14 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            List<Product> ojbProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+            var ojbProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
 
             return View(ojbProductList);
         }
         public IActionResult Upsert(int? id)
         {
 
-            ProductVM productVM = new()
+            var productVM = new ProductVM()
             {
                 CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
                 {

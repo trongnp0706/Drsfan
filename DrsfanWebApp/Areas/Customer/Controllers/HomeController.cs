@@ -24,14 +24,15 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        // Action method to display the list of products
         public IActionResult Index(string searchString, string category)
         {
-            // Lấy danh sách danh mục sản phẩm
-            IEnumerable<Category> categories = _unitOfWork.Category.GetAll();
+            // Get all categories
+            var categories = _unitOfWork.Category.GetAll();
+            // Get all products with related Category and ProductImages
+            var productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
 
-            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
-
-            // Lọc sản phẩm theo tên và danh mục
+            // Filter products by search string
             if (!string.IsNullOrEmpty(searchString))
             {
                 productList = productList.Where(p => p.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
@@ -39,13 +40,14 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
                                                      p.ModelNumber.Contains(searchString, StringComparison.OrdinalIgnoreCase));
             }
 
+            // Filter products by category
             if (!string.IsNullOrEmpty(category))
             {
                 productList = productList.Where(p => p.Category.Name.Equals(category, StringComparison.OrdinalIgnoreCase));
             }
 
-            // Sử dụng ViewModel để truyền dữ liệu
-            var viewModel = new ProductVM
+            // Create a ViewModel to pass data to the view
+            var viewModel = new ProductListVM
             {
                 Products = productList,
                 Categories = categories
@@ -53,9 +55,12 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
 
             return View(viewModel);
         }
+
+        // Action method to display product details
         public IActionResult Details(int productId)
         {
-            ShoppingCart cart = new()
+            // Create a new ShoppingCart object with the selected product
+            var cart = new ShoppingCart
             {
                 Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category,ProductImages"),
                 Count = 1,
@@ -64,33 +69,32 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
             return View(cart);
         }
 
+        // Action method to handle adding product to the shopping cart
         [HttpPost]
         [Authorize]
         public IActionResult Details(ShoppingCart shoppingCart)
         {
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            // Get the current user's ID
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             shoppingCart.ApplicationUserId = userId;
 
-            // Kiểm tra xem giỏ hàng của người dùng đã có sản phẩm này chưa
-            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.ApplicationUserId == userId &&
-            u.ProductId == shoppingCart.ProductId);
+            // Check if the product is already in the user's shopping cart
+            var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.ApplicationUserId == userId && u.ProductId == shoppingCart.ProductId);
 
             if (cartFromDb != null)
             {
-                // Nếu có sản phẩm trong giỏ hàng, cập nhật số lượng
+                // If the product is already in the cart, update the quantity
                 cartFromDb.Count += shoppingCart.Count;
                 _unitOfWork.ShoppingCart.Update(cartFromDb);
-                _unitOfWork.Save();
             }
             else
             {
-                // Nếu không có, thêm mới sản phẩm vào giỏ
+                // If the product is not in the cart, add it to the cart
                 _unitOfWork.ShoppingCart.Add(shoppingCart);
-                _unitOfWork.Save();
             }
+            _unitOfWork.Save();
 
-            // Cập nhật số lượng giỏ hàng trong session
+            // Update the total number of items in the cart session
             var totalItemsInCart = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId).Sum(u => u.Count);
             HttpContext.Session.SetInt32(Constants.CartSession, totalItemsInCart);
 

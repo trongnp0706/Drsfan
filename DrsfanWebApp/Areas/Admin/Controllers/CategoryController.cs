@@ -14,98 +14,109 @@ namespace DrsfanBookWeb.Areas.Admin.Controllers
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+
+        // Constructor to initialize the unit of work
         public CategoryController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
+
+        // Action method to display the list of categories
         public IActionResult Index()
         {
-            List<Category> ojbCategoryList = _unitOfWork.Category.GetAll().ToList();
-            return View(ojbCategoryList);
+            var categoryList = _unitOfWork.Category.GetAll().ToList();
+            return View(categoryList);
         }
+
+        // Action method to display the create category form
         public IActionResult Create()
         {
             return View();
         }
+
+        // Action method to handle the create category form submission
         [HttpPost]
-        public IActionResult Create(Category obj)
+        public IActionResult Create(Category category)
         {
-            if (obj.Name == obj.DisplayOrder.ToString())
+            if (category.Name == category.DisplayOrder.ToString())
             {
                 ModelState.AddModelError("name", "The DisplayOrder cannot exactly match the Name.");
             }
+
             if (ModelState.IsValid)
             {
-                _unitOfWork.Category.Add(obj);
+                _unitOfWork.Category.Add(category);
                 _unitOfWork.Save();
                 TempData["success"] = "Category created successfully";
                 return RedirectToAction("Index");
             }
-            return View();
+
+            return View(category);
         }
 
+        // Action method to display the edit category form
         public IActionResult Edit(int? id)
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            Category? categoryFromDB = _unitOfWork.Category.Get(u => u.Id == id);
-            //Category? categoryFromDB1 = _db.Categories.FirstOrDefault(u=>u.Id == id);
-            //Category? categoryFromDB2 = _db.Categories.Where(u=>u.Id==id).FirstOrDefault();
 
-            if (categoryFromDB == null)
+            var category = _unitOfWork.Category.Get(u => u.Id == id);
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(categoryFromDB);
+            return View(category);
         }
-        [HttpPost]
-        public IActionResult Edit(Category obj)
-        {
 
+        // Action method to handle the edit category form submission
+        [HttpPost]
+        public IActionResult Edit(Category category)
+        {
             if (ModelState.IsValid)
             {
-                _unitOfWork.Category.Update(obj);
+                _unitOfWork.Category.Update(category);
                 _unitOfWork.Save();
-                TempData["success"] = "Category update successfully";
+                TempData["success"] = "Category updated successfully";
                 return RedirectToAction("Index");
             }
-            return View();
 
+            return View(category);
         }
+
+        // Action method to display the delete category confirmation
         public IActionResult Delete(int? id)
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            Category? categoryFromDB = _unitOfWork.Category.Get(u => u.Id == id);
 
-            if (categoryFromDB == null)
+            var category = _unitOfWork.Category.Get(u => u.Id == id);
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(categoryFromDB);
+            return View(category);
         }
+
+        // Action method to handle the delete category confirmation
         [HttpPost, ActionName("Delete")]
-        public IActionResult DeletePOST(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            Category? obj = _unitOfWork.Category.Get(u => u.Id == id);
-            if (obj == null)
+            var category = _unitOfWork.Category.Get(u => u.Id == id);
+            if (category == null)
             {
                 return NotFound();
             }
 
-            _unitOfWork.Category.Remove(obj);
+            _unitOfWork.Category.Remove(category);
             _unitOfWork.Save();
-            TempData["success"] = "Category delete successfully";
+            TempData["success"] = "Category deleted successfully";
             return RedirectToAction("Index");
-
         }
-
-
     }
 }
