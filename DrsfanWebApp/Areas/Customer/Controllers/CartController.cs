@@ -279,8 +279,6 @@ namespace DrsfanBookWeb.Areas.Customer.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
-
         private double CalculateOrderTotal(ShoppingCart shoppingCart)
         {
             if (shoppingCart.Product.DiscountPrice < shoppingCart.Product.ListPrice)
