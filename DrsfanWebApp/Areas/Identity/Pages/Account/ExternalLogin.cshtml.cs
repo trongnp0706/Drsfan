@@ -20,7 +20,7 @@ using Microsoft.Extensions.Logging;
 using Drsfan.Models;
 using Drsfan.Utility.Static;
 
-namespace DrsfanBookWeb.Areas.Identity.Pages.Account
+namespace DrsfanWebApp.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class ExternalLoginModel : PageModel

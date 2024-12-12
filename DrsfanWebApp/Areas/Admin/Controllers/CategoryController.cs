@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Drsfan.Utility.Static;
 
 
-namespace DrsfanBookWeb.Areas.Admin.Controllers
+namespace DrsfanWebApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = UserRoles.Admin)]

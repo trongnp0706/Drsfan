@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Stripe.Checkout;
 using System.Security.Claims;
 
-namespace DrsfanBookWeb.Areas.Customer.Controllers
+namespace DrsfanWebApp.Areas.Customer.Controllers
 {
     [Area("customer")]
     [Authorize]

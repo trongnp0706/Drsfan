@@ -25,7 +25,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
-namespace DrsfanBookWeb.Areas.Identity.Pages.Account
+namespace DrsfanWebApp.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {

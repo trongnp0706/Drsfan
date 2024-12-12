@@ -4,7 +4,7 @@ using Drsfan.Utility.Static;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace DrsfanBookWeb.Areas.ViewComponents
+namespace DrsfanWebApp.Areas.ViewComponents
 {
     public class ShoppingCartViewComponent : ViewComponent
     {

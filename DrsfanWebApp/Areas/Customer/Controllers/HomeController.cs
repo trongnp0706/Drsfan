@@ -10,7 +10,7 @@ using System.Diagnostics;
 using System.Security.Claims;
 
 
-namespace DrsfanBookWeb.Areas.Customer.Controllers
+namespace DrsfanWebApp.Areas.Customer.Controllers
 {
     [Area("Customer")]
     public class HomeController : Controller

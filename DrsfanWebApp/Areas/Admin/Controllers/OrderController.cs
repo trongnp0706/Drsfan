@@ -11,7 +11,7 @@ using Stripe.Checkout;
 using System.Diagnostics;
 using System.Security.Claims;
 
-namespace DrsfanBookWeb.Areas.Admin.Controllers
+namespace DrsfanWebApp.Areas.Admin.Controllers
 {
     [Area("admin")]
     [Authorize]

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 
-namespace DrsfanBookWeb.Areas.Admin.Controllers
+namespace DrsfanWebApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = UserRoles.Admin)]
