@@ -1,20 +1,29 @@
+# Exported from Render on 2025-06-16T22:40:13Z
 services:
-  - type: web
-    name: drsfan-web
-    runtime: docker
-    dockerfilePath: ./Dockerfile
-    plan: standard
-    healthCheckPath: /
-    envVars:
-      - key: ASPNETCORE_ENVIRONMENT
-        value: Production
-      - key: ConnectionStrings__DefaultConnection
-        fromDatabase:
-          name: drsfan-db
-          property: connectionString
-
-databases:
-  - name: drsfan-db
-    databaseName: Drsfan
-    user: drsfan_db_user
-    plan: standard 
+- type: web
+  name: Drsfan
+  runtime: docker
+  repo: https://github.com/trongnp0706/Drsfan
+  branch: feature/deploysetting
+  plan: free
+  envVars:
+  - key: ASPNETCORE_URLS
+    sync: false
+  - key: ASPNETCORE_ENVIRONMENT
+    sync: false
+  region: singapore
+  dockerContext: .
+  dockerfilePath: ./Dockerfile
+  autoDeployTrigger: commit
+  buildFilter:
+    paths:
+    - DrsfanWebApp
+    - Drsfan.DataAccess
+    - Drsfan.Models
+    - Drsfan.Utility
+    ignoredPaths:
+    - .git
+    - .vs
+    - bin
+    - obj
+version: "1"
