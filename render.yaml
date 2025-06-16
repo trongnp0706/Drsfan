@@ -16,5 +16,5 @@ services:
 databases:
   - name: drsfan-db
     databaseName: Drsfan
-    user: postgres
+    user: drsfan_db_user
     plan: standard 
