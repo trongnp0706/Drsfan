@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: drsfan-web
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: standard
+    healthCheckPath: /
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ConnectionStrings__DefaultConnection
+        fromDatabase:
+          name: drsfan-db
+          property: connectionString
+
+databases:
+  - name: drsfan-db
+    databaseName: Drsfan
+    user: postgres
+    plan: standard 

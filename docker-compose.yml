@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  webapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "10000:10000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Host=db;Database=Drsfan;Username=postgres;Password=123456;TrustServerCertificate=True
+    depends_on:
+      - db
+    networks:
+      - drsfan-network
+    restart: unless-stopped
+
+  db:
+    image: postgres:16
+    environment:
+      - POSTGRES_DB=Drsfan
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - drsfan-network
+    restart: unless-stopped
+
+networks:
+  drsfan-network:
+    driver: bridge
+
+volumes:
+  postgres-data: 

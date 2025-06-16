@@ -23,20 +23,30 @@ RUN dotnet publish "DrsfanWebApp/DrsfanWebApp.csproj" -c Release -o /app/publish
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 
-# Install wait-for-it
-RUN apt-get update && apt-get install -y wait-for-it
+# Install required packages
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    curl \
+    libpq-dev \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY --from=build /app/publish .
 
 # Set environment variables
 ENV ASPNETCORE_ENVIRONMENT=Production
-ENV ASPNETCORE_URLS=http://+:80
+ENV ASPNETCORE_URLS=http://+:10000
+ENV DOTNET_RUNNING_IN_CONTAINER=true
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 
-EXPOSE 80
+# Configure memory limits
+ENV COMPlus_GCHeapHardLimit=0x10000000
+ENV COMPlus_GCHeapHardLimitPercent=50
+
+EXPOSE 10000
 
 # Add healthcheck
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
-    CMD curl -f http://localhost:80/ || exit 1
+    CMD curl -f http://localhost:10000/ || exit 1
 
-# Use wait-for-it to ensure database is ready
-ENTRYPOINT ["/bin/bash", "-c", "wait-for-it $DB_HOST:$DB_PORT -- dotnet DrsfanWebApp.dll"] 
+ENTRYPOINT ["dotnet", "DrsfanWebApp.dll"] 

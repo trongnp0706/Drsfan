@@ -1,41 +1,85 @@
 ﻿@model List<Product>
 
-<div class="container">
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <h2 class="text-primary">Product List</h2>
+<div class="container-fluid px-4">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-primary mb-1">Product Management</h2>
+            <p class="text-muted">Manage your product catalog and inventory</p>
         </div>
-        <div class="col-md-6 text-end">
+        <div class="d-flex gap-2">
+            <a asp-controller="ImageSync" asp-action="Index" class="btn btn-outline-info">
+                <i class="bi bi-arrow-repeat me-2"></i>Sync Images
+            </a>
             <a asp-controller="Product" asp-action="Upsert" class="btn btn-primary">
-                <i class="bi bi-plus-circle"></i> Create New Product
+                <i class="bi bi-plus-circle me-2"></i>Add New Product
             </a>
         </div>
     </div>
 
-    <!-- Product List Table -->
-    <div class="card">
+    <!-- Main Content -->
+    <div class="card shadow-sm">
         <div class="card-body">
-            <table id="tblData" class="table table-bordered table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Brand</th>
-                        <th>Model</th>
-                        <th>Price</th>
-                        <th>Discount</th>
-                        <th>Warranty</th>
-                        <th>Category</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Data will be dynamically loaded here -->
-                </tbody>
-            </table>
+            <!-- Search and Filter Section -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text bg-light">
+                            <i class="bi bi-search"></i>
+                        </span>
+                        <input type="text" id="searchInput" class="form-control" placeholder="Search products...">
+                    </div>
+                </div>
+                <div class="col-md-6 text-end">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="bi bi-funnel me-2"></i>Filter
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">All Products</a></li>
+                            <li><a class="dropdown-item" href="#">In Stock</a></li>
+                            <li><a class="dropdown-item" href="#">Out of Stock</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Clear Filters</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Table -->
+            <div class="table-responsive">
+                <table id="tblData" class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 50px">#</th>
+                            <th>Product</th>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th>Price</th>
+                            <th>Category</th>
+                            <th style="width: 150px">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data will be dynamically loaded here -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
 
 @section Scripts {
     <script src="~/js/productData.js"></script>
+    <script>
+        // Add search functionality
+        $(document).ready(function() {
+            $("#searchInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#tblData tbody tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
 }
