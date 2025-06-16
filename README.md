@@ -2,6 +2,10 @@
 
 Drsfan is a modern e-commerce platform built with ASP.NET Core 8.0, featuring a clean architecture and comprehensive product management system.
 
+## Admin Account
+- admin@gmail.com
+- pass: Admin123*
+
 ## Features
 
 - 🛍️ **Product Management**
