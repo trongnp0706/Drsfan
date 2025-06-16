@@ -59,7 +59,7 @@ Drsfan is a modern e-commerce platform built with ASP.NET Core 8.0, featuring a 
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/Drsfan.git
+   git clone https://github.com/trongnp0706/Drsfan.git
    cd Drsfan
    ```
 
