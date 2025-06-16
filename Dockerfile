@@ -22,6 +22,10 @@ RUN dotnet publish "DrsfanWebApp/DrsfanWebApp.csproj" -c Release -o /app/publish
 # Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
+
+# Install wait-for-it
+RUN apt-get update && apt-get install -y wait-for-it
+
 COPY --from=build /app/publish .
 
 # Set environment variables
@@ -30,4 +34,9 @@ ENV ASPNETCORE_URLS=http://+:80
 
 EXPOSE 80
 
-ENTRYPOINT ["dotnet", "DrsfanWebApp.dll"] 
+# Add healthcheck
+HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
+    CMD curl -f http://localhost:80/ || exit 1
+
+# Use wait-for-it to ensure database is ready
+ENTRYPOINT ["/bin/bash", "-c", "wait-for-it $DB_HOST:$DB_PORT -- dotnet DrsfanWebApp.dll"] 
