@@ -51,13 +51,29 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-builder.Services.AddAuthentication().AddFacebook(options =>
+builder.Services.AddAuthentication(options => {
+    // Keep Identity Cookie as default for MVC views if needed, 
+    // but we will explicitly authorize APIs with JwtBearer
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    };
+})
+.AddFacebook(options =>
 {
     options.AppId = builder.Configuration["Authentication:Facebook:AppId"];
     options.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
-});
-
-builder.Services.AddAuthentication().AddMicrosoftAccount(options =>
+})
+.AddMicrosoftAccount(options =>
 {
     options.ClientId = builder.Configuration["Authentication:Microsoft:ClientId"];
     options.ClientSecret = builder.Configuration["Authentication:Microsoft:ClientSecret"];
